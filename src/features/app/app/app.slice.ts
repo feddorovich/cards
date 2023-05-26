@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 const initialAppState = {
-  error: null as string | null,
+  error: null as null | string,
   isLoading: true,
   isAppInitialized: false,
 }
 
-type InitialAppStateType = typeof initialAppState
+export type InitialAppState = typeof initialAppState
 
 const slice = createSlice({
   name: "app",
@@ -18,7 +18,10 @@ const slice = createSlice({
     setError: (state, action: PayloadAction<{ error: string | null }>) => {
       state.error = action.payload.error
     },
-    setisAppInitialized: (state, action: PayloadAction<{ isAppInitialized: boolean }>) => {
+    setAppInitialized: (
+      state,
+      action: PayloadAction<{ isAppInitialized: boolean }>,
+    ) => {
       state.isAppInitialized = action.payload.isAppInitialized
     },
   },
