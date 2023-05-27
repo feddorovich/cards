@@ -1,6 +1,6 @@
 import { useAppDispatch } from "app/hooks"
 import { FC } from "react"
-import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, TextField } from "@mui/material"
+import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, Paper, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
 import s from "./Login.module.css"
 import { useFormik } from "formik"
@@ -18,15 +18,15 @@ export const Login: FC = () => {
     validate: (values) => {
       const errors: any = {}
       if (!values.email) {
-        errors.email = "Required email"
+        errors.email = "Email required"
       } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors.email = "Invalid email address"
       }
 
       if (!values.password) {
-        errors.password = "Required pass"
-      } else if (values.password.length < 7) {
-        errors.password = "Must be 7 characters or more"
+        errors.password = "Password required"
+      } else if (values.password.length < 8) {
+        errors.password = "Must be more than 7 characters"
       }
 
       return errors
@@ -38,41 +38,56 @@ export const Login: FC = () => {
   })
 
   return (
-    <div>
+    <div className={s.login}>
       <Grid container justifyContent={"center"}>
-        <Grid item justifyContent={"center"}>
-          <div className={s.header}>Sign in</div>
-          <form onSubmit={formik.handleSubmit}>
-            <FormControl>
-              <FormGroup>
-                <TextField
-                  variant="standard"
-                  label="Email"
-                  margin="normal"
-                  error={!!formik.touched.email && !!formik.errors.email}
-                  helperText={formik.errors.email}
-                  {...formik.getFieldProps("email")}
-                />
-                <TextField
-                  type="password"
-                  variant="standard"
-                  label="Password"
-                  margin="normal"
-                  autoComplete={"on"}
-                  error={!!formik.touched.password && !!formik.errors.password}
-                  helperText={formik.errors.password}
-                  {...formik.getFieldProps("password")}
-                />
-                <FormControlLabel
-                  label={"Remember me"}
-                  control={<Checkbox checked={formik.values.rememberMe} {...formik.getFieldProps("rememberMe")} />}
-                />
-                <Button type={"submit"} variant={"contained"} color={"primary"}>
-                  Login
-                </Button>
-              </FormGroup>
-            </FormControl>
-          </form>
+        <Grid item>
+          <Paper className={s.paper}>
+            <div className={s.header}>Sign in</div>
+            <form onSubmit={formik.handleSubmit} className={s.form}>
+              <FormControl>
+                <FormGroup>
+                  <div className={s.email}>
+                    <TextField
+                      variant="standard"
+                      label="Email"
+                      margin="normal"
+                      autoComplete="off"
+                      error={!!formik.touched.email && !!formik.errors.email}
+                      // helperText={formik.errors.email}
+                      {...formik.getFieldProps("email")}
+                    />
+                    {formik.touched.email && formik.errors.email ? (
+                      <div className={s.errorEmail}>{formik.errors.email}</div>
+                    ) : null}
+                  </div>
+                  <div className={s.password}>
+                    <TextField
+                      type="password"
+                      variant="standard"
+                      label="Password"
+                      margin="normal"
+                      error={!!formik.touched.password && !!formik.errors.password}
+                      // helperText={formik.errors.password}
+                      {...formik.getFieldProps("password")}
+                    />
+                    {formik.touched.password && formik.errors.password ? (
+                      <div className={s.errorPassword}>{formik.errors.password}</div>
+                    ) : null}
+                  </div>
+                  <FormControlLabel
+                    label={"Remember me"}
+                    control={<Checkbox checked={formik.values.rememberMe} {...formik.getFieldProps("rememberMe")} />}
+                  />
+                  <div className={s.forgotPassword}>Forgot Password?</div>
+                  <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
+                    Sign in
+                  </Button>
+                  <div className={s.dha}>Don't have account?</div>
+                  <div className={s.singUp}>Sing Up</div>
+                </FormGroup>
+              </FormControl>
+            </form>
+          </Paper>
         </Grid>
       </Grid>
     </div>
