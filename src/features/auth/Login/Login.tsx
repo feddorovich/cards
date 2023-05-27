@@ -1,18 +1,19 @@
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm, SubmitHandler, Controller } from "react-hook-form"
 import { useAppDispatch } from "app/hooks"
-import { FC } from "react"
+import { FC, useEffect } from "react"
 import { authThunks } from "features/auth/auth.slice"
 import { ArgLoginType } from "features/auth/auth.api"
-import { Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField } from "@mui/material"
+import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
+import s from "./Login.module.css"
 
 export const Login: FC = () => {
   const dispatch = useAppDispatch()
 
   const {
     getValues,
-    watch,
     register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm<ArgLoginType>({
@@ -28,11 +29,10 @@ export const Login: FC = () => {
     console.log(data)
   }
 
-  console.log(getValues("rememberMe"))
+  // console.log(register())
 
   return (
     <div>
-      <h1>Sign in</h1>
       {/*<form onSubmit={handleSubmit(onSubmit)}>*/}
       {/*  <TextField {...register("email")} />*/}
       {/*  <input defaultValue="fedsygreen@mail.ru" {...register("email")} />*/}
@@ -44,6 +44,7 @@ export const Login: FC = () => {
 
       <Grid container justifyContent={"center"}>
         <Grid item justifyContent={"center"}>
+          <div className={s.header}>Sign in</div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
               <FormGroup>
@@ -57,10 +58,18 @@ export const Login: FC = () => {
                   {...register("password")}
                 />
                 <FormControlLabel
-                  label={"Remember me"}
-                  control={<Checkbox checked={getValues("rememberMe")} {...register("rememberMe")} />}
+                  label="Remember me"
+                  control={
+                    <Controller
+                      name="rememberMe"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Checkbox checked={value} onChange={(e) => onChange(e.target.checked)} />
+                      )}
+                    />
+                  }
                 />
-                <Button type={"submit"} variant={"contained"} color={"primary"}>
+                <Button type={"submit"} variant={"contained"} color={"primary"} sx={{ borderRadius: 6 }}>
                   Login
                 </Button>
               </FormGroup>
