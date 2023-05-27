@@ -7,8 +7,8 @@ import reportWebVitals from "./reportWebVitals"
 import "./index.css"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { Register } from "features/auth/Register/Register"
-import { Login } from "features/auth/Login/Login"
 import { Header } from "features/header/Header"
+import { Login } from "features/auth/Login/Login"
 
 const router = createBrowserRouter([
   {

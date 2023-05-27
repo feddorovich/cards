@@ -34,6 +34,7 @@ const slice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
       state.profile = action.payload.profile
+      alert("success login")
     })
   },
 })
