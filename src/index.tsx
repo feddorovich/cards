@@ -8,11 +8,12 @@ import "./index.css"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { Register } from "features/auth/Register/Register"
 import { Login } from "features/auth/Login/Login"
+import { Header } from "features/header/Header"
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world!</div>,
+    element: <App />,
   },
   {
     path: "/login",
@@ -33,8 +34,8 @@ const root = createRoot(container)
 
 root.render(
   <Provider store={store}>
+    <Header />
     <RouterProvider router={router} />
-    <App />
   </Provider>
 )
 

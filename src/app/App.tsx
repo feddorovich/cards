@@ -1,5 +1,4 @@
 import React, { useEffect } from "react"
-import { Counter } from "features/counter/Counter"
 import "app/App.css"
 import { useAppDispatch, useAppSelector } from "app/hooks"
 import { appActions } from "app/app.slice"
@@ -16,9 +15,9 @@ function App() {
   }, [])
 
   return (
-    <div className="App">
+    <div>
+      <div>APP</div>
       {isLoading && <h1>Loader...</h1>}
-      <Counter />
     </div>
   )
 }
