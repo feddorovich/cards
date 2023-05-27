@@ -38,58 +38,60 @@ export const Login: FC = () => {
   })
 
   return (
-    <div className={s.login}>
-      <Grid container justifyContent={"center"}>
-        <Grid item>
-          <Paper className={s.paper}>
-            <div className={s.header}>Sign in</div>
-            <form onSubmit={formik.handleSubmit} className={s.form}>
-              <FormControl>
-                <FormGroup>
-                  <div className={s.email}>
-                    <TextField
-                      variant="standard"
-                      label="Email"
-                      margin="normal"
-                      autoComplete="off"
-                      error={!!formik.touched.email && !!formik.errors.email}
-                      // helperText={formik.errors.email}
-                      {...formik.getFieldProps("email")}
+    <div className={s.wrapper}>
+      <div className={s.login}>
+        <Grid container justifyContent={"center"}>
+          <Grid item>
+            <Paper className={s.paper}>
+              <div className={s.header}>Sign in</div>
+              <form onSubmit={formik.handleSubmit} className={s.form}>
+                <FormControl>
+                  <FormGroup>
+                    <div className={s.email}>
+                      <TextField
+                        variant="standard"
+                        label="Email"
+                        margin="normal"
+                        autoComplete="off"
+                        error={!!formik.touched.email && !!formik.errors.email}
+                        // helperText={formik.errors.email}
+                        {...formik.getFieldProps("email")}
+                      />
+                      {formik.touched.email && formik.errors.email ? (
+                        <div className={s.errorEmail}>{formik.errors.email}</div>
+                      ) : null}
+                    </div>
+                    <div className={s.password}>
+                      <TextField
+                        type="password"
+                        variant="standard"
+                        label="Password"
+                        margin="normal"
+                        error={!!formik.touched.password && !!formik.errors.password}
+                        // helperText={formik.errors.password}
+                        {...formik.getFieldProps("password")}
+                      />
+                      {formik.touched.password && formik.errors.password ? (
+                        <div className={s.errorPassword}>{formik.errors.password}</div>
+                      ) : null}
+                    </div>
+                    <FormControlLabel
+                      label={"Remember me"}
+                      control={<Checkbox checked={formik.values.rememberMe} {...formik.getFieldProps("rememberMe")} />}
                     />
-                    {formik.touched.email && formik.errors.email ? (
-                      <div className={s.errorEmail}>{formik.errors.email}</div>
-                    ) : null}
-                  </div>
-                  <div className={s.password}>
-                    <TextField
-                      type="password"
-                      variant="standard"
-                      label="Password"
-                      margin="normal"
-                      error={!!formik.touched.password && !!formik.errors.password}
-                      // helperText={formik.errors.password}
-                      {...formik.getFieldProps("password")}
-                    />
-                    {formik.touched.password && formik.errors.password ? (
-                      <div className={s.errorPassword}>{formik.errors.password}</div>
-                    ) : null}
-                  </div>
-                  <FormControlLabel
-                    label={"Remember me"}
-                    control={<Checkbox checked={formik.values.rememberMe} {...formik.getFieldProps("rememberMe")} />}
-                  />
-                  <div className={s.forgotPassword}>Forgot Password?</div>
-                  <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
-                    Sign in
-                  </Button>
-                  <div className={s.dha}>Don't have account?</div>
-                  <div className={s.singUp}>Sing Up</div>
-                </FormGroup>
-              </FormControl>
-            </form>
-          </Paper>
+                    <div className={s.forgotPassword}>Forgot Password?</div>
+                    <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
+                      Sign in
+                    </Button>
+                    <div className={s.dha}>Don't have account?</div>
+                    <div className={s.singUp}>Sing Up</div>
+                  </FormGroup>
+                </FormControl>
+              </form>
+            </Paper>
+          </Grid>
         </Grid>
-      </Grid>
+      </div>
     </div>
   )
 }

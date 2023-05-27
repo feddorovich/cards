@@ -9,6 +9,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { Register } from "features/auth/Register/Register"
 import { Header } from "features/header/Header"
 import { Login } from "features/auth/Login/Login"
+import { Container } from "features/Container/Container"
 
 const router = createBrowserRouter([
   {
@@ -34,8 +35,10 @@ const root = createRoot(container)
 
 root.render(
   <Provider store={store}>
-    <Header />
-    <RouterProvider router={router} />
+    <Container>
+      <Header />
+      <RouterProvider router={router} />
+    </Container>
   </Provider>
 )
 
