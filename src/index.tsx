@@ -2,10 +2,12 @@ import React from "react"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
 import { store } from "app/store"
-import App from "./App"
+import App from "app/App"
 import reportWebVitals from "./reportWebVitals"
 import "./index.css"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { Register } from "features/auth/Register/Register"
+import { Login } from "features/auth/Login/Login"
 
 const router = createBrowserRouter([
   {
@@ -14,11 +16,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <div>Login</div>,
+    element: <Login />,
   },
   {
     path: "/register",
-    element: <div>Register</div>,
+    element: <Register />,
   },
   {
     path: "/packs",
