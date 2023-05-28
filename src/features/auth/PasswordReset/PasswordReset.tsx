@@ -26,7 +26,7 @@ export const PasswordReset: FC = () => {
       return errors
     },
     onSubmit: (values) => {
-      // dispatch(authThunks.login(values))
+      dispatch(authThunks.reset(values.email))
       formik.resetForm()
     },
   })
