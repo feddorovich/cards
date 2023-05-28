@@ -1,5 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { ArgLoginType, ArgRegisterType, authApi, ProfileType, ResetResponseType } from "features/auth/auth.api"
+import {
+  ArgLoginType,
+  ArgNewPasswordType,
+  ArgRegisterType,
+  authApi,
+  NewPasswordResponseType,
+  ProfileType,
+  ResetResponseType,
+} from "features/auth/auth.api"
 import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk"
 
 const register = createAppAsyncThunk<void, ArgRegisterType>("auth/register", async (arg: ArgRegisterType) => {
@@ -13,10 +21,13 @@ const reset = createAppAsyncThunk<ResetResponseType, string>("auth/reset", async
   const res = await authApi.reset(email)
   return res.data
 })
-const setNewPassword = createAppAsyncThunk<any, any>("auth/setNewPassword", async (arg, thunkAPI) => {
-  const res = await authApi.setNewPassword(arg)
-  return res.data
-})
+const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswordType>(
+  "auth/setNewPassword",
+  async (arg, thunkAPI) => {
+    const res = await authApi.setNewPassword(arg)
+    return res.data
+  }
+)
 
 // const login = createAsyncThunk("auth/login", (arg: ArgLoginType, thunkAPI) => {
 //   const { dispatch } = thunkAPI
@@ -58,6 +69,13 @@ const slice = createSlice({
       })
       .addCase(reset.rejected, () => {
         alert("Invalid email")
+      })
+      .addCase(setNewPassword.fulfilled, (state, action) => {
+        state.redirectPath = "/login"
+        alert("Password changed successfully")
+      })
+      .addCase(setNewPassword.rejected, () => {
+        alert("Password changed problem")
       })
   },
 })

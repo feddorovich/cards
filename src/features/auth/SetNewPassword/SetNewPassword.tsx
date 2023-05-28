@@ -5,19 +5,18 @@ import Button from "@mui/material/Button"
 import s from "./SetNewPassword.module.css"
 import { useFormik } from "formik"
 import { authThunks } from "features/auth/auth.slice"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 export const SetNewPassword: FC = () => {
   const dispatch = useAppDispatch()
-  // const navigate = useNavigate()
-  // const redirectPath = useAppSelector((state) => state.auth.redirectPath)
-  //
-  // useEffect(() => {
-  //   if (redirectPath) navigate(redirectPath)
-  // }, [redirectPath])
+  const navigate = useNavigate()
+  const redirectPath = useAppSelector((state) => state.auth.redirectPath)
+
+  useEffect(() => {
+    if (redirectPath) navigate(redirectPath)
+  }, [redirectPath])
 
   const { token } = useParams()
-  console.log(token)
 
   const formik = useFormik({
     initialValues: {
@@ -34,8 +33,11 @@ export const SetNewPassword: FC = () => {
 
       return errors
     },
-    onSubmit: (values) => {
-      dispatch(authThunks.setNewPassword({ password: values.password, resetPasswordToken: token }))
+    onSubmit: async (values) => {
+      if (token) {
+        await dispatch(authThunks.setNewPassword({ password: values.password, resetPasswordToken: token }))
+        navigate("/")
+      }
       formik.resetForm()
     },
   })
