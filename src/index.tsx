@@ -9,10 +9,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { Register } from "features/auth/Register/Register"
 import { Header } from "features/header/Header"
 import { Login } from "features/auth/Login/Login"
-import { Container } from "features/Container/Container"
+import { Container } from "features/container/Container"
 import { PasswordReset } from "features/auth/PasswordReset/PasswordReset"
 import { CheckEmail } from "features/auth/CheckEmail/CheckEmail"
 import { SetNewPassword } from "features/auth/SetNewPassword/SetNewPassword"
+import { Profile } from "features/profile/Profile"
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: "set-new-password/:token",
     element: <SetNewPassword />,
+  },
+  {
+    path: "profile",
+    element: <Profile />,
   },
   {
     path: "/packs",
