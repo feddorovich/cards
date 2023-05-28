@@ -72,7 +72,8 @@ const slice = createSlice({
         alert("Error sign in")
       })
       .addCase(logout.fulfilled, (state) => {
-        // state.redirectPath = "/login"
+        state.redirectPath = "/login"
+        state.isLoggedIn = false
         alert("Logout")
       })
       .addCase(register.fulfilled, () => {
