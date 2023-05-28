@@ -4,8 +4,12 @@ import AppBar from "@mui/material/AppBar"
 import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
+import { useAppSelector } from "app/hooks"
 
 export const Header = () => {
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+  const name = useAppSelector((state) => state.auth.profile?.name)
+
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
@@ -14,9 +18,12 @@ export const Header = () => {
             <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
               CARDS
             </Typography>
-            <Button color="primary" variant="outlined" sx={{ borderRadius: 6 }}>
-              Account
-            </Button>
+            {isLoggedIn && (
+              <Button color="primary" variant="outlined" sx={{ borderRadius: 6 }}>
+                {name}
+                {/*<Link to="/profile">132</Link>*/}
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
       </Box>
