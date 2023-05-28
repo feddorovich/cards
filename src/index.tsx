@@ -11,6 +11,7 @@ import { Header } from "features/header/Header"
 import { Login } from "features/auth/Login/Login"
 import { Container } from "features/Container/Container"
 import { PasswordReset } from "features/auth/PasswordReset/PasswordReset"
+import { CheckEmail } from "features/auth/CheckEmail/CheckEmail"
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/password-reset",
     element: <PasswordReset />,
+  },
+  {
+    path: "/check-email",
+    element: <CheckEmail />,
   },
   {
     path: "/packs",
