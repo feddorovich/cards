@@ -26,9 +26,13 @@ const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(initialize.fulfilled, (state, action) => {
-      state.isAppInitialized = true
-    })
+    builder
+      .addCase(initialize.fulfilled, (state) => {
+        state.isAppInitialized = true
+      })
+      .addCase(initialize.rejected, (state) => {
+        state.isAppInitialized = true
+      })
   },
 })
 

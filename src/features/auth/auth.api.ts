@@ -15,13 +15,19 @@ const messageBody = () => {
 }
 
 export const authApi = {
+  me: () => {
+    return instance.post("auth/me", {})
+  },
   register: (arg: ArgRegisterType) => {
     return instance.post<RegisterResponseUserType>("auth/register", arg)
   },
   login: (arg: ArgLoginType) => {
     return instance.post<ProfileType>("auth/login", arg)
   },
-  reset: (email: string) => {
+  logout: () => {
+    return instance.delete("auth/me")
+  },
+  resetPassword: (email: string) => {
     return instance.post("auth/forgot", {
       email: email,
       from: "test-front-admin <ai73a@yandex.by>",
@@ -30,9 +36,6 @@ export const authApi = {
   },
   setNewPassword: (arg: ArgNewPasswordType) => {
     return instance.post("auth/set-new-password", arg)
-  },
-  me: () => {
-    return instance.post("auth/me", {})
   },
 }
 

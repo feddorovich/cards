@@ -15,7 +15,7 @@ export const Header = () => {
               CARDS
             </Typography>
             <Button color="primary" variant="outlined" sx={{ borderRadius: 6 }}>
-              Sign in
+              Account
             </Button>
           </Toolbar>
         </AppBar>

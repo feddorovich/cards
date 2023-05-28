@@ -17,8 +17,11 @@ const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>("auth/
   const res = await authApi.login(arg)
   return { profile: res.data }
 })
+const logout = createAppAsyncThunk<void>("auth/logout", async (arg) => {
+  await authApi.logout()
+})
 const reset = createAppAsyncThunk<ResetResponseType, string>("auth/reset", async (email) => {
-  const res = await authApi.reset(email)
+  const res = await authApi.resetPassword(email)
   return res.data
 })
 const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswordType>(
@@ -61,10 +64,16 @@ const slice = createSlice({
     builder
       .addCase(login.fulfilled, (state, action) => {
         state.profile = action.payload.profile
+        state.isLoggedIn = true
+        state.redirectPath = "/"
         alert("Successful login")
       })
       .addCase(login.rejected, () => {
         alert("Error sign in")
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.redirectPath = "/login"
+        alert("Logout")
       })
       .addCase(register.fulfilled, () => {
         alert("Successful registration")
@@ -90,4 +99,4 @@ const slice = createSlice({
 
 export const authReducer = slice.reducer
 export const authActions = slice.actions
-export const authThunks = { register, login, reset, setNewPassword }
+export const authThunks = { register, login, reset, setNewPassword, logout }

@@ -1,14 +1,20 @@
-import { useAppDispatch } from "app/hooks"
-import { FC } from "react"
+import { useAppDispatch, useAppSelector } from "app/hooks"
+import React, { FC, useEffect } from "react"
 import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, Paper, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
 import s from "./Login.module.css"
 import { useFormik } from "formik"
 import { authThunks } from "features/auth/auth.slice"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export const Login: FC = () => {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const redirectPath = useAppSelector((state) => state.auth.redirectPath)
+
+  useEffect(() => {
+    if (redirectPath) navigate(redirectPath)
+  }, [redirectPath])
 
   const formik = useFormik({
     initialValues: {
