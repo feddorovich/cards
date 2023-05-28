@@ -12,6 +12,7 @@ import { Login } from "features/auth/Login/Login"
 import { Container } from "features/Container/Container"
 import { PasswordReset } from "features/auth/PasswordReset/PasswordReset"
 import { CheckEmail } from "features/auth/CheckEmail/CheckEmail"
+import { SetNewPassword } from "features/auth/SetNewPassword/SetNewPassword"
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/check-email",
     element: <CheckEmail />,
+  },
+  {
+    path: "set-new-password/:token",
+    element: <SetNewPassword />,
   },
   {
     path: "/packs",

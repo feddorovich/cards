@@ -5,13 +5,16 @@ import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk"
 const register = createAppAsyncThunk<void, ArgRegisterType>("auth/register", async (arg: ArgRegisterType) => {
   await authApi.register(arg)
 })
-
 const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>("auth/login", async (arg) => {
   const res = await authApi.login(arg)
   return { profile: res.data }
 })
 const reset = createAppAsyncThunk<ResetResponseType, string>("auth/reset", async (email) => {
   const res = await authApi.reset(email)
+  return res.data
+})
+const setNewPassword = createAppAsyncThunk<any, any>("auth/setNewPassword", async (arg, thunkAPI) => {
+  const res = await authApi.setNewPassword(arg)
   return res.data
 })
 
@@ -28,6 +31,7 @@ const slice = createSlice({
   name: "auth",
   initialState: {
     profile: null as ProfileType | null,
+    redirectPath: null as string | null,
   },
   reducers: {
     // setProfile: (state, action: PayloadAction<{ profile: ProfileType }>) => {
@@ -49,15 +53,15 @@ const slice = createSlice({
       .addCase(register.rejected, (state, action) => {
         alert("Error registration")
       })
-      .addCase(reset.fulfilled, () => {
-        alert("zbs")
+      .addCase(reset.fulfilled, (state, action) => {
+        state.redirectPath = "/check-email"
       })
       .addCase(reset.rejected, () => {
-        alert("NE zbs")
+        alert("Invalid email")
       })
   },
 })
 
 export const authReducer = slice.reducer
 export const authActions = slice.actions
-export const authThunks = { register, login, reset }
+export const authThunks = { register, login, reset, setNewPassword }

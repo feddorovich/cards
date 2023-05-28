@@ -2,37 +2,40 @@ import { useAppDispatch, useAppSelector } from "app/hooks"
 import { FC, useEffect } from "react"
 import { FormControl, FormGroup, Grid, Paper, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
-import s from "./PasswordReset.module.css"
+import s from "./SetNewPassword.module.css"
 import { useFormik } from "formik"
 import { authThunks } from "features/auth/auth.slice"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 
-export const PasswordReset: FC = () => {
+export const SetNewPassword: FC = () => {
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const redirectPath = useAppSelector((state) => state.auth.redirectPath)
+  // const navigate = useNavigate()
+  // const redirectPath = useAppSelector((state) => state.auth.redirectPath)
+  //
+  // useEffect(() => {
+  //   if (redirectPath) navigate(redirectPath)
+  // }, [redirectPath])
 
-  useEffect(() => {
-    if (redirectPath) navigate(redirectPath)
-  }, [redirectPath])
+  const { token } = useParams()
+  console.log(token)
 
   const formik = useFormik({
     initialValues: {
-      email: "",
+      password: "",
     },
     validate: (values) => {
       const errors: any = {}
       // TODO
-      if (!values.email) {
-        errors.email = "Email required"
-      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = "Invalid email address"
+      if (!values.password) {
+        errors.password = "Password required"
+      } else if (values.password.length < 8) {
+        errors.password = "Must be more than 7 characters"
       }
 
       return errors
     },
     onSubmit: (values) => {
-      dispatch(authThunks.reset(values.email))
+      dispatch(authThunks.setNewPassword({ password: values.password, resetPasswordToken: token }))
       formik.resetForm()
     },
   })
@@ -43,35 +46,30 @@ export const PasswordReset: FC = () => {
         <Grid container justifyContent={"center"}>
           <Grid item>
             <Paper className={s.paper}>
-              <div className={s.header}>Forgot your password?</div>
+              <div className={s.header}>Create new password</div>
               <form onSubmit={formik.handleSubmit} className={s.form}>
                 <FormControl>
                   <FormGroup>
                     <div className={s.email}>
                       <TextField
                         variant="standard"
-                        label="Email"
+                        label="Password"
                         margin="normal"
                         autoComplete="off"
-                        error={!!formik.touched.email && !!formik.errors.email}
+                        error={!!formik.touched.password && !!formik.errors.password}
                         // helperText={formik.errors.email}
-                        {...formik.getFieldProps("email")}
+                        {...formik.getFieldProps("password")}
                       />
-                      {formik.touched.email && formik.errors.email ? (
-                        <div className={s.errorEmail}>{formik.errors.email}</div>
+                      {formik.touched.password && formik.errors.password ? (
+                        <div className={s.errorEmail}>{formik.errors.password}</div>
                       ) : null}
                       <div className={s.text}>
-                        <p>Enter your email address and we will send you</p>
-                        <p>further instructions </p>
+                        <p>Create new password and we will send you further instructions to email</p>
                       </div>
                     </div>
                     <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
-                      Sign in
+                      Create new password
                     </Button>
-                    <div className={s.dha}>Did you remember your password?</div>
-                    <div className={s.loginLink}>
-                      <Link to="/login">Try logging in</Link>
-                    </div>
                   </FormGroup>
                 </FormControl>
               </form>

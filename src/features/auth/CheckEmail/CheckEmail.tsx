@@ -19,7 +19,7 @@ export const CheckEmail: FC = () => {
               <div className={s.text}>We’ve sent an Email with instructions to example@mail.com</div>
               <Link to="/login">
                 <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
-                  Sign in
+                  Back to login
                 </Button>
               </Link>
             </Paper>

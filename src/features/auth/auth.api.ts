@@ -1,5 +1,4 @@
 import { instance } from "common/api/common.api"
-import axios from "axios"
 
 export const authApi = {
   register: (arg: ArgRegisterType) => {
@@ -10,15 +9,17 @@ export const authApi = {
   },
   reset: (email: string) => {
     return instance.post("auth/forgot", {
-      email: email, // кому восстанавливать пароль
+      email: email,
       from: "test-front-admin <ai73a@yandex.by>",
-      // можно указать разработчика фронта)
       message: `<div style="background-color: lime; padding: 15px">
 password recovery link: 
 <a href="http://localhost:3000/#/set-new-password/$token$">
 link</a>
 </div>`, // хтмп-письмо, вместо $token$ бэк вставит токен
     })
+  },
+  setNewPassword: (arg: any) => {
+    return instance.post("auth/set-new-password", arg)
   },
 }
 
