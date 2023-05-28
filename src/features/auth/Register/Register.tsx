@@ -51,7 +51,7 @@ export const Register: FC = () => {
         <Grid container justifyContent={"center"}>
           <Grid item>
             <Paper className={s.paper}>
-              <div className={s.header}>Sign up</div>
+              <div className={s.header}>Sign Up</div>
               <form onSubmit={formik.handleSubmit} className={s.form}>
                 <FormControl>
                   <FormGroup>
@@ -87,7 +87,7 @@ export const Register: FC = () => {
                       <TextField
                         type="password"
                         variant="standard"
-                        label="Password"
+                        label="Сonfirm password"
                         margin="normal"
                         error={!!formik.touched.confirmPassword && !!formik.errors.confirmPassword}
                         // helperText={formik.errors.password}
@@ -97,11 +97,10 @@ export const Register: FC = () => {
                         <div className={s.confirmPasswordError}>{formik.errors.confirmPassword}</div>
                       ) : null}
                     </div>
-                    <div className={s.forgotPassword}>Forgot Password?</div>
                     <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
                       Sign up
                     </Button>
-                    <div className={s.dha}>Don't have account?</div>
+                    <div className={s.dha}>Already have an account?</div>
                     <div className={s.singIn}>
                       <Link to="/login">Sing In</Link>
                     </div>

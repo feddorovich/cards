@@ -16,7 +16,6 @@
 }
 
 .form {
-    /*position: relative;*/
     display: flex;
     justify-content: center;
 }
@@ -26,7 +25,7 @@
 }
 
 .form button {
-    margin: 70px 0 0;
+    margin: 60px 0 0;
 }
 
 .email{
@@ -63,15 +62,6 @@
     top: 10px;
     right: -2px;
     font-size: 13px;
-}
-
-.forgotPassword {
-    text-align: right;
-    margin: 30px 0 0;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 17px;
 }
 
 .dha {

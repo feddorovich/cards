@@ -2,19 +2,17 @@ import { useAppDispatch } from "app/hooks"
 import { FC } from "react"
 import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, Paper, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
-import s from "./Login.module.css"
+import s from "./PasswordReset.module.css"
 import { useFormik } from "formik"
 import { authThunks } from "features/auth/auth.slice"
 import { Link } from "react-router-dom"
 
-export const Login: FC = () => {
+export const PasswordReset: FC = () => {
   const dispatch = useAppDispatch()
 
   const formik = useFormik({
     initialValues: {
       email: "",
-      password: "",
-      rememberMe: false,
     },
     validate: (values) => {
       const errors: any = {}
@@ -25,16 +23,10 @@ export const Login: FC = () => {
         errors.email = "Invalid email address"
       }
 
-      if (!values.password) {
-        errors.password = "Password required"
-      } else if (values.password.length < 8) {
-        errors.password = "Must be more than 7 characters"
-      }
-
       return errors
     },
     onSubmit: (values) => {
-      dispatch(authThunks.login(values))
+      // dispatch(authThunks.login(values))
       formik.resetForm()
     },
   })
@@ -45,7 +37,7 @@ export const Login: FC = () => {
         <Grid container justifyContent={"center"}>
           <Grid item>
             <Paper className={s.paper}>
-              <div className={s.header}>Sign in</div>
+              <div className={s.header}>Forgot your password?</div>
               <form onSubmit={formik.handleSubmit} className={s.form}>
                 <FormControl>
                   <FormGroup>
@@ -62,34 +54,15 @@ export const Login: FC = () => {
                       {formik.touched.email && formik.errors.email ? (
                         <div className={s.errorEmail}>{formik.errors.email}</div>
                       ) : null}
-                    </div>
-                    <div className={s.password}>
-                      <TextField
-                        type="password"
-                        variant="standard"
-                        label="Password"
-                        margin="normal"
-                        error={!!formik.touched.password && !!formik.errors.password}
-                        // helperText={formik.errors.password}
-                        {...formik.getFieldProps("password")}
-                      />
-                      {formik.touched.password && formik.errors.password ? (
-                        <div className={s.errorPassword}>{formik.errors.password}</div>
-                      ) : null}
-                    </div>
-                    <FormControlLabel
-                      label={"Remember me"}
-                      control={<Checkbox checked={formik.values.rememberMe} {...formik.getFieldProps("rememberMe")} />}
-                    />
-                    <div className={s.forgotPassword}>
-                      <Link to="/password-reset">Forgot Password?</Link>
+                      <p>Enter your email address and we will send you</p>
+                      <p>further instructions </p>
                     </div>
                     <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
                       Sign in
                     </Button>
-                    <div className={s.dha}>Don't have account?</div>
-                    <div className={s.singUp}>
-                      <Link to="/register">Sing Up</Link>
+                    <div className={s.dha}>Did you remember your password?</div>
+                    <div className={s.loginLink}>
+                      <Link to="/login">Try logging in</Link>
                     </div>
                   </FormGroup>
                 </FormControl>
