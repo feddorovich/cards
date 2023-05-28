@@ -1,6 +1,6 @@
 import { useAppDispatch } from "app/hooks"
 import { FC } from "react"
-import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, Paper, TextField } from "@mui/material"
+import { FormControl, FormGroup, Grid, Paper, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
 import s from "./PasswordReset.module.css"
 import { useFormik } from "formik"
@@ -33,7 +33,7 @@ export const PasswordReset: FC = () => {
 
   return (
     <div className={s.wrapper}>
-      <div className={s.login}>
+      <div className={s.passwordReset}>
         <Grid container justifyContent={"center"}>
           <Grid item>
             <Paper className={s.paper}>
@@ -54,8 +54,10 @@ export const PasswordReset: FC = () => {
                       {formik.touched.email && formik.errors.email ? (
                         <div className={s.errorEmail}>{formik.errors.email}</div>
                       ) : null}
-                      <p>Enter your email address and we will send you</p>
-                      <p>further instructions </p>
+                      <div className={s.text}>
+                        <p>Enter your email address and we will send you</p>
+                        <p>further instructions </p>
+                      </div>
                     </div>
                     <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
                       Sign in
