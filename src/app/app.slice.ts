@@ -5,6 +5,7 @@ import { authActions } from "features/auth/auth.slice"
 
 const initialize = createAppAsyncThunk<{ profile: ProfileType }>("auth/me", async (arg, thunkAPI) => {
   const { dispatch } = thunkAPI
+
   const res = await authApi.me()
   dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }))
   dispatch(authActions.setProfile({ profile: res.data }))

@@ -1,8 +1,7 @@
-import React, { useEffect } from "react"
+import React from "react"
 import "app/App.css"
 import { useAppDispatch, useAppSelector } from "app/hooks"
 import { CircularProgress } from "@mui/material"
-import { appThunks } from "app/app.slice"
 import { Navigate } from "react-router-dom"
 import Button from "@mui/material/Button"
 import { authThunks } from "features/auth/auth.slice"
@@ -14,10 +13,6 @@ function App() {
   console.log(isLoggedIn)
 
   const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    dispatch(appThunks.initialize())
-  }, [])
 
   if (!isAppInitialized) {
     return (

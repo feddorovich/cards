@@ -1,16 +1,17 @@
 import { useAppDispatch, useAppSelector } from "app/hooks"
-import { FC, useEffect } from "react"
+import React, { FC, useEffect } from "react"
 import { FormControl, FormGroup, Grid, Paper, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
 import s from "./PasswordReset.module.css"
 import { useFormik } from "formik"
 import { authThunks } from "features/auth/auth.slice"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 
 export const PasswordReset: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const redirectPath = useAppSelector((state) => state.auth.redirectPath)
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
 
   useEffect(() => {
     if (redirectPath) navigate(redirectPath)
@@ -36,6 +37,10 @@ export const PasswordReset: FC = () => {
       formik.resetForm()
     },
   })
+
+  if (isLoggedIn) {
+    return <Navigate to="/" />
+  }
 
   return (
     <div className={s.wrapper}>

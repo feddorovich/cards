@@ -1,11 +1,16 @@
-import { FC } from "react"
+import React, { FC } from "react"
 import { Grid, Paper } from "@mui/material"
 import Button from "@mui/material/Button"
 import s from "./CheckEmail.module.css"
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import checkEmail from "assets/image/checkEmail.png"
+import { useAppSelector } from "app/hooks"
 
 export const CheckEmail: FC = () => {
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+  if (isLoggedIn) {
+    return <Navigate to="/" />
+  }
   return (
     <div className={s.wrapper}>
       <div className={s.checkEmail}>

@@ -5,12 +5,13 @@ import Button from "@mui/material/Button"
 import s from "./Login.module.css"
 import { useFormik } from "formik"
 import { authThunks } from "features/auth/auth.slice"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 
 export const Login: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const redirectPath = useAppSelector((state) => state.auth.redirectPath)
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
 
   useEffect(() => {
     if (redirectPath) navigate(redirectPath)
@@ -45,6 +46,10 @@ export const Login: FC = () => {
     },
   })
 
+  if (isLoggedIn) {
+    return <Navigate to="/" />
+  }
+
   return (
     <div className={s.wrapper}>
       <div className={s.login}>
@@ -75,6 +80,7 @@ export const Login: FC = () => {
                         variant="standard"
                         label="Password"
                         margin="normal"
+                        autoComplete="off"
                         error={!!formik.touched.password && !!formik.errors.password}
                         // helperText={formik.errors.password}
                         {...formik.getFieldProps("password")}

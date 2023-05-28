@@ -1,14 +1,15 @@
-import { useAppDispatch } from "app/hooks"
-import { FC } from "react"
+import { useAppDispatch, useAppSelector } from "app/hooks"
+import React, { FC } from "react"
 import { FormControl, FormGroup, Grid, Paper, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
 import s from "./Register.module.css"
 import { useFormik } from "formik"
 import { authThunks } from "features/auth/auth.slice"
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 
 export const Register: FC = () => {
   const dispatch = useAppDispatch()
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
 
   const formik = useFormik({
     initialValues: {
@@ -44,6 +45,10 @@ export const Register: FC = () => {
       formik.resetForm()
     },
   })
+
+  if (isLoggedIn) {
+    return <Navigate to="/" />
+  }
 
   return (
     <div className={s.wrapper}>
