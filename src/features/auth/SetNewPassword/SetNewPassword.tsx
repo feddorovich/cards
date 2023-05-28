@@ -33,10 +33,9 @@ export const SetNewPassword: FC = () => {
 
       return errors
     },
-    onSubmit: async (values) => {
+    onSubmit: (values) => {
       if (token) {
-        await dispatch(authThunks.setNewPassword({ password: values.password, resetPasswordToken: token }))
-        navigate("/")
+        dispatch(authThunks.setNewPassword({ password: values.password, resetPasswordToken: token }))
       }
       formik.resetForm()
     },

@@ -1,23 +1,32 @@
 import React, { useEffect } from "react"
 import "app/App.css"
 import { useAppDispatch, useAppSelector } from "app/hooks"
-import { appActions } from "app/app.slice"
+import { CircularProgress } from "@mui/material"
+import { appThunks } from "app/app.slice"
 
 function App() {
-  const isLoading = useAppSelector((state) => state.app.isLoading)
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+  const isAppInitialized = useAppSelector((state) => state.app.isAppInitialized)
+
+  console.log(isLoggedIn)
 
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(appActions.setIsLoading({ isLoading: false }))
-    }, 3000)
+    dispatch(appThunks.initialize())
   }, [])
+
+  if (!isAppInitialized) {
+    return (
+      <div style={{ position: "fixed", top: "30%", textAlign: "center", width: "100%" }}>
+        <CircularProgress />
+      </div>
+    )
+  }
 
   return (
     <div>
       <div>APP</div>
-      {isLoading && <h1>Loader...</h1>}
     </div>
   )
 }

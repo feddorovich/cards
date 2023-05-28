@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import {
   ArgLoginType,
   ArgNewPasswordType,
@@ -28,6 +28,10 @@ const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswo
     return res.data
   }
 )
+// const me = createAppAsyncThunk<{ profile: ProfileType }>("auth/me", async () => {
+//   const res = await authApi.me()
+//   return { profile: res.data }
+// })
 
 // const login = createAsyncThunk("auth/login", (arg: ArgLoginType, thunkAPI) => {
 //   const { dispatch } = thunkAPI
@@ -43,11 +47,15 @@ const slice = createSlice({
   initialState: {
     profile: null as ProfileType | null,
     redirectPath: null as string | null,
+    isLoggedIn: false,
   },
   reducers: {
-    // setProfile: (state, action: PayloadAction<{ profile: ProfileType }>) => {
-    //   state.profile = action.payload.profile
-    // },
+    setProfile: (state, action: PayloadAction<{ profile: ProfileType }>) => {
+      state.profile = action.payload.profile
+    },
+    setIsLoggedIn: (state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
+      state.isLoggedIn = action.payload.isLoggedIn
+    },
   },
   extraReducers: (builder) => {
     builder

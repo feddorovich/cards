@@ -31,6 +31,9 @@ export const authApi = {
   setNewPassword: (arg: ArgNewPasswordType) => {
     return instance.post("auth/set-new-password", arg)
   },
+  me: () => {
+    return instance.post("auth/me", {})
+  },
 }
 
 export type ArgRegisterType = Omit<ArgLoginType, "rememberMe">
