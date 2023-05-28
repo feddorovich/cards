@@ -85,13 +85,16 @@
     margin: 30px 0 0;
 }
 
-.singUp {
+.singIn {
+    text-align: center;
+    margin: 10px 0 0;
+}
+
+.singIn a{
     font-style: normal;
     font-weight: 600;
     font-size: 16px;
     line-height: 24px;
-    text-align: center;
     text-decoration-line: underline;
     color: #366EFF;
-    margin: 10px 0 0;
 }

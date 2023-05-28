@@ -5,6 +5,7 @@ import Button from "@mui/material/Button"
 import s from "./Register.module.css"
 import { useFormik } from "formik"
 import { authThunks } from "features/auth/auth.slice"
+import { Link } from "react-router-dom"
 
 export const Register: FC = () => {
   const dispatch = useAppDispatch()
@@ -96,16 +97,14 @@ export const Register: FC = () => {
                         <div className={s.confirmPasswordError}>{formik.errors.confirmPassword}</div>
                       ) : null}
                     </div>
-                    {/*<FormControlLabel*/}
-                    {/*  label={"Remember me"}*/}
-                    {/*  control={<Checkbox checked={formik.values.rememberMe} {...formik.getFieldProps("rememberMe")} />}*/}
-                    {/*/>*/}
                     <div className={s.forgotPassword}>Forgot Password?</div>
                     <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
                       Sign up
                     </Button>
                     <div className={s.dha}>Don't have account?</div>
-                    <div className={s.singUp}>Sing In</div>
+                    <div className={s.singIn}>
+                      <Link to="/login">Sing In</Link>
+                    </div>
                   </FormGroup>
                 </FormControl>
               </form>

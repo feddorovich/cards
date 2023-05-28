@@ -3,8 +3,7 @@ import { ArgLoginType, ArgRegisterType, authApi, ProfileType } from "features/au
 import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk"
 
 const register = createAppAsyncThunk<void, ArgRegisterType>("auth/register", async (arg: ArgRegisterType) => {
-  const res = await authApi.register(arg)
-  console.log("register:", res.data)
+  await authApi.register(arg)
 })
 
 const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>("auth/login", async (arg) => {
@@ -35,10 +34,16 @@ const slice = createSlice({
     builder
       .addCase(login.fulfilled, (state, action) => {
         state.profile = action.payload.profile
-        alert("success login")
+        alert("Successful login")
       })
       .addCase(login.rejected, () => {
-        alert("error")
+        alert("Error sign in")
+      })
+      .addCase(register.fulfilled, () => {
+        alert("Successful registration")
+      })
+      .addCase(register.rejected, (state, action) => {
+        alert("Error registration")
       })
   },
 })

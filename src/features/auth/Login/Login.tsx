@@ -5,6 +5,7 @@ import Button from "@mui/material/Button"
 import s from "./Login.module.css"
 import { useFormik } from "formik"
 import { authThunks } from "features/auth/auth.slice"
+import { Link } from "react-router-dom"
 
 export const Login: FC = () => {
   const dispatch = useAppDispatch()
@@ -85,7 +86,9 @@ export const Login: FC = () => {
                       Sign in
                     </Button>
                     <div className={s.dha}>Don't have account?</div>
-                    <div className={s.singUp}>Sing Up</div>
+                    <div className={s.singUp}>
+                      <Link to="/register">Sing Up</Link>
+                    </div>
                   </FormGroup>
                 </FormControl>
               </form>
