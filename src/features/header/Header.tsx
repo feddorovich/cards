@@ -31,7 +31,7 @@ export const Header = () => {
             )}
           </Toolbar>
           <div className={s.linearProgressWrapper}>
-            {isLoading && <LinearProgress color="inherit" className={s.linearProgress} />}
+            {isLoading && <LinearProgress color="primary" className={s.linearProgress} />}
           </div>
         </AppBar>
       </Box>

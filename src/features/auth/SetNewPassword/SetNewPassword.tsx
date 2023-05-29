@@ -54,6 +54,7 @@ export const SetNewPassword: FC = () => {
                   <FormGroup>
                     <div className={s.email}>
                       <TextField
+                        type="password"
                         variant="standard"
                         label="Password"
                         margin="normal"
