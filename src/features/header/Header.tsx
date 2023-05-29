@@ -5,15 +5,12 @@ import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
 import { useAppSelector } from "app/hooks"
-import { Link, NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom"
+import s from "./Header.module.css"
 
 export const Header = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
   const name = useAppSelector((state) => state.auth.profile?.name)
-  // const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   e.preventDefault()
-  //   window.location.href = "/profile"
-  // }
 
   return (
     <div>
@@ -24,9 +21,11 @@ export const Header = () => {
               CARDS
             </Typography>
             {isLoggedIn && (
-              <Button color="primary" variant="outlined" sx={{ borderRadius: 6 }}>
-                <NavLink to="/profile">{name}</NavLink>
-              </Button>
+              <div className={s.button}>
+                <Button color="primary" variant="outlined" sx={{ borderRadius: 6 }}>
+                  <NavLink to="/profile">{name}</NavLink>
+                </Button>
+              </div>
             )}
           </Toolbar>
         </AppBar>
