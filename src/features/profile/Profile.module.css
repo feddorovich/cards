@@ -25,28 +25,11 @@
     width: 96px;
 }
 
-.name {
+.editableSpan {
     display: flex;
     justify-content: center;
-    align-items: center;
-    position: relative;
-    gap: 20px;
 }
 
-.nameText {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 24px;
-    text-align: center;
-    color: #000000;
-    margin: 20px 0 0;
-}
-
-.nameBtn {
-    position: absolute;
-    top: 10px;
- }
 
 .email {
     font-style: normal;

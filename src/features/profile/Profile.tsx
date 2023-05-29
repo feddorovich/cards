@@ -12,21 +12,17 @@ import { EditableSpan } from "features/profile/editableSpan/EditableSpan"
 export const Profile: FC = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
   // const avatar = useAppSelector((state) => state.auth.profile?.avatar)
-  const name = useAppSelector((state) => state.auth.profile?.name)
+  const name = useAppSelector<string>((state) => state.auth.profile!.name)
   const email = useAppSelector((state) => state.auth.profile?.email)
   const isAppInitialized = useAppSelector((state) => state.app.isAppInitialized)
   const dispatch = useAppDispatch()
-
-  const changeProfileNameHandler = () => {
-    dispatch(authThunks.changeProfileName("New 1name"))
-  }
 
   const logoutHandler = () => {
     dispatch(authThunks.logout())
   }
 
   const changeName = (title: string) => {
-    console.log(title)
+    dispatch(authThunks.changeProfileName(title))
   }
 
   if (!isAppInitialized) {
@@ -51,20 +47,8 @@ export const Profile: FC = () => {
               <div className={s.img}>
                 <img src={checkEmail} alt="email image" />
               </div>
-              <div className={s.name}>
-                <div className={s.nameText}>{name}</div>
-                <IconButton
-                  edge="start"
-                  color="inherit"
-                  aria-label="menu"
-                  onClick={changeProfileNameHandler}
-                  className={s.nameBtn}
-                >
-                  <EditIcon />
-                </IconButton>
-              </div>
-              <div>
-                <EditableSpan onChange={changeName} value={"name"} />
+              <div className={s.editableSpan}>
+                <EditableSpan onChange={changeName} value={name} />
               </div>
               <div className={s.email}>{email}</div>
               <div className={s.logout}>
