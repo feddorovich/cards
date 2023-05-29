@@ -10,8 +10,6 @@ function App() {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
   const isAppInitialized = useAppSelector((state) => state.app.isAppInitialized)
 
-  console.log(isLoggedIn)
-
   const dispatch = useAppDispatch()
 
   if (!isAppInitialized) {

@@ -31,11 +31,11 @@ const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswo
     return res.data
   }
 )
-const changeProfileName = createAppAsyncThunk<{ profile: ProfileType }, string>(
+const changeProfileName = createAppAsyncThunk<{ updatedUser: ProfileType }, string>(
   "auth/changeProfileName",
   async (name) => {
     const res = await authApi.changeProfileData({ name })
-    return { profile: res.data }
+    return { updatedUser: res.data.updatedUser }
   }
 )
 
@@ -90,7 +90,7 @@ const slice = createSlice({
         alert("Password changed problem")
       })
       .addCase(changeProfileName.fulfilled, (state, action) => {
-        state.profile = action.payload.profile
+        state.profile = action.payload.updatedUser
         alert("Change name success")
       })
       .addCase(changeProfileName.rejected, () => {

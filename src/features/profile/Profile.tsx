@@ -16,7 +16,7 @@ export const Profile: FC = () => {
   const dispatch = useAppDispatch()
 
   const changeProfileNameHandler = () => {
-    dispatch(authThunks.changeProfileName("New name"))
+    dispatch(authThunks.changeProfileName("New name 5"))
   }
 
   const logoutHandler = () => {
