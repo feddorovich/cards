@@ -9,6 +9,7 @@ import {
   ResetResponseType,
 } from "features/auth/auth.api"
 import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk"
+import { appActions } from "app/app.slice"
 
 const register = createAppAsyncThunk<void, ArgRegisterType>("auth/register", async (arg: ArgRegisterType) => {
   await authApi.register(arg)
@@ -17,8 +18,11 @@ const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>("auth/
   const res = await authApi.login(arg)
   return { profile: res.data }
 })
-const logout = createAppAsyncThunk<void>("auth/logout", async (arg) => {
+const logout = createAppAsyncThunk<void>("auth/logout", async (arg, thunkAPI) => {
+  const { dispatch } = thunkAPI
+  dispatch(appActions.setIsLoading({ isLoading: true }))
   await authApi.logout()
+  dispatch(appActions.setIsLoading({ isLoading: false }))
 })
 const reset = createAppAsyncThunk<ResetResponseType, string>("auth/reset", async (email) => {
   const res = await authApi.resetPassword(email)
@@ -33,8 +37,11 @@ const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswo
 )
 const changeProfileName = createAppAsyncThunk<{ updatedUser: ProfileType }, string>(
   "auth/changeProfileName",
-  async (name) => {
+  async (name, thunkAPI) => {
+    const { dispatch } = thunkAPI
+    dispatch(appActions.setIsLoading({ isLoading: true }))
     const res = await authApi.changeProfileData({ name })
+    dispatch(appActions.setIsLoading({ isLoading: false }))
     return { updatedUser: res.data.updatedUser }
   }
 )
@@ -68,7 +75,9 @@ const slice = createSlice({
       .addCase(logout.fulfilled, (state) => {
         state.redirectPath = "/login"
         state.isLoggedIn = false
-        alert("Logout")
+      })
+      .addCase(logout.rejected, () => {
+        alert("Error logout")
       })
       .addCase(register.fulfilled, () => {
         alert("Successful registration")
@@ -91,7 +100,7 @@ const slice = createSlice({
       })
       .addCase(changeProfileName.fulfilled, (state, action) => {
         state.profile = action.payload.updatedUser
-        alert("Change name success")
+        // alert("Change name success")
       })
       .addCase(changeProfileName.rejected, () => {
         alert("Change name error")

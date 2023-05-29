@@ -1,3 +1,12 @@
+.input {
+    margin: 15px 0 0;
+    width: 150px;
+}
+
+.input input {
+    font-size: 20px;
+}
+
 .name {
     display: flex;
     gap: 20px;
@@ -16,4 +25,4 @@
 
 .nameBtn {
     top: 10px;
- }
+}

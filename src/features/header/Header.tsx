@@ -7,10 +7,12 @@ import Button from "@mui/material/Button"
 import { useAppSelector } from "app/hooks"
 import { NavLink } from "react-router-dom"
 import s from "./Header.module.css"
+import { LinearProgress } from "@mui/material"
 
 export const Header = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
-  const name = useAppSelector((state) => state.auth.profile?.name)
+  const name = useAppSelector((state) => (state.auth.profile ? state.auth.profile.name : ""))
+  const isLoading = useAppSelector((state) => state.app.isLoading)
 
   return (
     <div>
@@ -28,6 +30,9 @@ export const Header = () => {
               </div>
             )}
           </Toolbar>
+          <div className={s.linearProgressWrapper}>
+            {isLoading && <LinearProgress color="inherit" className={s.linearProgress} />}
+          </div>
         </AppBar>
       </Box>
     </div>

@@ -11,9 +11,10 @@ import { EditableSpan } from "features/profile/editableSpan/EditableSpan"
 export const Profile: FC = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
   // const avatar = useAppSelector((state) => state.auth.profile?.avatar)
-  const name = useAppSelector<string>((state) => state.auth.profile!.name)
-  const email = useAppSelector((state) => state.auth.profile?.email)
+  const name = useAppSelector<string>((state) => (state.auth.profile ? state.auth.profile.name : ""))
+  const email = useAppSelector<string>((state) => (state.auth.profile ? state.auth.profile.email : ""))
   const isAppInitialized = useAppSelector((state) => state.app.isAppInitialized)
+  const isLoading = useAppSelector((state) => state.app.isLoading)
   const dispatch = useAppDispatch()
 
   const logoutHandler = () => {
@@ -55,7 +56,13 @@ export const Profile: FC = () => {
               <div className={s.email}>{email}</div>
               <div className={s.logout}>
                 {isLoggedIn && (
-                  <Button color="primary" variant="text" sx={{ borderRadius: 6 }} onClick={logoutHandler}>
+                  <Button
+                    color="primary"
+                    variant="text"
+                    sx={{ borderRadius: 6 }}
+                    onClick={logoutHandler}
+                    disabled={isLoading}
+                  >
                     Log out
                   </Button>
                 )}

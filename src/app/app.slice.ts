@@ -14,7 +14,7 @@ const initialize = createAppAsyncThunk<{ profile: ProfileType }>("auth/me", asyn
 
 const appInitialState = {
   error: null as string | null,
-  isLoading: true,
+  isLoading: false,
   isAppInitialized: false,
 }
 
