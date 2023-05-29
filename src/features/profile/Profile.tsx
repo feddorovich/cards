@@ -1,19 +1,36 @@
 import React, { FC } from "react"
-import { Grid, Paper } from "@mui/material"
+import { CircularProgress, Grid, Paper } from "@mui/material"
 import Button from "@mui/material/Button"
 import s from "./Profile.module.css"
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import checkEmail from "assets/image/checkEmail.png"
 import { useAppDispatch, useAppSelector } from "app/hooks"
 import { authThunks } from "features/auth/auth.slice"
 
 export const Profile: FC = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+  // const avatar = useAppSelector((state) => state.auth.profile?.avatar)
+  const name = useAppSelector((state) => state.auth.profile?.name)
+  const email = useAppSelector((state) => state.auth.profile?.email)
+  const isAppInitialized = useAppSelector((state) => state.app.isAppInitialized)
   const dispatch = useAppDispatch()
 
   const logoutHandler = () => {
     dispatch(authThunks.logout())
   }
+
+  if (!isAppInitialized) {
+    return (
+      <div style={{ position: "fixed", top: "30%", textAlign: "center", width: "100%" }}>
+        <CircularProgress />
+      </div>
+    )
+  }
+
+  if (!isLoggedIn) {
+    return <Navigate to="/login" />
+  }
+
   return (
     <div className={s.wrapper}>
       <div className={s.profile}>
@@ -24,8 +41,8 @@ export const Profile: FC = () => {
               <div className={s.img}>
                 <img src={checkEmail} alt="email image" />
               </div>
-              <div className={s.name}>Name</div>
-              <div className={s.email}>example@mail.com</div>
+              <div className={s.name}>{name}</div>
+              <div className={s.email}>{email}</div>
               <Link to="/login">
                 {isLoggedIn && (
                   <Button color="primary" variant="text" sx={{ borderRadius: 6 }} onClick={logoutHandler}>

@@ -5,7 +5,7 @@ import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
 import { useAppSelector } from "app/hooks"
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 
 export const Header = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
@@ -25,9 +25,8 @@ export const Header = () => {
             </Typography>
             {isLoggedIn && (
               <Button color="primary" variant="outlined" sx={{ borderRadius: 6 }}>
-                {name}
+                <NavLink to="/profile">{name}</NavLink>
               </Button>
-              // <Link to="/register">Sing Up</Link>
             )}
           </Toolbar>
         </AppBar>

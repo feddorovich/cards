@@ -1,13 +1,14 @@
 import React, { FC, ReactNode, useEffect } from "react"
-import style from "./Container.module.css"
+import { Header } from "features/header/Header"
 import { useAppDispatch } from "app/hooks"
 import { appThunks } from "app/app.slice"
+import style from "./Layout.module.css"
 
-type ContainerType = {
+type LayoutPropsType = {
   children: ReactNode
 }
 
-export const Container: FC<ContainerType> = ({ children }) => {
+export const Layout: FC<LayoutPropsType> = ({ children }) => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -16,7 +17,8 @@ export const Container: FC<ContainerType> = ({ children }) => {
 
   return (
     <div className={style.container}>
-      <div>{children}</div>
+      <Header />
+      {children}
     </div>
   )
 }
