@@ -1,11 +1,13 @@
-import React, { FC } from "react"
-import { CircularProgress, Grid, Paper } from "@mui/material"
+import React, { ChangeEvent, FC, useState } from "react"
+import { CircularProgress, Grid, IconButton, Paper, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
 import s from "./Profile.module.css"
-import { Link, Navigate } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 import checkEmail from "assets/image/checkEmail.png"
 import { useAppDispatch, useAppSelector } from "app/hooks"
 import { authThunks } from "features/auth/auth.slice"
+import EditIcon from "@mui/icons-material/Edit"
+import { EditableSpan } from "features/profile/editableSpan/EditableSpan"
 
 export const Profile: FC = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
@@ -16,11 +18,15 @@ export const Profile: FC = () => {
   const dispatch = useAppDispatch()
 
   const changeProfileNameHandler = () => {
-    dispatch(authThunks.changeProfileName("New name 5"))
+    dispatch(authThunks.changeProfileName("New 1name"))
   }
 
   const logoutHandler = () => {
     dispatch(authThunks.logout())
+  }
+
+  const changeName = (title: string) => {
+    console.log(title)
   }
 
   if (!isAppInitialized) {
@@ -45,18 +51,29 @@ export const Profile: FC = () => {
               <div className={s.img}>
                 <img src={checkEmail} alt="email image" />
               </div>
-              <div className={s.name}>{name}</div>
+              <div className={s.name}>
+                <div className={s.nameText}>{name}</div>
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  onClick={changeProfileNameHandler}
+                  className={s.nameBtn}
+                >
+                  <EditIcon />
+                </IconButton>
+              </div>
+              <div>
+                <EditableSpan onChange={changeName} value={"name"} />
+              </div>
               <div className={s.email}>{email}</div>
-              <Button color="primary" variant="text" sx={{ borderRadius: 6 }} onClick={changeProfileNameHandler}>
-                ChangeName
-              </Button>
-              <Link to="/login">
+              <div className={s.logout}>
                 {isLoggedIn && (
                   <Button color="primary" variant="text" sx={{ borderRadius: 6 }} onClick={logoutHandler}>
                     Log out
                   </Button>
                 )}
-              </Link>
+              </div>
             </Paper>
           </Grid>
         </Grid>
