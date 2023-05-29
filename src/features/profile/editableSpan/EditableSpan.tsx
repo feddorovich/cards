@@ -29,7 +29,7 @@ export const EditableSpan = function (props: EditableSpanPropsType) {
     <div>
       {editMode ? (
         <div>
-          <TextField value={title} onChange={changeTitle} autoFocus onBlur={activateViewMode} />
+          <TextField variant={"standard"} value={title} onChange={changeTitle} autoFocus onBlur={activateViewMode} />
         </div>
       ) : (
         <div className={s.name}>
