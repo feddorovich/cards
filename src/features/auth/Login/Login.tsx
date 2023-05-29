@@ -4,7 +4,7 @@ import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, Paper, TextFi
 import Button from "@mui/material/Button"
 import s from "./Login.module.css"
 import { useFormik } from "formik"
-import { authThunks } from "features/auth/auth.slice"
+import { authActions, authThunks } from "features/auth/auth.slice"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import IconButton from "@mui/material/IconButton"
 import VisibilityOff from "@mui/icons-material/VisibilityOff"
@@ -24,6 +24,10 @@ export const Login: FC = () => {
     event.preventDefault()
   }
   //
+
+  useEffect(() => {
+    dispatch(authActions.setRedirectPath({ redirectPath: "" }))
+  }, [])
 
   useEffect(() => {
     if (redirectPath) navigate(redirectPath)

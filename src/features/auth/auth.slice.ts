@@ -9,51 +9,32 @@ import {
   ResetResponseType,
 } from "features/auth/auth.api"
 import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk"
-import { appActions } from "app/app.slice"
 
-const register = createAppAsyncThunk<void, ArgRegisterType>("auth/register", async (arg, thunkAPI) => {
-  const { dispatch } = thunkAPI
-  dispatch(appActions.setIsLoading({ isLoading: true }))
+export const register = createAppAsyncThunk<void, ArgRegisterType>("auth/register", async (arg) => {
   await authApi.register(arg)
-  dispatch(appActions.setIsLoading({ isLoading: false }))
 })
-const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>("auth/login", async (arg, thunkAPI) => {
-  const { dispatch } = thunkAPI
-  dispatch(appActions.setIsLoading({ isLoading: true }))
+export const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>("auth/login", async (arg) => {
   const res = await authApi.login(arg)
-  dispatch(appActions.setIsLoading({ isLoading: false }))
   return { profile: res.data }
 })
-const logout = createAppAsyncThunk<void>("auth/logout", async (arg, thunkAPI) => {
-  const { dispatch } = thunkAPI
-  dispatch(appActions.setIsLoading({ isLoading: true }))
+export const logout = createAppAsyncThunk<void>("auth/logout", async () => {
   await authApi.logout()
-  dispatch(appActions.setIsLoading({ isLoading: false }))
 })
-const reset = createAppAsyncThunk<ResetResponseType, string>("auth/reset", async (email, thunkAPI) => {
-  const { dispatch } = thunkAPI
-  dispatch(appActions.setIsLoading({ isLoading: true }))
+export const reset = createAppAsyncThunk<ResetResponseType, string>("auth/reset", async (email) => {
   const res = await authApi.resetPassword(email)
-  dispatch(appActions.setIsLoading({ isLoading: false }))
   return res.data
 })
-const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswordType>(
+export const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswordType>(
   "auth/setNewPassword",
-  async (arg, thunkAPI) => {
-    const { dispatch } = thunkAPI
-    dispatch(appActions.setIsLoading({ isLoading: true }))
+  async (arg) => {
     const res = await authApi.setNewPassword(arg)
-    dispatch(appActions.setIsLoading({ isLoading: false }))
     return res.data
   }
 )
-const changeProfileName = createAppAsyncThunk<{ updatedUser: ProfileType }, string>(
+export const changeProfileName = createAppAsyncThunk<{ updatedUser: ProfileType }, string>(
   "auth/changeProfileName",
-  async (name, thunkAPI) => {
-    const { dispatch } = thunkAPI
-    dispatch(appActions.setIsLoading({ isLoading: true }))
+  async (name) => {
     const res = await authApi.changeProfileData({ name })
-    dispatch(appActions.setIsLoading({ isLoading: false }))
     return { updatedUser: res.data.updatedUser }
   }
 )
