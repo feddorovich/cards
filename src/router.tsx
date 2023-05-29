@@ -10,6 +10,27 @@ import { Profile } from "features/profile/Profile"
 import React from "react"
 
 export const router = createBrowserRouter([
+  // {
+  //   path: "/",
+  //   element: <Layout />,
+  //   children: [
+  //     {
+  //       index: true,
+  //       element: <App />,
+  //     },
+  //     {
+  //       path: '/login',
+  //       element: <Layout/>,
+  //       children: [
+  //         {
+  //           index: true,
+  //           element: <Login/>
+  //         },
+  //       ]
+  //     },
+  //   ],
+  // },
+
   {
     path: "/",
     element: (
@@ -17,6 +38,7 @@ export const router = createBrowserRouter([
         <App />
       </Layout>
     ),
+    children: [],
   },
   {
     path: "/login",

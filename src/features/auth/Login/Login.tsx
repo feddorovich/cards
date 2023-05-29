@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "app/hooks"
-import React, { FC, useEffect } from "react"
+import React, { FC, useEffect, MouseEvent } from "react"
 import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, Paper, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
 import s from "./Login.module.css"
@@ -20,18 +20,18 @@ export const Login: FC = () => {
   // see password
   const [showPassword, setShowPassword] = React.useState(false)
   const handleClickShowPassword = () => setShowPassword((show) => !show)
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
   }
   //
 
   useEffect(() => {
     dispatch(authActions.setRedirectPath({ redirectPath: "" }))
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     if (redirectPath) navigate(redirectPath)
-  }, [redirectPath])
+  }, [navigate, redirectPath])
 
   const formik = useFormik({
     initialValues: {

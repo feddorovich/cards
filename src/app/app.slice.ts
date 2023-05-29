@@ -1,22 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk"
 import { authApi, ProfileType } from "features/auth/auth.api"
-import {
-  authActions,
-  changeProfileName,
-  login,
-  logout,
-  register,
-  reset,
-  setNewPassword,
-} from "features/auth/auth.slice"
+import { changeProfileName, login, logout, register, reset, setNewPassword } from "features/auth/auth.slice"
 
-const initialize = createAppAsyncThunk<{ profile: ProfileType }>("auth/me", async (arg, thunkAPI) => {
-  const { dispatch } = thunkAPI
-
+export const initialize = createAppAsyncThunk<{ profile: ProfileType }>("auth/me", async () => {
   const res = await authApi.me()
-  dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }))
-  dispatch(authActions.setProfile({ profile: res.data }))
   return { profile: res.data }
 })
 
@@ -36,6 +24,9 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(initialize.pending, (state) => {
+        state.isAppInitialized = false
+      })
       .addCase(initialize.fulfilled, (state) => {
         state.isAppInitialized = true
       })
@@ -96,6 +87,7 @@ const slice = createSlice({
       .addCase(changeProfileName.rejected, (state) => {
         state.isLoading = false
       })
+    //.addMatcher()
   },
 })
 

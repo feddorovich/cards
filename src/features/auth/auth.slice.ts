@@ -9,6 +9,7 @@ import {
   ResetResponseType,
 } from "features/auth/auth.api"
 import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk"
+import { initialize } from "app/app.slice"
 
 export const register = createAppAsyncThunk<void, ArgRegisterType>("auth/register", async (arg) => {
   await authApi.register(arg)
@@ -33,9 +34,17 @@ export const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNe
 )
 export const changeProfileName = createAppAsyncThunk<{ updatedUser: ProfileType }, string>(
   "auth/changeProfileName",
-  async (name) => {
-    const res = await authApi.changeProfileData({ name })
-    return { updatedUser: res.data.updatedUser }
+  async (name, { rejectWithValue }) => {
+    // dispatch(setLoad(true))
+    try {
+      const res = await authApi.changeProfileData({ name })
+      return { updatedUser: res.data.updatedUser }
+    } catch (e: any) {
+      const error = e.response ? e.response.data.error : e.message + ", more details in the console"
+      return rejectWithValue(error)
+    } finally {
+      // dispatch(setLoad(false))
+    }
   }
 )
 
@@ -96,10 +105,14 @@ const slice = createSlice({
       })
       .addCase(changeProfileName.fulfilled, (state, action) => {
         state.profile = action.payload.updatedUser
-        // alert("Change name success")
+        // Добавить уведомление о смене имени
       })
       .addCase(changeProfileName.rejected, () => {
         alert("Change name error")
+      })
+      .addCase(initialize.fulfilled, (state, action) => {
+        state.isLoggedIn = true
+        state.profile = action.payload.profile
       })
   },
 })
