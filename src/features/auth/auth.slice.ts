@@ -11,11 +11,17 @@ import {
 import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk"
 import { appActions } from "app/app.slice"
 
-const register = createAppAsyncThunk<void, ArgRegisterType>("auth/register", async (arg: ArgRegisterType) => {
+const register = createAppAsyncThunk<void, ArgRegisterType>("auth/register", async (arg, thunkAPI) => {
+  const { dispatch } = thunkAPI
+  dispatch(appActions.setIsLoading({ isLoading: true }))
   await authApi.register(arg)
+  dispatch(appActions.setIsLoading({ isLoading: false }))
 })
-const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>("auth/login", async (arg) => {
+const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>("auth/login", async (arg, thunkAPI) => {
+  const { dispatch } = thunkAPI
+  dispatch(appActions.setIsLoading({ isLoading: true }))
   const res = await authApi.login(arg)
+  dispatch(appActions.setIsLoading({ isLoading: false }))
   return { profile: res.data }
 })
 const logout = createAppAsyncThunk<void>("auth/logout", async (arg, thunkAPI) => {
@@ -24,14 +30,20 @@ const logout = createAppAsyncThunk<void>("auth/logout", async (arg, thunkAPI) =>
   await authApi.logout()
   dispatch(appActions.setIsLoading({ isLoading: false }))
 })
-const reset = createAppAsyncThunk<ResetResponseType, string>("auth/reset", async (email) => {
+const reset = createAppAsyncThunk<ResetResponseType, string>("auth/reset", async (email, thunkAPI) => {
+  const { dispatch } = thunkAPI
+  dispatch(appActions.setIsLoading({ isLoading: true }))
   const res = await authApi.resetPassword(email)
+  dispatch(appActions.setIsLoading({ isLoading: false }))
   return res.data
 })
 const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswordType>(
   "auth/setNewPassword",
   async (arg, thunkAPI) => {
+    const { dispatch } = thunkAPI
+    dispatch(appActions.setIsLoading({ isLoading: true }))
     const res = await authApi.setNewPassword(arg)
+    dispatch(appActions.setIsLoading({ isLoading: false }))
     return res.data
   }
 )
@@ -60,6 +72,9 @@ const slice = createSlice({
     setIsLoggedIn: (state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
       state.isLoggedIn = action.payload.isLoggedIn
     },
+    setRedirectPath: (state, action: PayloadAction<{ redirectPath: string }>) => {
+      state.redirectPath = action.payload.redirectPath
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -67,7 +82,6 @@ const slice = createSlice({
         state.profile = action.payload.profile
         state.isLoggedIn = true
         state.redirectPath = "/"
-        alert("Successful login")
       })
       .addCase(login.rejected, () => {
         alert("Error sign in")
@@ -79,8 +93,9 @@ const slice = createSlice({
       .addCase(logout.rejected, () => {
         alert("Error logout")
       })
-      .addCase(register.fulfilled, () => {
-        alert("Successful registration")
+      .addCase(register.fulfilled, (state) => {
+        state.redirectPath = "/login"
+        // Добавить уведомление об успешной регистрации
       })
       .addCase(register.rejected, (state, action) => {
         alert("Error registration")
@@ -93,7 +108,7 @@ const slice = createSlice({
       })
       .addCase(setNewPassword.fulfilled, (state, action) => {
         state.redirectPath = "/login"
-        alert("Password changed successfully")
+        // Добавить уведомление о смене пароля
       })
       .addCase(setNewPassword.rejected, () => {
         alert("Password changed problem")

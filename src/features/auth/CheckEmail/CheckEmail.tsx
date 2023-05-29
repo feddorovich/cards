@@ -1,16 +1,24 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { Grid, Paper } from "@mui/material"
 import Button from "@mui/material/Button"
 import s from "./CheckEmail.module.css"
-import { Link, Navigate } from "react-router-dom"
+import { Navigate, NavLink } from "react-router-dom"
 import checkEmail from "assets/image/checkEmail.png"
-import { useAppSelector } from "app/hooks"
+import { useAppDispatch, useAppSelector } from "app/hooks"
+import { authActions } from "features/auth/auth.slice"
 
 export const CheckEmail: FC = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(authActions.setRedirectPath({ redirectPath: "" }))
+  }, [])
+
   if (isLoggedIn) {
     return <Navigate to="/" />
   }
+
   return (
     <div className={s.wrapper}>
       <div className={s.checkEmail}>
@@ -22,11 +30,11 @@ export const CheckEmail: FC = () => {
                 <img src={checkEmail} alt="email image" />
               </div>
               <div className={s.text}>We’ve sent an Email with instructions to example@mail.com</div>
-              <Link to="/login">
+              <NavLink to="/login">
                 <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
                   Back to login
                 </Button>
-              </Link>
+              </NavLink>
             </Paper>
           </Grid>
         </Grid>

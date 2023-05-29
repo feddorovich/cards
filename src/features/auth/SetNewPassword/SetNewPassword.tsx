@@ -11,6 +11,7 @@ export const SetNewPassword: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const redirectPath = useAppSelector((state) => state.auth.redirectPath)
+  const isLoading = useAppSelector((state) => state.app.isLoading)
 
   useEffect(() => {
     if (redirectPath) navigate(redirectPath)
@@ -68,7 +69,13 @@ export const SetNewPassword: FC = () => {
                         <p>Create new password and we will send you further instructions to email</p>
                       </div>
                     </div>
-                    <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
+                    <Button
+                      type={"submit"}
+                      variant="contained"
+                      color={"primary"}
+                      sx={{ borderRadius: 6 }}
+                      disabled={isLoading}
+                    >
                       Create new password
                     </Button>
                   </FormGroup>

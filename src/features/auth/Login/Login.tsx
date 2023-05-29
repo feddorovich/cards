@@ -12,6 +12,7 @@ export const Login: FC = () => {
   const navigate = useNavigate()
   const redirectPath = useAppSelector((state) => state.auth.redirectPath)
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+  const isLoading = useAppSelector((state) => state.app.isLoading)
 
   useEffect(() => {
     if (redirectPath) navigate(redirectPath)
@@ -96,7 +97,13 @@ export const Login: FC = () => {
                     <div className={s.forgotPassword}>
                       <Link to="/password-reset">Forgot Password?</Link>
                     </div>
-                    <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
+                    <Button
+                      type={"submit"}
+                      variant="contained"
+                      color={"primary"}
+                      sx={{ borderRadius: 6 }}
+                      disabled={isLoading}
+                    >
                       Sign in
                     </Button>
                     <div className={s.dha}>Don't have account?</div>

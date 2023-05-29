@@ -1,15 +1,22 @@
 import { useAppDispatch, useAppSelector } from "app/hooks"
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { FormControl, FormGroup, Grid, Paper, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
 import s from "./Register.module.css"
 import { useFormik } from "formik"
 import { authThunks } from "features/auth/auth.slice"
-import { Link, Navigate } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 
 export const Register: FC = () => {
   const dispatch = useAppDispatch()
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+  const isLoading = useAppSelector((state) => state.app.isLoading)
+  const navigate = useNavigate()
+  const redirectPath = useAppSelector((state) => state.auth.redirectPath)
+
+  useEffect(() => {
+    if (redirectPath) navigate(redirectPath)
+  }, [redirectPath])
 
   const formik = useFormik({
     initialValues: {
@@ -102,7 +109,13 @@ export const Register: FC = () => {
                         <div className={s.confirmPasswordError}>{formik.errors.confirmPassword}</div>
                       ) : null}
                     </div>
-                    <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
+                    <Button
+                      type={"submit"}
+                      variant="contained"
+                      color={"primary"}
+                      sx={{ borderRadius: 6 }}
+                      disabled={isLoading}
+                    >
                       Sign up
                     </Button>
                     <div className={s.dha}>Already have an account?</div>

@@ -12,6 +12,7 @@ export const PasswordReset: FC = () => {
   const navigate = useNavigate()
   const redirectPath = useAppSelector((state) => state.auth.redirectPath)
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+  const isLoading = useAppSelector((state) => state.app.isLoading)
 
   useEffect(() => {
     if (redirectPath) navigate(redirectPath)
@@ -70,8 +71,14 @@ export const PasswordReset: FC = () => {
                         <p>further instructions </p>
                       </div>
                     </div>
-                    <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
-                      Sign in
+                    <Button
+                      type={"submit"}
+                      variant="contained"
+                      color={"primary"}
+                      sx={{ borderRadius: 6 }}
+                      disabled={isLoading}
+                    >
+                      Send Instructions
                     </Button>
                     <div className={s.dha}>Did you remember your password?</div>
                     <div className={s.loginLink}>
