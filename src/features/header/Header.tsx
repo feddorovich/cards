@@ -5,10 +5,15 @@ import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
 import { useAppSelector } from "app/hooks"
+import { Link } from "react-router-dom"
 
 export const Header = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
   const name = useAppSelector((state) => state.auth.profile?.name)
+  // const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   e.preventDefault()
+  //   window.location.href = "/profile"
+  // }
 
   return (
     <div>
@@ -21,8 +26,8 @@ export const Header = () => {
             {isLoggedIn && (
               <Button color="primary" variant="outlined" sx={{ borderRadius: 6 }}>
                 {name}
-                {/*<Link to="/profile">132</Link>*/}
               </Button>
+              // <Link to="/register">Sing Up</Link>
             )}
           </Toolbar>
         </AppBar>
