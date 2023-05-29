@@ -15,6 +15,10 @@ export const Profile: FC = () => {
   const isAppInitialized = useAppSelector((state) => state.app.isAppInitialized)
   const dispatch = useAppDispatch()
 
+  const changeProfileNameHandler = () => {
+    dispatch(authThunks.changeProfileName("New name"))
+  }
+
   const logoutHandler = () => {
     dispatch(authThunks.logout())
   }
@@ -43,6 +47,9 @@ export const Profile: FC = () => {
               </div>
               <div className={s.name}>{name}</div>
               <div className={s.email}>{email}</div>
+              <Button color="primary" variant="text" sx={{ borderRadius: 6 }} onClick={changeProfileNameHandler}>
+                ChangeName
+              </Button>
               <Link to="/login">
                 {isLoggedIn && (
                   <Button color="primary" variant="text" sx={{ borderRadius: 6 }} onClick={logoutHandler}>

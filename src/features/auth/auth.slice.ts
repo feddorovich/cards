@@ -31,19 +31,13 @@ const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswo
     return res.data
   }
 )
-// const me = createAppAsyncThunk<{ profile: ProfileType }>("auth/me", async () => {
-//   const res = await authApi.me()
-//   return { profile: res.data }
-// })
-
-// const login = createAsyncThunk("auth/login", (arg: ArgLoginType, thunkAPI) => {
-//   const { dispatch } = thunkAPI
-//   return authApi.login(arg).then((res) => {
-//     console.log("login:", res.data)
-//     // dispatch(authActions.setProfile({ profile: res.data }))
-//     return { profile: res.data }
-//   })
-// })
+const changeProfileName = createAppAsyncThunk<{ profile: ProfileType }, string>(
+  "auth/changeProfileName",
+  async (name) => {
+    const res = await authApi.changeProfileData({ name })
+    return { profile: res.data }
+  }
+)
 
 const slice = createSlice({
   name: "auth",
@@ -95,9 +89,16 @@ const slice = createSlice({
       .addCase(setNewPassword.rejected, () => {
         alert("Password changed problem")
       })
+      .addCase(changeProfileName.fulfilled, (state, action) => {
+        state.profile = action.payload.profile
+        alert("Change name success")
+      })
+      .addCase(changeProfileName.rejected, () => {
+        alert("Change name error")
+      })
   },
 })
 
 export const authReducer = slice.reducer
 export const authActions = slice.actions
-export const authThunks = { register, login, reset, setNewPassword, logout }
+export const authThunks = { register, login, reset, setNewPassword, logout, changeProfileName }

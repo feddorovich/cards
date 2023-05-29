@@ -18,14 +18,14 @@ export const authApi = {
   me: () => {
     return instance.post("auth/me", {})
   },
-  register: (arg: ArgRegisterType) => {
-    return instance.post<RegisterResponseUserType>("auth/register", arg)
-  },
   login: (arg: ArgLoginType) => {
     return instance.post<ProfileType>("auth/login", arg)
   },
   logout: () => {
     return instance.delete("auth/me")
+  },
+  register: (arg: ArgRegisterType) => {
+    return instance.post<RegisterResponseUserType>("auth/register", arg)
   },
   resetPassword: (email: string) => {
     return instance.post("auth/forgot", {
@@ -36,6 +36,9 @@ export const authApi = {
   },
   setNewPassword: (arg: ArgNewPasswordType) => {
     return instance.post("auth/set-new-password", arg)
+  },
+  changeProfileData: (arg: ArgProfileDataType) => {
+    return instance.put("auth/me", arg)
   },
 }
 
@@ -74,4 +77,8 @@ export type ArgNewPasswordType = {
 }
 export type NewPasswordResponseType = {
   info: string
+}
+export type ArgProfileDataType = {
+  name?: string
+  avatar?: string
 }
