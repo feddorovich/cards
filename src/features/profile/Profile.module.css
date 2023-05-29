@@ -1,5 +1,21 @@
+.back {
+    display: inline-block;
+    margin: 25px 50px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #000000;
+    background-color: #FFFFFF;
+    padding: 5px 15px;
+    border-radius: 10px;
+}
+
+.back a{
+    color: #000000;
+    text-decoration: none;
+}
+
 .profile {
-    margin: 60px;
+    margin: 0;
 }
 
 .paper {

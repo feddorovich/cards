@@ -1,12 +1,11 @@
-import React, { ChangeEvent, FC, useState } from "react"
-import { CircularProgress, Grid, IconButton, Paper, TextField } from "@mui/material"
+import React, { FC } from "react"
+import { CircularProgress, Grid, Paper } from "@mui/material"
 import Button from "@mui/material/Button"
 import s from "./Profile.module.css"
-import { Navigate } from "react-router-dom"
+import { Navigate, NavLink } from "react-router-dom"
 import checkEmail from "assets/image/checkEmail.png"
 import { useAppDispatch, useAppSelector } from "app/hooks"
 import { authThunks } from "features/auth/auth.slice"
-import EditIcon from "@mui/icons-material/Edit"
 import { EditableSpan } from "features/profile/editableSpan/EditableSpan"
 
 export const Profile: FC = () => {
@@ -39,6 +38,9 @@ export const Profile: FC = () => {
 
   return (
     <div className={s.wrapper}>
+      <div className={s.back}>
+        <NavLink to={"/"}>← Back to Packs List</NavLink>
+      </div>
       <div className={s.profile}>
         <Grid container justifyContent={"center"}>
           <Grid item>
