@@ -1,6 +1,8 @@
 .input {
+    display: flex;
+    gap: 15px;
     margin: 15px 0 0;
-    width: 150px;
+    width: 250px;
 }
 
 .input input {
@@ -20,7 +22,6 @@
     text-align: center;
     color: #000000;
     margin: 20px 0 0;
-    cursor: pointer;
 }
 
 .nameBtn {

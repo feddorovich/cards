@@ -3,6 +3,8 @@ import TextField from "@mui/material/TextField"
 import { IconButton } from "@mui/material"
 import s from "features/profile/editableSpan/EditableSpan.module.css"
 import EditIcon from "@mui/icons-material/Edit"
+import { useAppSelector } from "app/hooks"
+import Button from "@mui/material/Button"
 
 type EditableSpanPropsType = {
   value: string
@@ -10,6 +12,8 @@ type EditableSpanPropsType = {
 }
 
 export const EditableSpan = function (props: EditableSpanPropsType) {
+  const isLoading = useAppSelector((state) => state.app.isLoading)
+
   let [editMode, setEditMode] = useState(false)
   let [title, setTitle] = useState(props.value)
 
@@ -30,13 +34,19 @@ export const EditableSpan = function (props: EditableSpanPropsType) {
       {editMode ? (
         <div className={s.input}>
           <TextField variant={"standard"} value={title} onChange={changeTitle} autoFocus onBlur={activateViewMode} />
+          <Button variant="outlined">Save</Button>
         </div>
       ) : (
         <div className={s.name}>
-          <span className={s.nameText} onClick={activateEditMode}>
-            {props.value}
-          </span>
-          <IconButton edge="start" color="inherit" aria-label="menu" onClick={activateEditMode} className={s.nameBtn}>
+          <span className={s.nameText}>{props.value}</span>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={activateEditMode}
+            className={s.nameBtn}
+            disabled={isLoading}
+          >
             <EditIcon />
           </IconButton>
         </div>
