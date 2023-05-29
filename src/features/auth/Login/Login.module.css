@@ -44,6 +44,17 @@
     position: relative;
 }
 
+.passwordSeeWrapper {
+    position: relative;
+}
+
+.passwordSeeWrapper button{
+    margin: 0;
+    position: absolute;
+    bottom: 7px;
+    right: -5px;
+}
+
 .errorPassword {
     color: #d33131;
     position: absolute;

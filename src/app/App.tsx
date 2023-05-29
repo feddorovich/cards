@@ -21,7 +21,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div style={{ margin: "50px" }}>
       <div>APP</div>
     </div>
   )

@@ -1,17 +1,28 @@
 import { useAppDispatch, useAppSelector } from "app/hooks"
-import { FC, useEffect } from "react"
+import React, { FC, useEffect } from "react"
 import { FormControl, FormGroup, Grid, Paper, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
 import s from "./SetNewPassword.module.css"
 import { useFormik } from "formik"
 import { authThunks } from "features/auth/auth.slice"
 import { useNavigate, useParams } from "react-router-dom"
+import IconButton from "@mui/material/IconButton"
+import VisibilityOff from "@mui/icons-material/VisibilityOff"
+import Visibility from "@mui/icons-material/Visibility"
 
 export const SetNewPassword: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const redirectPath = useAppSelector((state) => state.auth.redirectPath)
   const isLoading = useAppSelector((state) => state.app.isLoading)
+
+  // see password
+  const [showPassword, setShowPassword] = React.useState(false)
+  const handleClickShowPassword = () => setShowPassword((show) => !show)
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+  }
+  //
 
   useEffect(() => {
     if (redirectPath) navigate(redirectPath)
@@ -54,7 +65,7 @@ export const SetNewPassword: FC = () => {
                   <FormGroup>
                     <div className={s.email}>
                       <TextField
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         variant="standard"
                         label="Password"
                         margin="normal"
@@ -63,6 +74,15 @@ export const SetNewPassword: FC = () => {
                         // helperText={formik.errors.email}
                         {...formik.getFieldProps("password")}
                       />
+                      <div className={s.passwordSeeWrapper}>
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </div>
                       {formik.touched.password && formik.errors.password ? (
                         <div className={s.errorEmail}>{formik.errors.password}</div>
                       ) : null}

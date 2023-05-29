@@ -6,6 +6,9 @@ import s from "./Register.module.css"
 import { useFormik } from "formik"
 import { authThunks } from "features/auth/auth.slice"
 import { Link, Navigate, useNavigate } from "react-router-dom"
+import IconButton from "@mui/material/IconButton"
+import VisibilityOff from "@mui/icons-material/VisibilityOff"
+import Visibility from "@mui/icons-material/Visibility"
 
 export const Register: FC = () => {
   const dispatch = useAppDispatch()
@@ -13,6 +16,16 @@ export const Register: FC = () => {
   const isLoading = useAppSelector((state) => state.app.isLoading)
   const navigate = useNavigate()
   const redirectPath = useAppSelector((state) => state.auth.redirectPath)
+
+  // see password
+  const [showPassword, setShowPassword] = React.useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false)
+  const handleClickShowPassword = () => setShowPassword((show) => !show)
+  const handleClickConfirmShowPassword = () => setShowConfirmPassword((show) => !show)
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+  }
+  //
 
   useEffect(() => {
     if (redirectPath) navigate(redirectPath)
@@ -83,7 +96,7 @@ export const Register: FC = () => {
                     </div>
                     <div className={s.password}>
                       <TextField
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         variant="standard"
                         label="Password"
                         margin="normal"
@@ -91,13 +104,22 @@ export const Register: FC = () => {
                         // helperText={formik.errors.password}
                         {...formik.getFieldProps("password")}
                       />
+                      <div className={s.passwordSeeWrapper}>
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </div>
                       {formik.touched.password && formik.errors.password ? (
                         <div className={s.errorPassword}>{formik.errors.password}</div>
                       ) : null}
                     </div>
                     <div className={s.confirmPassword}>
                       <TextField
-                        type="password"
+                        type={showConfirmPassword ? "text" : "password"}
                         variant="standard"
                         label="Сonfirm password"
                         margin="normal"
@@ -105,6 +127,15 @@ export const Register: FC = () => {
                         // helperText={formik.errors.password}
                         {...formik.getFieldProps("confirmPassword")}
                       />
+                      <div className={s.passwordSeeWrapper}>
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickConfirmShowPassword}
+                          onMouseDown={handleClickConfirmShowPassword}
+                        >
+                          {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </div>
                       {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
                         <div className={s.confirmPasswordError}>{formik.errors.confirmPassword}</div>
                       ) : null}
