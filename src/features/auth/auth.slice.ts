@@ -9,9 +9,9 @@ import {
   ResetResponseType,
 } from "features/auth/auth.api"
 import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk"
-import { appActions, initialize } from "app/app.slice"
+import { appActions } from "app/app.slice"
 
-export const register = createAppAsyncThunk<void, ArgRegisterType>(
+const register = createAppAsyncThunk<void, ArgRegisterType>(
   "auth/register",
   async (arg, { dispatch, rejectWithValue }) => {
     dispatch(appActions.setIsLoading({ isLoading: true }))
@@ -25,7 +25,7 @@ export const register = createAppAsyncThunk<void, ArgRegisterType>(
     }
   }
 )
-export const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>(
+const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>(
   "auth/login",
   async (arg, { dispatch, rejectWithValue }) => {
     dispatch(appActions.setIsLoading({ isLoading: true }))
@@ -40,7 +40,7 @@ export const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>
     }
   }
 )
-export const logout = createAppAsyncThunk<void>("auth/logout", async (_, { dispatch, rejectWithValue }) => {
+const logout = createAppAsyncThunk<void>("auth/logout", async (_, { dispatch, rejectWithValue }) => {
   dispatch(appActions.setIsLoading({ isLoading: true }))
   try {
     await authApi.logout()
@@ -51,7 +51,7 @@ export const logout = createAppAsyncThunk<void>("auth/logout", async (_, { dispa
     dispatch(appActions.setIsLoading({ isLoading: false }))
   }
 })
-export const reset = createAppAsyncThunk<ResetResponseType, string>(
+const reset = createAppAsyncThunk<ResetResponseType, string>(
   "auth/reset",
   async (email, { dispatch, rejectWithValue }) => {
     dispatch(appActions.setIsLoading({ isLoading: true }))
@@ -66,7 +66,7 @@ export const reset = createAppAsyncThunk<ResetResponseType, string>(
     }
   }
 )
-export const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswordType>(
+const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswordType>(
   "auth/setNewPassword",
   async (arg, { dispatch, rejectWithValue }) => {
     dispatch(appActions.setIsLoading({ isLoading: true }))
@@ -81,7 +81,7 @@ export const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNe
     }
   }
 )
-export const changeProfileName = createAppAsyncThunk<{ updatedUser: ProfileType }, string>(
+const changeProfileName = createAppAsyncThunk<{ updatedUser: ProfileType }, string>(
   "auth/changeProfileName",
   async (name, { dispatch, rejectWithValue }) => {
     dispatch(appActions.setIsLoading({ isLoading: true }))
@@ -158,10 +158,6 @@ const slice = createSlice({
       })
       .addCase(changeProfileName.rejected, (state, action) => {
         alert(action.payload)
-      })
-      .addCase(initialize.fulfilled, (state, action) => {
-        state.isLoggedIn = true
-        state.profile = action.payload.profile
       })
   },
 })
