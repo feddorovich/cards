@@ -9,33 +9,82 @@ import {
   ResetResponseType,
 } from "features/auth/auth.api"
 import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk"
-import { initialize } from "app/app.slice"
+import { appActions, initialize } from "app/app.slice"
 
-export const register = createAppAsyncThunk<void, ArgRegisterType>("auth/register", async (arg) => {
-  await authApi.register(arg)
+export const register = createAppAsyncThunk<void, ArgRegisterType>(
+  "auth/register",
+  async (arg, { dispatch, rejectWithValue }) => {
+    dispatch(appActions.setIsLoading({ isLoading: true }))
+    try {
+      await authApi.register(arg)
+    } catch (e: any) {
+      const error = e.response ? e.response.data.error : e.message + ", more details in the console"
+      return rejectWithValue(error)
+    } finally {
+      dispatch(appActions.setIsLoading({ isLoading: false }))
+    }
+  }
+)
+export const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>(
+  "auth/login",
+  async (arg, { dispatch, rejectWithValue }) => {
+    dispatch(appActions.setIsLoading({ isLoading: true }))
+    try {
+      const res = await authApi.login(arg)
+      return { profile: res.data }
+    } catch (e: any) {
+      const error = e.response ? e.response.data.error : e.message + ", more details in the console"
+      return rejectWithValue(error)
+    } finally {
+      dispatch(appActions.setIsLoading({ isLoading: false }))
+    }
+  }
+)
+export const logout = createAppAsyncThunk<void>("auth/logout", async (_, { dispatch, rejectWithValue }) => {
+  dispatch(appActions.setIsLoading({ isLoading: true }))
+  try {
+    await authApi.logout()
+  } catch (e: any) {
+    const error = e.response ? e.response.data.error : e.message + ", more details in the console"
+    return rejectWithValue(error)
+  } finally {
+    dispatch(appActions.setIsLoading({ isLoading: false }))
+  }
 })
-export const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>("auth/login", async (arg) => {
-  const res = await authApi.login(arg)
-  return { profile: res.data }
-})
-export const logout = createAppAsyncThunk<void>("auth/logout", async () => {
-  await authApi.logout()
-})
-export const reset = createAppAsyncThunk<ResetResponseType, string>("auth/reset", async (email) => {
-  const res = await authApi.resetPassword(email)
-  return res.data
-})
+export const reset = createAppAsyncThunk<ResetResponseType, string>(
+  "auth/reset",
+  async (email, { dispatch, rejectWithValue }) => {
+    dispatch(appActions.setIsLoading({ isLoading: true }))
+    try {
+      const res = await authApi.resetPassword(email)
+      return res.data
+    } catch (e: any) {
+      const error = e.response ? e.response.data.error : e.message + ", more details in the console"
+      return rejectWithValue(error)
+    } finally {
+      dispatch(appActions.setIsLoading({ isLoading: false }))
+    }
+  }
+)
 export const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswordType>(
   "auth/setNewPassword",
-  async (arg) => {
-    const res = await authApi.setNewPassword(arg)
-    return res.data
+  async (arg, { dispatch, rejectWithValue }) => {
+    dispatch(appActions.setIsLoading({ isLoading: true }))
+    try {
+      const res = await authApi.setNewPassword(arg)
+      return res.data
+    } catch (e: any) {
+      const error = e.response ? e.response.data.error : e.message + ", more details in the console"
+      return rejectWithValue(error)
+    } finally {
+      dispatch(appActions.setIsLoading({ isLoading: false }))
+    }
   }
 )
 export const changeProfileName = createAppAsyncThunk<{ updatedUser: ProfileType }, string>(
   "auth/changeProfileName",
-  async (name, { rejectWithValue }) => {
-    // dispatch(setLoad(true))
+  async (name, { dispatch, rejectWithValue }) => {
+    dispatch(appActions.setIsLoading({ isLoading: true }))
     try {
       const res = await authApi.changeProfileData({ name })
       return { updatedUser: res.data.updatedUser }
@@ -43,7 +92,7 @@ export const changeProfileName = createAppAsyncThunk<{ updatedUser: ProfileType 
       const error = e.response ? e.response.data.error : e.message + ", more details in the console"
       return rejectWithValue(error)
     } finally {
-      // dispatch(setLoad(false))
+      dispatch(appActions.setIsLoading({ isLoading: false }))
     }
   }
 )
@@ -73,42 +122,42 @@ const slice = createSlice({
         state.isLoggedIn = true
         state.redirectPath = "/"
       })
-      .addCase(login.rejected, () => {
-        alert("Error sign in")
+      .addCase(login.rejected, (state, action) => {
+        alert(action.payload)
       })
       .addCase(logout.fulfilled, (state) => {
         state.redirectPath = "/login"
         state.isLoggedIn = false
       })
-      .addCase(logout.rejected, () => {
-        alert("Error logout")
+      .addCase(logout.rejected, (state, action) => {
+        alert(action.payload)
       })
       .addCase(register.fulfilled, (state) => {
         state.redirectPath = "/login"
         // Добавить уведомление об успешной регистрации
       })
       .addCase(register.rejected, (state, action) => {
-        alert("Error registration")
+        alert(action.payload)
       })
       .addCase(reset.fulfilled, (state, action) => {
         state.redirectPath = "/check-email"
       })
-      .addCase(reset.rejected, () => {
-        alert("Invalid email")
+      .addCase(reset.rejected, (state, action) => {
+        alert(action.payload)
       })
-      .addCase(setNewPassword.fulfilled, (state, action) => {
+      .addCase(setNewPassword.fulfilled, (state) => {
         state.redirectPath = "/login"
         // Добавить уведомление о смене пароля
       })
-      .addCase(setNewPassword.rejected, () => {
-        alert("Password changed problem")
+      .addCase(setNewPassword.rejected, (state, action) => {
+        alert(action.payload)
       })
       .addCase(changeProfileName.fulfilled, (state, action) => {
         state.profile = action.payload.updatedUser
         // Добавить уведомление о смене имени
       })
-      .addCase(changeProfileName.rejected, () => {
-        alert("Change name error")
+      .addCase(changeProfileName.rejected, (state, action) => {
+        alert(action.payload)
       })
       .addCase(initialize.fulfilled, (state, action) => {
         state.isLoggedIn = true
