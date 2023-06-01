@@ -10,6 +10,7 @@ import {
 } from "features/auth/auth.api"
 import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk"
 import { appActions } from "app/app.slice"
+import { AxiosError, isAxiosError } from "axios"
 
 const register = createAppAsyncThunk<void, ArgRegisterType>(
   "auth/register",
@@ -88,10 +89,15 @@ const changeProfileName = createAppAsyncThunk<{ updatedUser: ProfileType }, stri
     try {
       const res = await authApi.changeProfileData({ name })
       return { updatedUser: res.data.updatedUser }
-    } catch (e: any) {
-      const error = e.response ? e.response.data.error : e.message
-      dispatch(appActions.setError({ error }))
-      return rejectWithValue(error)
+    } catch (e) {
+      const err = e as Error | AxiosError<{ error: string }>
+      if (isAxiosError(err)) {
+        const error = err.response ? err.response.data.error : err.message
+        dispatch(appActions.setError({ error }))
+      } else {
+        dispatch(appActions.setError({ error: `Native error ${err.message}` }))
+      }
+      return rejectWithValue(null)
     } finally {
       dispatch(appActions.setIsLoading({ isLoading: false }))
     }

@@ -11,13 +11,9 @@ export const GlobalError = () => {
     toast.error(error)
   }
 
-  // Данный код необходим для того, чтобы занулять ошибку в стейте
-  // после того как ошибка установилась.
   useEffect(() => {
     if (error !== null) {
-      setTimeout(() => {
-        dispatch(appActions.setError({ error: null }))
-      }, 1000)
+      dispatch(appActions.setError({ error: null }))
     }
   }, [error])
 

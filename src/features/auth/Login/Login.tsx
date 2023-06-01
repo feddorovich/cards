@@ -26,10 +26,6 @@ export const Login: FC = () => {
   //
 
   useEffect(() => {
-    dispatch(authActions.setRedirectPath({ redirectPath: "" }))
-  }, [dispatch])
-
-  useEffect(() => {
     if (redirectPath) navigate(redirectPath)
   }, [navigate, redirectPath])
 

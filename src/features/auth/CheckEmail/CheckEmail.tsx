@@ -1,19 +1,13 @@
-import React, { FC, useEffect } from "react"
+import React, { FC } from "react"
 import { Grid, Paper } from "@mui/material"
 import Button from "@mui/material/Button"
 import s from "./CheckEmail.module.css"
 import { Navigate, NavLink } from "react-router-dom"
 import checkEmail from "assets/image/checkEmail.png"
-import { useAppDispatch, useAppSelector } from "app/hooks"
-import { authActions } from "features/auth/auth.slice"
+import { useAppSelector } from "app/hooks"
 
 export const CheckEmail: FC = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    dispatch(authActions.setRedirectPath({ redirectPath: "" }))
-  }, [])
 
   if (isLoggedIn) {
     return <Navigate to="/" />
