@@ -12,7 +12,7 @@ export const initialize = createAppAsyncThunk<{ profile: ProfileType }>(
       dispatch(authActions.setProfile({ profile: res.data }))
       return { profile: res.data }
     } catch (e: any) {
-      const error = e.response ? e.response.data.error : e.message + ", more details in the console"
+      const error = e.response ? e.response.data.error : e.message
       return rejectWithValue(error)
     }
   }
@@ -30,6 +30,9 @@ const slice = createSlice({
   reducers: {
     setIsLoading: (state, action: PayloadAction<{ isLoading: boolean }>) => {
       state.isLoading = action.payload.isLoading
+    },
+    setError: (state, action: PayloadAction<{ error: string | null }>) => {
+      state.error = action.payload.error
     },
   },
   extraReducers: (builder) => {

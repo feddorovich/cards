@@ -18,7 +18,7 @@ const register = createAppAsyncThunk<void, ArgRegisterType>(
     try {
       await authApi.register(arg)
     } catch (e: any) {
-      const error = e.response ? e.response.data.error : e.message + ", more details in the console"
+      const error = e.response ? e.response.data.error : e.message
       return rejectWithValue(error)
     } finally {
       dispatch(appActions.setIsLoading({ isLoading: false }))
@@ -33,7 +33,7 @@ const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>(
       const res = await authApi.login(arg)
       return { profile: res.data }
     } catch (e: any) {
-      const error = e.response ? e.response.data.error : e.message + ", more details in the console"
+      const error = e.response ? e.response.data.error : e.message
       return rejectWithValue(error)
     } finally {
       dispatch(appActions.setIsLoading({ isLoading: false }))
@@ -45,7 +45,7 @@ const logout = createAppAsyncThunk<void>("auth/logout", async (_, { dispatch, re
   try {
     await authApi.logout()
   } catch (e: any) {
-    const error = e.response ? e.response.data.error : e.message + ", more details in the console"
+    const error = e.response ? e.response.data.error : e.message
     return rejectWithValue(error)
   } finally {
     dispatch(appActions.setIsLoading({ isLoading: false }))
@@ -59,7 +59,7 @@ const reset = createAppAsyncThunk<ResetResponseType, string>(
       const res = await authApi.resetPassword(email)
       return res.data
     } catch (e: any) {
-      const error = e.response ? e.response.data.error : e.message + ", more details in the console"
+      const error = e.response ? e.response.data.error : e.message
       return rejectWithValue(error)
     } finally {
       dispatch(appActions.setIsLoading({ isLoading: false }))
@@ -74,7 +74,7 @@ const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswo
       const res = await authApi.setNewPassword(arg)
       return res.data
     } catch (e: any) {
-      const error = e.response ? e.response.data.error : e.message + ", more details in the console"
+      const error = e.response ? e.response.data.error : e.message
       return rejectWithValue(error)
     } finally {
       dispatch(appActions.setIsLoading({ isLoading: false }))
@@ -89,7 +89,8 @@ const changeProfileName = createAppAsyncThunk<{ updatedUser: ProfileType }, stri
       const res = await authApi.changeProfileData({ name })
       return { updatedUser: res.data.updatedUser }
     } catch (e: any) {
-      const error = e.response ? e.response.data.error : e.message + ", more details in the console"
+      const error = e.response ? e.response.data.error : e.message
+      dispatch(appActions.setError({ error }))
       return rejectWithValue(error)
     } finally {
       dispatch(appActions.setIsLoading({ isLoading: false }))
@@ -157,7 +158,7 @@ const slice = createSlice({
         // Добавить уведомление о смене имени
       })
       .addCase(changeProfileName.rejected, (state, action) => {
-        alert(action.payload)
+        // alert(action.payload)
       })
   },
 })
