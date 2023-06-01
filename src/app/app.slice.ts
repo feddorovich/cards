@@ -49,6 +49,7 @@ const slice = createSlice({
       })
       .addMatcher(
         (action) => {
+          if (action.type === "auth/me/pending") return false
           return action.type.endsWith("/pending")
         },
         (state) => {
@@ -57,6 +58,7 @@ const slice = createSlice({
       )
       .addMatcher(
         (action) => {
+          if (action.type === "auth/me/rejected") return false
           return action.type.endsWith("/rejected")
         },
         (state, action) => {

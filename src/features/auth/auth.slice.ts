@@ -8,87 +8,60 @@ import {
   ProfileType,
   ResetResponseType,
 } from "features/auth/auth.api"
-import { appActions } from "app/app.slice"
 import { createAppAsyncThunk } from "common/utils"
 
-const register = createAppAsyncThunk<void, ArgRegisterType>(
-  "auth/register",
-  async (arg, { dispatch, rejectWithValue }) => {
-    dispatch(appActions.setIsLoading({ isLoading: true }))
-    try {
-      await authApi.register(arg)
-    } catch (e: any) {
-      const error = e.response ? e.response.data.error : e.message
-      return rejectWithValue(error)
-    } finally {
-      dispatch(appActions.setIsLoading({ isLoading: false }))
-    }
+const register = createAppAsyncThunk<void, ArgRegisterType>("auth/register", async (arg, { rejectWithValue }) => {
+  try {
+    await authApi.register(arg)
+  } catch (e) {
+    return rejectWithValue(e)
   }
-)
+})
 const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>(
   "auth/login",
-  async (arg, { dispatch, rejectWithValue }) => {
-    dispatch(appActions.setIsLoading({ isLoading: true }))
+  async (arg, { rejectWithValue }) => {
     try {
       const res = await authApi.login(arg)
       return { profile: res.data }
-    } catch (e: any) {
-      const error = e.response ? e.response.data.error : e.message
-      return rejectWithValue(error)
-    } finally {
-      dispatch(appActions.setIsLoading({ isLoading: false }))
+    } catch (e) {
+      return rejectWithValue(e)
     }
   }
 )
-const logout = createAppAsyncThunk<void>("auth/logout", async (_, { dispatch, rejectWithValue }) => {
-  dispatch(appActions.setIsLoading({ isLoading: true }))
+const logout = createAppAsyncThunk<void>("auth/logout", async (_, { rejectWithValue }) => {
   try {
     await authApi.logout()
-  } catch (e: any) {
-    const error = e.response ? e.response.data.error : e.message
-    return rejectWithValue(error)
-  } finally {
-    dispatch(appActions.setIsLoading({ isLoading: false }))
+  } catch (e) {
+    return rejectWithValue(e)
   }
 })
-const reset = createAppAsyncThunk<ResetResponseType, string>(
-  "auth/reset",
-  async (email, { dispatch, rejectWithValue }) => {
-    dispatch(appActions.setIsLoading({ isLoading: true }))
-    try {
-      const res = await authApi.resetPassword(email)
-      return res.data
-    } catch (e: any) {
-      const error = e.response ? e.response.data.error : e.message
-      return rejectWithValue(error)
-    } finally {
-      dispatch(appActions.setIsLoading({ isLoading: false }))
-    }
+const reset = createAppAsyncThunk<ResetResponseType, string>("auth/reset", async (email, { rejectWithValue }) => {
+  try {
+    const res = await authApi.resetPassword(email)
+    return res.data
+  } catch (e) {
+    return rejectWithValue(e)
   }
-)
+})
 const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswordType>(
   "auth/setNewPassword",
-  async (arg, { dispatch, rejectWithValue }) => {
-    dispatch(appActions.setIsLoading({ isLoading: true }))
+  async (arg, { rejectWithValue }) => {
     try {
       const res = await authApi.setNewPassword(arg)
       return res.data
-    } catch (e: any) {
-      const error = e.response ? e.response.data.error : e.message
-      return rejectWithValue(error)
-    } finally {
-      dispatch(appActions.setIsLoading({ isLoading: false }))
+    } catch (e) {
+      return rejectWithValue(e)
     }
   }
 )
 const changeProfileName = createAppAsyncThunk<{ updatedUser: ProfileType }, string>(
   "auth/changeProfileName",
-  async (name, thunkAPI) => {
+  async (name, { rejectWithValue }) => {
     try {
       const res = await authApi.changeProfileData({ name })
       return { updatedUser: res.data.updatedUser }
     } catch (e) {
-      return thunkAPI.rejectWithValue(e)
+      return rejectWithValue(e)
     }
     // dispatch(appActions.setIsLoading({ isLoading: true }))
     // try {
@@ -134,42 +107,24 @@ const slice = createSlice({
         state.isLoggedIn = true
         state.redirectPath = "/"
       })
-      .addCase(login.rejected, (state, action) => {
-        alert(action.payload)
-      })
       .addCase(logout.fulfilled, (state) => {
         state.redirectPath = "/login"
         state.isLoggedIn = false
-      })
-      .addCase(logout.rejected, (state, action) => {
-        alert(action.payload)
       })
       .addCase(register.fulfilled, (state) => {
         state.redirectPath = "/login"
         // Добавить уведомление об успешной регистрации
       })
-      .addCase(register.rejected, (state, action) => {
-        alert(action.payload)
-      })
       .addCase(reset.fulfilled, (state, action) => {
         state.redirectPath = "/check-email"
-      })
-      .addCase(reset.rejected, (state, action) => {
-        alert(action.payload)
       })
       .addCase(setNewPassword.fulfilled, (state) => {
         state.redirectPath = "/login"
         // Добавить уведомление о смене пароля
       })
-      .addCase(setNewPassword.rejected, (state, action) => {
-        alert(action.payload)
-      })
       .addCase(changeProfileName.fulfilled, (state, action) => {
         state.profile = action.payload.updatedUser
         // Добавить уведомление о смене имени
-      })
-      .addCase(changeProfileName.rejected, (state, action) => {
-        // alert(action.payload)
       })
   },
 })
