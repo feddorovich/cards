@@ -21,10 +21,3 @@ export const thunkTryCatch = async (thunkAPI: BaseThunkAPI<RootState, any, AppDi
     dispatch(appActions.setIsLoading({ isLoading: false }))
   }
 }
-
-// how to use
-// async (arg, thunkAPI) => {
-//   return thunkTryCatch(thunkAPI, async () => {
-//     await authApi.register(arg)
-//   })
-// }

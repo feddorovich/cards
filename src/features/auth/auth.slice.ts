@@ -9,7 +9,7 @@ import {
   ResetResponseType,
 } from "features/auth/auth.api"
 import { appActions } from "app/app.slice"
-import { createAppAsyncThunk, thunkTryCatch } from "common/utils"
+import { createAppAsyncThunk } from "common/utils"
 
 const register = createAppAsyncThunk<void, ArgRegisterType>(
   "auth/register",
@@ -84,10 +84,12 @@ const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswo
 const changeProfileName = createAppAsyncThunk<{ updatedUser: ProfileType }, string>(
   "auth/changeProfileName",
   async (name, thunkAPI) => {
-    return thunkTryCatch(thunkAPI, async () => {
+    try {
       const res = await authApi.changeProfileData({ name })
       return { updatedUser: res.data.updatedUser }
-    })
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e)
+    }
     // dispatch(appActions.setIsLoading({ isLoading: true }))
     // try {
     //   const res = await authApi.changeProfileData({ name })

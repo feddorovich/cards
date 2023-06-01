@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { authApi, ProfileType } from "features/auth/auth.api"
 import { authActions } from "features/auth/auth.slice"
 import { createAppAsyncThunk } from "common/utils"
+import { AxiosError, isAxiosError } from "axios"
 
 export const initialize = createAppAsyncThunk<{ profile: ProfileType }>(
   "auth/me",
@@ -46,6 +47,36 @@ const slice = createSlice({
       .addCase(initialize.rejected, (state) => {
         state.isAppInitialized = true
       })
+      .addMatcher(
+        (action) => {
+          return action.type.endsWith("/pending")
+        },
+        (state) => {
+          state.isLoading = true
+        }
+      )
+      .addMatcher(
+        (action) => {
+          return action.type.endsWith("/rejected")
+        },
+        (state, action) => {
+          const err = action.payload as Error | AxiosError<{ error: string }>
+          if (isAxiosError(err)) {
+            state.error = err.response ? err.response.data.error : err.message
+          } else {
+            state.error = `Native error ${err.message}`
+          }
+          state.isLoading = false
+        }
+      )
+      .addMatcher(
+        (action) => {
+          return action.type.endsWith("/fulfilled")
+        },
+        (state) => {
+          state.isLoading = false
+        }
+      )
   },
 })
 
