@@ -1,9 +1,9 @@
 import React, { FC, ReactNode, useEffect } from "react"
 import { Header } from "features/header/Header"
-import { useAppDispatch, useAppSelector } from "app/hooks"
 import { appThunks } from "app/app.slice"
 import s from "./Layout.module.css"
 import { authActions } from "features/auth/auth.slice"
+import { useAppDispatch, useAppSelector } from "common/hooks"
 
 type LayoutPropsType = {
   children: ReactNode
@@ -12,7 +12,6 @@ type LayoutPropsType = {
 export const Layout: FC<LayoutPropsType> = ({ children }) => {
   const redirectPath = useAppSelector((state) => state.auth.redirectPath)
   const dispatch = useAppDispatch()
-  console.log(redirectPath)
 
   useEffect(() => {
     dispatch(appThunks.initialize())

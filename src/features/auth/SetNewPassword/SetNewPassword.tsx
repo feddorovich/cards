@@ -1,4 +1,3 @@
-import { useAppDispatch, useAppSelector } from "app/hooks"
 import React, { FC, useEffect } from "react"
 import { FormControl, FormGroup, Grid, Paper, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
@@ -9,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import IconButton from "@mui/material/IconButton"
 import VisibilityOff from "@mui/icons-material/VisibilityOff"
 import Visibility from "@mui/icons-material/Visibility"
+import { useAppDispatch, useAppSelector } from "common/hooks"
 
 export const SetNewPassword: FC = () => {
   const dispatch = useAppDispatch()

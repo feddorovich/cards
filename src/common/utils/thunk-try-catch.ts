@@ -3,8 +3,9 @@ import { AppDispatch, RootState } from "app/store"
 import { appActions } from "app/app.slice"
 import { AxiosError, isAxiosError } from "axios"
 
-export const thunkTryCatch = async (thunkAPI: BaseThunkAPI<RootState, any, AppDispatch, null>, logic: Function) => {
+export const thunkTryCatch = async (thunkAPI: BaseThunkAPI<RootState, any, AppDispatch, unknown>, logic: Function) => {
   const { dispatch, rejectWithValue } = thunkAPI
+  dispatch(appActions.setIsLoading({ isLoading: true }))
   try {
     return await logic()
   } catch (e) {
@@ -16,12 +17,14 @@ export const thunkTryCatch = async (thunkAPI: BaseThunkAPI<RootState, any, AppDi
       dispatch(appActions.setError({ error: `Native error ${err.message}` }))
     }
     return rejectWithValue(null)
+  } finally {
+    dispatch(appActions.setIsLoading({ isLoading: false }))
   }
 }
 
 // how to use
 // async (arg, thunkAPI) => {
-//   await thunkTryCatch(thunkAPI, async () => {
+//   return thunkTryCatch(thunkAPI, async () => {
 //     await authApi.register(arg)
 //   })
 // }

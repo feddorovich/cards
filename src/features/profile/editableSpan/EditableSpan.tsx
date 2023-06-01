@@ -3,8 +3,8 @@ import TextField from "@mui/material/TextField"
 import { IconButton } from "@mui/material"
 import s from "features/profile/editableSpan/EditableSpan.module.css"
 import EditIcon from "@mui/icons-material/Edit"
-import { useAppSelector } from "app/hooks"
 import Button from "@mui/material/Button"
+import { useAppSelector } from "common/hooks"
 
 type EditableSpanPropsType = {
   value: string

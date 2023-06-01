@@ -1,14 +1,14 @@
-import { useAppDispatch, useAppSelector } from "app/hooks"
 import React, { FC, useEffect, MouseEvent } from "react"
 import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, Paper, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
 import s from "./Login.module.css"
 import { useFormik } from "formik"
-import { authActions, authThunks } from "features/auth/auth.slice"
+import { authThunks } from "features/auth/auth.slice"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import IconButton from "@mui/material/IconButton"
 import VisibilityOff from "@mui/icons-material/VisibilityOff"
 import Visibility from "@mui/icons-material/Visibility"
+import { useAppDispatch, useAppSelector } from "common/hooks"
 
 export const Login: FC = () => {
   const dispatch = useAppDispatch()

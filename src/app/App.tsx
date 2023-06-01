@@ -1,8 +1,8 @@
 import React from "react"
 import "app/App.css"
-import { useAppSelector } from "app/hooks"
 import { CircularProgress } from "@mui/material"
 import { Navigate } from "react-router-dom"
+import { useAppSelector } from "common/hooks"
 
 function App() {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)

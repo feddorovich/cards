@@ -11,6 +11,7 @@ import {
 import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk"
 import { appActions } from "app/app.slice"
 import { AxiosError, isAxiosError } from "axios"
+import { thunkTryCatch } from "common/utils/thunk-try-catch"
 
 const register = createAppAsyncThunk<void, ArgRegisterType>(
   "auth/register",
@@ -84,23 +85,27 @@ const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswo
 )
 const changeProfileName = createAppAsyncThunk<{ updatedUser: ProfileType }, string>(
   "auth/changeProfileName",
-  async (name, { dispatch, rejectWithValue }) => {
-    dispatch(appActions.setIsLoading({ isLoading: true }))
-    try {
+  async (name, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
       const res = await authApi.changeProfileData({ name })
       return { updatedUser: res.data.updatedUser }
-    } catch (e) {
-      const err = e as Error | AxiosError<{ error: string }>
-      if (isAxiosError(err)) {
-        const error = err.response ? err.response.data.error : err.message
-        dispatch(appActions.setError({ error }))
-      } else {
-        dispatch(appActions.setError({ error: `Native error ${err.message}` }))
-      }
-      return rejectWithValue(null)
-    } finally {
-      dispatch(appActions.setIsLoading({ isLoading: false }))
-    }
+    })
+    // dispatch(appActions.setIsLoading({ isLoading: true }))
+    // try {
+    //   const res = await authApi.changeProfileData({ name })
+    //   return { updatedUser: res.data.updatedUser }
+    // } catch (e) {
+    //   const err = e as Error | AxiosError<{ error: string }>
+    //   if (isAxiosError(err)) {
+    //     const error = err.response ? err.response.data.error : err.message
+    //     dispatch(appActions.setError({ error }))
+    //   } else {
+    //     dispatch(appActions.setError({ error: `Native error ${err.message}` }))
+    //   }
+    //   return rejectWithValue(null)
+    // } finally {
+    //   dispatch(appActions.setIsLoading({ isLoading: false }))
+    // }
   }
 )
 

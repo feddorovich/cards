@@ -4,7 +4,7 @@ import Button from "@mui/material/Button"
 import s from "./CheckEmail.module.css"
 import { Navigate, NavLink } from "react-router-dom"
 import checkEmail from "assets/image/checkEmail.png"
-import { useAppSelector } from "app/hooks"
+import { useAppSelector } from "common/hooks"
 
 export const CheckEmail: FC = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)

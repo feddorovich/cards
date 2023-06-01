@@ -1,4 +1,3 @@
-import { useAppDispatch, useAppSelector } from "app/hooks"
 import React, { FC, useEffect } from "react"
 import { FormControl, FormGroup, Grid, Paper, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
@@ -6,6 +5,7 @@ import s from "./PasswordReset.module.css"
 import { useFormik } from "formik"
 import { authThunks } from "features/auth/auth.slice"
 import { Link, Navigate, useNavigate } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "common/hooks"
 
 export const PasswordReset: FC = () => {
   const dispatch = useAppDispatch()

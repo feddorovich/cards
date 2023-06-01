@@ -1,7 +1,7 @@
 import { toast, ToastContainer } from "react-toastify"
-import { useAppDispatch, useAppSelector } from "app/hooks"
 import { useEffect } from "react"
 import { appActions } from "app/app.slice"
+import { useAppDispatch, useAppSelector } from "common/hooks"
 
 export const GlobalError = () => {
   const error = useAppSelector((state) => state.app.error)
@@ -11,6 +11,8 @@ export const GlobalError = () => {
     toast.error(error)
   }
 
+  // Данный код необходим для того, чтобы занулять ошибку в стейте
+  // после того как ошибка установилась.
   useEffect(() => {
     if (error !== null) {
       dispatch(appActions.setError({ error: null }))

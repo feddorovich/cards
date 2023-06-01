@@ -4,9 +4,9 @@ import Button from "@mui/material/Button"
 import s from "./Profile.module.css"
 import { Navigate, NavLink } from "react-router-dom"
 import checkEmail from "assets/image/checkEmail.png"
-import { useAppDispatch, useAppSelector } from "app/hooks"
 import { authThunks } from "features/auth/auth.slice"
 import { EditableSpan } from "features/profile/editableSpan/EditableSpan"
+import { useAppDispatch, useAppSelector } from "common/hooks"
 
 export const Profile: FC = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
