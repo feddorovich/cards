@@ -8,10 +8,8 @@ import {
   ProfileType,
   ResetResponseType,
 } from "features/auth/auth.api"
-import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk"
 import { appActions } from "app/app.slice"
-import { AxiosError, isAxiosError } from "axios"
-import { thunkTryCatch } from "common/utils/thunk-try-catch"
+import { createAppAsyncThunk, thunkTryCatch } from "common/utils"
 
 const register = createAppAsyncThunk<void, ArgRegisterType>(
   "auth/register",

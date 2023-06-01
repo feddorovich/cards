@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk"
 import { authApi, ProfileType } from "features/auth/auth.api"
 import { authActions } from "features/auth/auth.slice"
+import { createAppAsyncThunk } from "common/utils"
 
 export const initialize = createAppAsyncThunk<{ profile: ProfileType }>(
   "auth/me",
