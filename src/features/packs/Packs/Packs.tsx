@@ -2,7 +2,17 @@ import React, { FC, useEffect, useState } from "react"
 import s from "./Packs.module.css"
 import { useAppDispatch, useAppSelector } from "common/hooks"
 import { packsThunks } from "features/packs/packs.slice"
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material"
+import {
+  ButtonGroup,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+} from "@mui/material"
 import Button from "@mui/material/Button"
 import { useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
@@ -11,8 +21,9 @@ export const Packs: FC = () => {
   const dispatch = useAppDispatch()
   const cardPacks = useAppSelector((state) => state.packs.cardPacks.cardPacks)
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+  const id = useAppSelector((state) => (state.auth.profile ? state.auth.profile._id : ""))
   const [searchParams, setSearchParams] = useSearchParams()
-  // console.log(Object.fromEntries(searchParams))
+  console.log(id)
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -26,7 +37,7 @@ export const Packs: FC = () => {
     setOrderDirection(orderDirection === "asc" ? "desc" : "asc")
   }
 
-  // Debounce
+  // Debounce & Search
   let timerId: NodeJS.Timeout
   const changeSearchParams = (title: string) => {
     clearTimeout(timerId)
@@ -42,6 +53,17 @@ export const Packs: FC = () => {
     }, 1000)
   }
 
+  // Button switcher
+  const [isAllCardSwitch, setIsAllCardSwitch] = useState(false)
+  const switchMyCardHandler = () => {
+    dispatch(packsThunks.getPacks({ user_id: id }))
+    setIsAllCardSwitch(true)
+  }
+  const switchAllCardHandler = () => {
+    dispatch(packsThunks.getPacks({}))
+    setIsAllCardSwitch(false)
+  }
+
   return (
     <div>
       <div className={s.header}>
@@ -53,9 +75,19 @@ export const Packs: FC = () => {
       <div className={s.settings}>
         <div className={s.search}>
           <div>Search</div>
-          <Search onChange={changeSearchParams} value={""} />
+          <Search onChange={changeSearchParams} />
         </div>
-        <div className={s.show}>Show packs cards</div>
+        <div className={s.show}>
+          <div>Show packs cards</div>
+          <ButtonGroup>
+            <Button variant={isAllCardSwitch ? "contained" : "outlined"} onClick={switchMyCardHandler}>
+              My
+            </Button>
+            <Button variant={!isAllCardSwitch ? "contained" : "outlined"} onClick={switchAllCardHandler}>
+              All
+            </Button>
+          </ButtonGroup>
+        </div>
         <div className={s.numbers}>Number of cards</div>
         <div className={s.filter}>Filter</div>
       </div>
@@ -73,7 +105,6 @@ export const Packs: FC = () => {
                   Cards
                 </TableSortLabel>
               </TableCell>
-
               <TableCell align="center" onClick={handleSortRequest}>
                 <TableSortLabel active={true} direction={orderDirection}>
                   Last Updated
@@ -103,6 +134,9 @@ export const Packs: FC = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      {cardPacks && cardPacks.length === 0 && (
+        <div className={s.noPacks}>Unfortunately, we couldn't find any results based on your specified parameters.</div>
+      )}
     </div>
   )
 }

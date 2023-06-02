@@ -8,6 +8,7 @@ export const packsApi = {
 
 export type ArgPacksType = {
   packName?: string
+  user_id?: string
 }
 export type GetPacksResponseType = {
   cardPacks: CardPacksType[]

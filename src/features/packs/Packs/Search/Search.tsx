@@ -1,18 +1,14 @@
 import React, { ChangeEvent, useEffect, useState } from "react"
 import TextField from "@mui/material/TextField"
 import SearchIcon from "@mui/icons-material/Search"
-import { useAppSelector } from "common/hooks"
 import { InputAdornment } from "@mui/material"
 
 type EditableSpanPropsType = {
-  value: string
   onChange: (newValue: string) => void
 }
 
 export const Search = function (props: EditableSpanPropsType) {
-  const isLoading = useAppSelector((state) => state.app.isLoading)
-
-  let [title, setTitle] = useState(props.value)
+  let [title, setTitle] = useState("")
 
   const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.currentTarget.value)
@@ -29,7 +25,6 @@ export const Search = function (props: EditableSpanPropsType) {
           sx={{ backgroundColor: "white", width: "350px" }}
           variant={"outlined"}
           size={"small"}
-          // label={"Provide your text"}
           value={title}
           onChange={changeTitle}
           InputProps={{
