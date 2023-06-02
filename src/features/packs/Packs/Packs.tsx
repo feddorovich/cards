@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "common/hooks"
 import { packsThunks } from "features/packs/packs.slice"
+import SortedTable from "features/packs/Packs/Table"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()
@@ -17,6 +18,7 @@ export const Packs: FC = () => {
   return (
     <div>
       <div>Packs</div>
+      <SortedTable />
     </div>
   )
 }
