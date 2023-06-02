@@ -6,7 +6,7 @@ export const Packs: FC = () => {
   const dispatch = useAppDispatch()
   const cardPacks = useAppSelector((state) => state.packs.cardPacks)
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
-  console.log(cardPacks)
+  // console.log(cardPacks)
 
   useEffect(() => {
     if (isLoggedIn) {

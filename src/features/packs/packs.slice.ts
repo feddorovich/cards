@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils"
 import { GetPacksResponseType, packsApi } from "features/packs/packs.api"
 
-const getPacks = createAppAsyncThunk<{ cardPacks: GetPacksResponseType[] }>(
+const getPacks = createAppAsyncThunk<{ cardPacks: GetPacksResponseType }>(
   "packs/getPacks",
   async (arg, { rejectWithValue }) => {
     try {
@@ -17,7 +17,7 @@ const getPacks = createAppAsyncThunk<{ cardPacks: GetPacksResponseType[] }>(
 const slice = createSlice({
   name: "packs",
   initialState: {
-    cardPacks: [] as GetPacksResponseType[],
+    cardPacks: {} as GetPacksResponseType,
   },
   reducers: {
     setPacks: (state, action) => {},

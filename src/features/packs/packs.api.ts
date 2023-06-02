@@ -1,5 +1,4 @@
 import { instance } from "common/api/common.api"
-import { RegisterResponseUserType } from "features/auth/auth.api"
 
 export const packsApi = {
   getPacks: () => {
