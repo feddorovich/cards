@@ -16,7 +16,7 @@ export const Packs: FC = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      dispatch(packsThunks.getPacks())
+      dispatch(packsThunks.getPacks({}))
     }
   }, [isLoggedIn])
 
@@ -26,8 +26,20 @@ export const Packs: FC = () => {
     setOrderDirection(orderDirection === "asc" ? "desc" : "asc")
   }
 
+  // Debounce
+  let timerId: NodeJS.Timeout
   const changeSearchParams = (title: string) => {
-    console.log(title)
+    clearTimeout(timerId)
+
+    timerId = setTimeout(() => {
+      if (!title) {
+        setSearchParams({})
+        dispatch(packsThunks.getPacks({ packName: title }))
+      } else {
+        setSearchParams({ find: title })
+        dispatch(packsThunks.getPacks({ packName: title }))
+      }
+    }, 1000)
   }
 
   return (

@@ -1,11 +1,14 @@
 import { instance } from "common/api/common.api"
 
 export const packsApi = {
-  getPacks: () => {
-    return instance.get("cards/pack", { params: { packName: "english" } })
+  getPacks: (arg?: ArgPacksType) => {
+    return instance.get("cards/pack", { params: arg })
   },
 }
 
+export type ArgPacksType = {
+  packName?: string
+}
 export type GetPacksResponseType = {
   cardPacks: CardPacksType[]
   page: number
