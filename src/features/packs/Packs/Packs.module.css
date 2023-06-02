@@ -19,7 +19,7 @@
     gap: 15px;
 }
 
-.search, .show {
+.search, .show, .numbers {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -31,7 +31,7 @@
 }
 
 .numbers {
-
+    width: 350px;
 }
 
 .filter {

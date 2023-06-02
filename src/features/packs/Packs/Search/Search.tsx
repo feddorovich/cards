@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react"
+import React, { ChangeEvent, useState } from "react"
 import TextField from "@mui/material/TextField"
 import SearchIcon from "@mui/icons-material/Search"
 import { InputAdornment } from "@mui/material"
@@ -11,12 +11,10 @@ export const Search = function (props: EditableSpanPropsType) {
   let [title, setTitle] = useState("")
 
   const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.currentTarget.value)
+    const newTitle = e.currentTarget.value
+    setTitle(newTitle)
+    props.onChange(newTitle)
   }
-
-  useEffect(() => {
-    props.onChange(title)
-  }, [title])
 
   return (
     <div>

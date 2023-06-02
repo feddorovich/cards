@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react"
+import React, { FC, useEffect, useLayoutEffect, useState } from "react"
 import s from "./Packs.module.css"
 import { useAppDispatch, useAppSelector } from "common/hooks"
 import { packsThunks } from "features/packs/packs.slice"
@@ -16,12 +16,15 @@ import {
 import Button from "@mui/material/Button"
 import { useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
+import { CustomSlider } from "features/packs/Packs/CustomSlider/CustomSlider"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()
   const cardPacks = useAppSelector((state) => state.packs.cardPacks.cardPacks)
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
   const id = useAppSelector((state) => (state.auth.profile ? state.auth.profile._id : ""))
+  const minCardsCount = useAppSelector((state) => state.packs.cardPacks.minCardsCount)
+  const maxCardsCount = useAppSelector((state) => state.packs.cardPacks.maxCardsCount)
   const [searchParams, setSearchParams] = useSearchParams()
   console.log(id)
 
@@ -40,6 +43,7 @@ export const Packs: FC = () => {
   // Debounce & Search
   let timerId: NodeJS.Timeout
   const changeSearchParams = (title: string) => {
+    console.log(title)
     clearTimeout(timerId)
 
     timerId = setTimeout(() => {
@@ -62,6 +66,26 @@ export const Packs: FC = () => {
   const switchAllCardHandler = () => {
     dispatch(packsThunks.getPacks({}))
     setIsAllCardSwitch(false)
+  }
+
+  //Slider
+  useEffect(() => {
+    if (minCardsCount !== undefined && maxCardsCount !== undefined) {
+      setValue1(minCardsCount)
+      setValue2(maxCardsCount)
+    }
+  }, [minCardsCount, maxCardsCount])
+
+  const [value1, setValue1] = useState(minCardsCount)
+  const [value2, setValue2] = useState(maxCardsCount)
+
+  const onChangeSliderHandler = (event: Event, value: number | number[]) => {
+    if (Array.isArray(value)) {
+      setValue1(value[0])
+      setValue2(value[1])
+    } else {
+      setValue1(value)
+    }
   }
 
   return (
@@ -88,7 +112,12 @@ export const Packs: FC = () => {
             </Button>
           </ButtonGroup>
         </div>
-        <div className={s.numbers}>Number of cards</div>
+        <div className={s.numbers}>
+          <div>Number of cards</div>
+          <div>
+            <CustomSlider value={[value1, value2]} onChange={onChangeSliderHandler} />
+          </div>
+        </div>
         <div className={s.filter}>Filter</div>
       </div>
       <TableContainer component={Paper}>
