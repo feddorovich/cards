@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useLayoutEffect, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import s from "./Packs.module.css"
 import { useAppDispatch, useAppSelector } from "common/hooks"
 import { packsThunks } from "features/packs/packs.slice"
@@ -25,14 +25,15 @@ export const Packs: FC = () => {
   const id = useAppSelector((state) => (state.auth.profile ? state.auth.profile._id : ""))
   const minCardsCount = useAppSelector((state) => state.packs.cardPacks.minCardsCount)
   const maxCardsCount = useAppSelector((state) => state.packs.cardPacks.maxCardsCount)
-  const [searchParams, setSearchParams] = useSearchParams()
-  console.log(id)
+  const [searchParams, setSearchParams] = useSearchParams({ packName: "", user_id: "" })
 
   useEffect(() => {
     if (isLoggedIn) {
-      dispatch(packsThunks.getPacks({}))
+      const params = Object.fromEntries(searchParams)
+      console.log(Object.fromEntries(searchParams))
+      dispatch(packsThunks.getPacks(params))
     }
-  }, [isLoggedIn])
+  }, [isLoggedIn, searchParams])
 
   const [orderDirection, setOrderDirection] = useState<"asc" | "desc">("asc")
 
@@ -43,16 +44,15 @@ export const Packs: FC = () => {
   // Debounce & Search
   let timerId: NodeJS.Timeout
   const changeSearchParams = (title: string) => {
-    console.log(title)
     clearTimeout(timerId)
 
     timerId = setTimeout(() => {
       if (!title) {
-        setSearchParams({})
-        dispatch(packsThunks.getPacks({ packName: title }))
+        setSearchParams({ ...searchParams })
+        // dispatch(packsThunks.getPacks({ packName: title }))
       } else {
-        setSearchParams({ find: title })
-        dispatch(packsThunks.getPacks({ packName: title }))
+        setSearchParams({ ...searchParams, packName: title })
+        // dispatch(packsThunks.getPacks({ packName: title }))
       }
     }, 1000)
   }
@@ -60,11 +60,13 @@ export const Packs: FC = () => {
   // Button switcher
   const [isAllCardSwitch, setIsAllCardSwitch] = useState(false)
   const switchMyCardHandler = () => {
-    dispatch(packsThunks.getPacks({ user_id: id }))
+    setSearchParams({ ...searchParams, user_id: id })
+    // dispatch(packsThunks.getPacks({ user_id: id }))
     setIsAllCardSwitch(true)
   }
   const switchAllCardHandler = () => {
-    dispatch(packsThunks.getPacks({}))
+    setSearchParams({ ...searchParams })
+    // dispatch(packsThunks.getPacks({}))
     setIsAllCardSwitch(false)
   }
 

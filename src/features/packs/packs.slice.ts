@@ -7,8 +7,10 @@ const getPacks = createAppAsyncThunk<{ cardPacks: GetPacksResponseType }, ArgPac
   async (arg, { rejectWithValue }) => {
     try {
       const res = await packsApi.getPacks(arg)
+      console.log(res)
       return { cardPacks: res.data }
     } catch (e) {
+      console.log(e)
       return rejectWithValue(e)
     }
   }
@@ -18,6 +20,9 @@ const slice = createSlice({
   name: "packs",
   initialState: {
     cardPacks: {} as GetPacksResponseType,
+    params: {
+      packName: "",
+    },
   },
   reducers: {
     setPacks: (state, action) => {},
