@@ -3,6 +3,7 @@ import "app/App.css"
 import { CircularProgress } from "@mui/material"
 import { Navigate } from "react-router-dom"
 import { useAppSelector } from "common/hooks"
+import { Packs } from "features/packs/Packs/Packs"
 
 function App() {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
@@ -22,7 +23,7 @@ function App() {
 
   return (
     <div style={{ margin: "50px" }}>
-      <div>APP</div>
+      <Packs />
     </div>
   )
 }
