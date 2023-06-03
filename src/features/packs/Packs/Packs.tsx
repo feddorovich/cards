@@ -120,7 +120,7 @@ export const Packs: FC = () => {
     // console.log("newCount", newCount)
     if (newPage === 1) {
       delete params.page
-      setSearchParams({ ...params })
+      setSearchParams({ ...params, pageCount: newCount.toString() })
       if (newCount === 10) {
         delete params.pageCount
         setSearchParams({ ...params })
@@ -225,12 +225,14 @@ export const Packs: FC = () => {
         <div className={s.noPacks}>Unfortunately, we couldn't find any results based on your specified parameters.</div>
       )}
       {Object.keys(cardPacksSettings).length && (
-        <SuperPagination
-          page={cardPacksSettings.page}
-          itemsCountForPage={cardPacksSettings.pageCount}
-          totalCount={cardPacksSettings.cardPacksTotalCount}
-          onChange={onChangePagination}
-        />
+        <div className={s.pagination}>
+          <SuperPagination
+            page={+params.page || cardPacksSettings.page}
+            itemsCountForPage={+params.pageCount || cardPacksSettings.pageCount}
+            totalCount={cardPacksSettings.cardPacksTotalCount}
+            onChange={onChangePagination}
+          />
+        </div>
       )}
     </div>
   )
