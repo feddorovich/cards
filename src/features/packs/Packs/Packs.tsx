@@ -27,10 +27,10 @@ export const Packs: FC = () => {
   const maxCardsCount = useAppSelector((state) => state.packs.cardPacks.maxCardsCount)
   const [searchParams, setSearchParams] = useSearchParams({})
   const params = Object.fromEntries(searchParams)
+  console.log(id)
 
   useEffect(() => {
     if (isLoggedIn) {
-      const params = Object.fromEntries(searchParams)
       dispatch(packsThunks.getPacks(params))
     }
   }, [isLoggedIn, searchParams])
@@ -47,7 +47,6 @@ export const Packs: FC = () => {
     clearTimeout(timerId)
 
     timerId = setTimeout(() => {
-      const params = Object.fromEntries(searchParams)
       if (!title) {
         delete params.packName
         setSearchParams({ ...params })
@@ -59,11 +58,9 @@ export const Packs: FC = () => {
 
   // Button switcher
   const switchMyCardHandler = () => {
-    const params = Object.fromEntries(searchParams)
     setSearchParams({ ...params, user_id: id })
   }
   const switchAllCardHandler = () => {
-    const params = Object.fromEntries(searchParams)
     delete params.user_id
     setSearchParams({ ...params })
   }
@@ -78,6 +75,32 @@ export const Packs: FC = () => {
 
   const [value1, setValue1] = useState(minCardsCount)
   const [value2, setValue2] = useState(maxCardsCount)
+
+  // useEffect(() => {
+  //   clearTimeout(timerId)
+  //   timerId = setTimeout(() => {
+  //     if (value1) {
+  //       setSearchParams({ ...params, min: value1.toString() })
+  //     }
+  //     if (value1 === minCardsCount) {
+  //       delete params.min
+  //       setSearchParams({ ...params })
+  //     }
+  //   }, 1000)
+  // }, [value1])
+  //
+  // useEffect(() => {
+  //   clearTimeout(timerId)
+  //   timerId = setTimeout(() => {
+  //     if (value2) {
+  //       setSearchParams({ ...params, max: value2.toString() })
+  //     }
+  //     if (value2 === maxCardsCount) {
+  //       delete params.max
+  //       setSearchParams({ ...params })
+  //     }
+  //   }, 1000)
+  // }, [value2])
 
   const onChangeSliderHandler = (event: Event, value: number | number[]) => {
     if (Array.isArray(value)) {
@@ -99,7 +122,7 @@ export const Packs: FC = () => {
       <div className={s.settings}>
         <div className={s.search}>
           <div>Search</div>
-          <Search onChange={changeSearchParams} />
+          <Search onChange={changeSearchParams} value={params.packName} />
         </div>
         <div className={s.show}>
           <div>Show packs cards</div>

@@ -5,10 +5,11 @@ import { InputAdornment } from "@mui/material"
 
 type EditableSpanPropsType = {
   onChange: (newValue: string) => void
+  value: string
 }
 
 export const Search = function (props: EditableSpanPropsType) {
-  let [title, setTitle] = useState("")
+  let [title, setTitle] = useState(props.value)
 
   const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.currentTarget.value

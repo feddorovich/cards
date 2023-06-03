@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils"
 import { ArgPacksType, GetPacksResponseType, packsApi } from "features/packs/packs.api"
 
@@ -18,16 +18,11 @@ const slice = createSlice({
   name: "packs",
   initialState: {
     cardPacks: {} as GetPacksResponseType,
-    isAllCardSwitch: false,
     // params: {
     //   packName: "",
     // },
   },
-  reducers: {
-    setIsAllCardSwitch: (state, action: PayloadAction<{ isAllCardSwitch: boolean }>) => {
-      state.isAllCardSwitch = action.payload.isAllCardSwitch
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getPacks.fulfilled, (state, action) => {
       state.cardPacks = action.payload.cardPacks
