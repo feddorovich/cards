@@ -25,6 +25,7 @@ export const Search = function (props: EditableSpanPropsType) {
           size={"small"}
           value={title}
           onChange={changeTitle}
+          autoComplete="off"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">

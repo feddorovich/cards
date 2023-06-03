@@ -26,6 +26,7 @@ export const Packs: FC = () => {
   const minCardsCount = useAppSelector((state) => state.packs.cardPacks.minCardsCount)
   const maxCardsCount = useAppSelector((state) => state.packs.cardPacks.maxCardsCount)
   const [searchParams, setSearchParams] = useSearchParams({})
+  const params = Object.fromEntries(searchParams)
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -48,7 +49,8 @@ export const Packs: FC = () => {
     timerId = setTimeout(() => {
       const params = Object.fromEntries(searchParams)
       if (!title) {
-        setSearchParams({ ...params, packName: "" })
+        delete params.packName
+        setSearchParams({ ...params })
       } else {
         setSearchParams({ ...params, packName: title })
       }
@@ -56,16 +58,14 @@ export const Packs: FC = () => {
   }
 
   // Button switcher
-  const [isAllCardSwitch, setIsAllCardSwitch] = useState(false)
   const switchMyCardHandler = () => {
     const params = Object.fromEntries(searchParams)
     setSearchParams({ ...params, user_id: id })
-    setIsAllCardSwitch(true)
   }
   const switchAllCardHandler = () => {
     const params = Object.fromEntries(searchParams)
-    setSearchParams({ ...params, user_id: "" })
-    setIsAllCardSwitch(false)
+    delete params.user_id
+    setSearchParams({ ...params })
   }
 
   //Slider
@@ -104,10 +104,10 @@ export const Packs: FC = () => {
         <div className={s.show}>
           <div>Show packs cards</div>
           <ButtonGroup>
-            <Button variant={isAllCardSwitch ? "contained" : "outlined"} onClick={switchMyCardHandler}>
+            <Button variant={params.user_id === id ? "contained" : "outlined"} onClick={switchMyCardHandler}>
               My
             </Button>
-            <Button variant={!isAllCardSwitch ? "contained" : "outlined"} onClick={switchAllCardHandler}>
+            <Button variant={params.user_id !== id ? "contained" : "outlined"} onClick={switchAllCardHandler}>
               All
             </Button>
           </ButtonGroup>
