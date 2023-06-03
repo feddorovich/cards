@@ -18,6 +18,7 @@ import { useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
 import { CustomSlider } from "features/packs/Packs/CustomSlider/CustomSlider"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
+import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()
@@ -28,7 +29,8 @@ export const Packs: FC = () => {
   const maxCardsCount = useAppSelector((state) => state.packs.cardPacks.maxCardsCount)
   const [searchParams, setSearchParams] = useSearchParams({})
   const params = Object.fromEntries(searchParams)
-  // console.log(id)
+  const cardPacksSettings = useAppSelector((state) => state.packs.cardPacks)
+  // console.log(cardPacksSettings)
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -109,6 +111,23 @@ export const Packs: FC = () => {
       setValue2(value[1])
     } else {
       setValue1(value)
+    }
+  }
+
+  // Pagination
+  const onChangePagination = (newPage: number, newCount: number) => {
+    console.log(newPage)
+    if (newPage === 1) {
+      delete params.page
+      setSearchParams({ ...params })
+    } else {
+      setSearchParams({ ...params, page: newPage.toString() })
+    }
+    if (newCount === 10) {
+      delete params.pageCount
+      setSearchParams({ ...params })
+    } else {
+      setSearchParams({ ...params, pageCount: newCount.toString() })
     }
   }
 
@@ -199,6 +218,14 @@ export const Packs: FC = () => {
       </TableContainer>
       {cardPacks && cardPacks.length === 0 && (
         <div className={s.noPacks}>Unfortunately, we couldn't find any results based on your specified parameters.</div>
+      )}
+      {cardPacksSettings && (
+        <SuperPagination
+          page={cardPacksSettings.page | 0}
+          itemsCountForPage={cardPacksSettings.pageCount | 0}
+          totalCount={cardPacksSettings.cardPacksTotalCount | 0}
+          onChange={onChangePagination}
+        />
       )}
     </div>
   )
