@@ -2,11 +2,7 @@ import { instance } from "common/api/common.api"
 
 export const packsApi = {
   getPacks: (arg: ArgPacksType = {}) => {
-    const defaultArg: ArgPacksType = {
-      pageCount: 10,
-      ...arg,
-    }
-    return instance.get("cards/pack", { params: defaultArg })
+    return instance.get("cards/pack", { params: arg })
   },
 }
 
@@ -18,7 +14,7 @@ export type ArgPacksType = {
   max?: number
 }
 export type GetPacksResponseType = {
-  cardPacks: CardPacksType[]
+  cardPacks: null | CardPacksType[]
   page: number
   pageCount: number
   cardPacksTotalCount: number

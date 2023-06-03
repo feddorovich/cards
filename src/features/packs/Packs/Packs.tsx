@@ -14,7 +14,7 @@ import {
   TableSortLabel,
 } from "@mui/material"
 import Button from "@mui/material/Button"
-import { useSearchParams } from "react-router-dom"
+import { Navigate, useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
 import { CustomSlider } from "features/packs/Packs/CustomSlider/CustomSlider"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
@@ -76,8 +76,8 @@ export const Packs: FC = () => {
     }
   }, [minCardsCount, maxCardsCount])
 
-  const [value1, setValue1] = useState(minCardsCount)
-  const [value2, setValue2] = useState(maxCardsCount)
+  const [value1, setValue1] = useState(0)
+  const [value2, setValue2] = useState(100)
 
   // useEffect(() => {
   //   clearTimeout(timerId)
@@ -116,20 +116,37 @@ export const Packs: FC = () => {
 
   // Pagination
   const onChangePagination = (newPage: number, newCount: number) => {
-    console.log(newPage)
+    console.log("newPage", newPage)
+    console.log("newCount", newCount)
     if (newPage === 1) {
       delete params.page
       setSearchParams({ ...params })
+      if (newCount === 4) {
+        delete params.pageCount
+        setSearchParams({ ...params })
+      }
     } else {
-      setSearchParams({ ...params, page: newPage.toString() })
+      console.log("попали в elde")
+      if (newCount === 4) {
+        delete params.pageCount
+        setSearchParams({ ...params })
+      }
+      setSearchParams({ ...params, page: newPage.toString(), pageCount: newCount.toString() })
+      // } else {
+      //   setSearchParams({ ...params, pageCount: newCount.toString() })
+      // }
     }
-    if (newCount === 10) {
-      delete params.pageCount
-      setSearchParams({ ...params })
-    } else {
-      setSearchParams({ ...params, pageCount: newCount.toString() })
-    }
+    // if (newCount === 10) {
+    //   delete params.pageCount
+    //   setSearchParams({ ...params })
+    // } else {
+    //   setSearchParams({ ...params, pageCount: newCount.toString() })
+    // }
   }
+
+  // if (!isLoggedIn) {
+  //   return <Navigate to="/login" />
+  // }
 
   return (
     <div>
@@ -142,7 +159,7 @@ export const Packs: FC = () => {
       <div className={s.settings}>
         <div className={s.search}>
           <div>Search</div>
-          <Search onChange={changeSearchParams} value={params.packName} />
+          <Search onChange={changeSearchParams} value={params.packName || ""} />
         </div>
         <div className={s.show}>
           <div>Show packs cards</div>
@@ -219,11 +236,11 @@ export const Packs: FC = () => {
       {cardPacks && cardPacks.length === 0 && (
         <div className={s.noPacks}>Unfortunately, we couldn't find any results based on your specified parameters.</div>
       )}
-      {cardPacksSettings && (
+      {Object.keys(cardPacksSettings).length && (
         <SuperPagination
-          page={cardPacksSettings.page | 0}
-          itemsCountForPage={cardPacksSettings.pageCount | 0}
-          totalCount={cardPacksSettings.cardPacksTotalCount | 0}
+          page={cardPacksSettings.page}
+          itemsCountForPage={cardPacksSettings.pageCount}
+          totalCount={cardPacksSettings.cardPacksTotalCount}
           onChange={onChangePagination}
         />
       )}
