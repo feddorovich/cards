@@ -116,37 +116,25 @@ export const Packs: FC = () => {
 
   // Pagination
   const onChangePagination = (newPage: number, newCount: number) => {
-    console.log("newPage", newPage)
-    console.log("newCount", newCount)
+    // console.log("newPage", newPage)
+    // console.log("newCount", newCount)
     if (newPage === 1) {
       delete params.page
       setSearchParams({ ...params })
-      if (newCount === 4) {
+      if (newCount === 10) {
         delete params.pageCount
         setSearchParams({ ...params })
       }
     } else {
-      console.log("попали в elde")
-      if (newCount === 4) {
+      if (newCount === 10) {
+        console.log("s")
         delete params.pageCount
-        setSearchParams({ ...params })
+        setSearchParams({ ...params, page: newPage.toString() })
+      } else {
+        setSearchParams({ ...params, page: newPage.toString(), pageCount: newCount.toString() })
       }
-      setSearchParams({ ...params, page: newPage.toString(), pageCount: newCount.toString() })
-      // } else {
-      //   setSearchParams({ ...params, pageCount: newCount.toString() })
-      // }
     }
-    // if (newCount === 10) {
-    //   delete params.pageCount
-    //   setSearchParams({ ...params })
-    // } else {
-    //   setSearchParams({ ...params, pageCount: newCount.toString() })
-    // }
   }
-
-  // if (!isLoggedIn) {
-  //   return <Navigate to="/login" />
-  // }
 
   return (
     <div>
