@@ -25,12 +25,11 @@ export const Packs: FC = () => {
   const id = useAppSelector((state) => (state.auth.profile ? state.auth.profile._id : ""))
   const minCardsCount = useAppSelector((state) => state.packs.cardPacks.minCardsCount)
   const maxCardsCount = useAppSelector((state) => state.packs.cardPacks.maxCardsCount)
-  const [searchParams, setSearchParams] = useSearchParams({ packName: "", user_id: "" })
+  const [searchParams, setSearchParams] = useSearchParams({})
 
   useEffect(() => {
     if (isLoggedIn) {
       const params = Object.fromEntries(searchParams)
-      console.log(Object.fromEntries(searchParams))
       dispatch(packsThunks.getPacks(params))
     }
   }, [isLoggedIn, searchParams])
@@ -47,12 +46,11 @@ export const Packs: FC = () => {
     clearTimeout(timerId)
 
     timerId = setTimeout(() => {
+      const params = Object.fromEntries(searchParams)
       if (!title) {
-        setSearchParams({ ...searchParams })
-        // dispatch(packsThunks.getPacks({ packName: title }))
+        setSearchParams({ ...params, packName: "" })
       } else {
-        setSearchParams({ ...searchParams, packName: title })
-        // dispatch(packsThunks.getPacks({ packName: title }))
+        setSearchParams({ ...params, packName: title })
       }
     }, 1000)
   }
@@ -60,13 +58,13 @@ export const Packs: FC = () => {
   // Button switcher
   const [isAllCardSwitch, setIsAllCardSwitch] = useState(false)
   const switchMyCardHandler = () => {
-    setSearchParams({ ...searchParams, user_id: id })
-    // dispatch(packsThunks.getPacks({ user_id: id }))
+    const params = Object.fromEntries(searchParams)
+    setSearchParams({ ...params, user_id: id })
     setIsAllCardSwitch(true)
   }
   const switchAllCardHandler = () => {
-    setSearchParams({ ...searchParams })
-    // dispatch(packsThunks.getPacks({}))
+    const params = Object.fromEntries(searchParams)
+    setSearchParams({ ...params, user_id: "" })
     setIsAllCardSwitch(false)
   }
 
