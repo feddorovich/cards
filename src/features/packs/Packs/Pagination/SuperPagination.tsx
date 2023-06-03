@@ -45,7 +45,7 @@ const SuperPagination: React.FC<SuperPaginationPropsType> = ({
         color={"primary"}
       />
 
-      <span className={s.text1}>Показать</span>
+      <span className={s.text1}>show</span>
 
       <SuperSelect
         id={id + "-pagination-select"}
@@ -58,7 +58,7 @@ const SuperPagination: React.FC<SuperPaginationPropsType> = ({
         onChange={onChangeSelect}
       />
 
-      <span className={s.text2}>строк в таблице</span>
+      <span className={s.text2}>cards per page</span>
     </div>
   )
 }
