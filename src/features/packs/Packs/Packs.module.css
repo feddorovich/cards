@@ -19,7 +19,7 @@
     gap: 15px;
 }
 
-.search, .show, .numbers {
+.search, .show, .numbers, .filter {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -32,10 +32,6 @@
 
 .numbers {
     width: 350px;
-}
-
-.filter {
-
 }
 
 .noPacks {

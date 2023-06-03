@@ -17,6 +17,7 @@ import Button from "@mui/material/Button"
 import { useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
 import { CustomSlider } from "features/packs/Packs/CustomSlider/CustomSlider"
+import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()
@@ -27,7 +28,7 @@ export const Packs: FC = () => {
   const maxCardsCount = useAppSelector((state) => state.packs.cardPacks.maxCardsCount)
   const [searchParams, setSearchParams] = useSearchParams({})
   const params = Object.fromEntries(searchParams)
-  console.log(id)
+  // console.log(id)
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -141,7 +142,17 @@ export const Packs: FC = () => {
             <CustomSlider value={[value1, value2]} onChange={onChangeSliderHandler} />
           </div>
         </div>
-        <div className={s.filter}>Filter</div>
+        <div className={s.filter}>
+          <div>Filter</div>
+          <Button
+            variant={"contained"}
+            color={"inherit"}
+            onClick={() => setSearchParams({})}
+            sx={{ padding: 0, minWidth: 0, height: "100%" }}
+          >
+            <FilterAltOffIcon />
+          </Button>
+        </div>
       </div>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
