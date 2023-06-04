@@ -3,6 +3,7 @@ import counterReducer from "../features/counter/counterSlice"
 import { appReducer } from "app/app.slice"
 import { authReducer } from "features/auth/auth.slice"
 import { packsReducer } from "features/packs/packs.slice"
+import { cardsReducer } from "features/cards/Cards/cards.slice"
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     app: appReducer,
     auth: authReducer,
     packs: packsReducer,
+    cards: cardsReducer,
   },
 })
 

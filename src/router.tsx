@@ -8,7 +8,7 @@ import { CheckEmail } from "features/auth/CheckEmail/CheckEmail"
 import { SetNewPassword } from "features/auth/SetNewPassword/SetNewPassword"
 import { Profile } from "features/profile/Profile"
 import React from "react"
-import { FriendsPack } from "features/cards/FriendsPacks"
+import { FriendsPack } from "features/cards/Cards/FriendsPack"
 
 export const router = createBrowserRouter([
   {

@@ -1,13 +1,13 @@
 import React, { FC, useEffect } from "react"
-import s from "./FriendsPacks.module.css"
+import s from "features/cards/Cards/FriendsPack.module.css"
 import { useAppDispatch, useAppSelector } from "common/hooks"
-import { packsThunks } from "features/packs/packs.slice"
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material"
 import Button from "@mui/material/Button"
 import { NavLink, useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
 import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
+import { cardsThunks } from "features/cards/Cards/cards.slice"
 
 export const FriendsPack: FC = () => {
   const dispatch = useAppDispatch()
@@ -15,17 +15,18 @@ export const FriendsPack: FC = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
   const isLoading = useAppSelector((state) => state.app.isLoading)
   const id = useAppSelector((state) => (state.auth.profile ? state.auth.profile._id : ""))
-
   const [searchParams, setSearchParams] = useSearchParams({})
   const params = Object.fromEntries(searchParams)
   const cardPacksSettings = useAppSelector((state) => state.packs.cardPacks)
-  // console.log(cardPacks)
+  const cards = useAppSelector((state) => state.cards.cards.cards)
+  const packId = document.location.href.split("/").pop()
+  console.log(packId)
 
   useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(packsThunks.getPacks(params))
+    if (packId) {
+      dispatch(cardsThunks.getCards({ cardsPack_id: packId }))
     }
-  }, [isLoggedIn, searchParams])
+  }, [packId])
 
   // Sort by name
   const handleSortNameRequest = (): void => {
@@ -161,7 +162,7 @@ export const FriendsPack: FC = () => {
                   active={params.sortPacks === "0name" || params.sortPacks === "1name"}
                   direction={params.sortPacks === "1name" || "" ? "asc" : "desc"}
                 >
-                  Name
+                  Question
                 </TableSortLabel>
               </TableCell>
               <TableCell align="center" onClick={handleSortCardsRequest}>
@@ -169,7 +170,7 @@ export const FriendsPack: FC = () => {
                   active={params.sortPacks === "0cardsCount" || params.sortPacks === "1cardsCount"}
                   direction={params.sortPacks === "0cardsCount" || "" ? "asc" : "desc"}
                 >
-                  Cards
+                  Answer
                 </TableSortLabel>
               </TableCell>
               <TableCell align="center" onClick={handleSortUpdatedDateRequest}>
@@ -185,23 +186,21 @@ export const FriendsPack: FC = () => {
                   active={params.sortPacks === "0user_name" || params.sortPacks === "1user_name"}
                   direction={params.sortPacks === "1user_name" || "" ? "asc" : "desc"}
                 >
-                  Created by
+                  Grade
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {cardPacks &&
-              cardPacks.map((row) => (
+            {cards &&
+              cards.map((row) => (
                 <TableRow key={row._id}>
                   <TableCell component="th" scope="row" align="center">
-                    {row.name}
+                    {row.question}
                   </TableCell>
-                  <TableCell align="center">{row.cardsCount}</TableCell>
+                  <TableCell align="center">{row.answer}</TableCell>
                   <TableCell align="center">{row.updated}</TableCell>
-                  <TableCell align="center">{row.user_name}</TableCell>
-                  <TableCell align="center">Actions</TableCell>
+                  <TableCell align="center">{row.rating}</TableCell>
                 </TableRow>
               ))}
           </TableBody>

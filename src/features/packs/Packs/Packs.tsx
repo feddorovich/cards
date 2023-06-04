@@ -32,7 +32,7 @@ export const Packs: FC = () => {
   const params = Object.fromEntries(searchParams)
   const cardPacksSettings = useAppSelector((state) => state.packs.cardPacks)
   const navigate = useNavigate()
-  console.log(cardPacks)
+  // console.log(cardPacks)
 
   useEffect(() => {
     if (isLoggedIn) {
