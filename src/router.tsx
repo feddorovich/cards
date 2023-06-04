@@ -8,6 +8,7 @@ import { CheckEmail } from "features/auth/CheckEmail/CheckEmail"
 import { SetNewPassword } from "features/auth/SetNewPassword/SetNewPassword"
 import { Profile } from "features/profile/Profile"
 import React from "react"
+import { FriendsPack } from "features/cards/FriendsPacks"
 
 export const router = createBrowserRouter([
   {
@@ -68,7 +69,11 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/packs",
-    element: <div>Packs</div>,
+    path: "/friends-pack/:packId",
+    element: (
+      <Layout>
+        <FriendsPack />
+      </Layout>
+    ),
   },
 ])

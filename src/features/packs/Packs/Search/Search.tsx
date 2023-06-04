@@ -21,7 +21,7 @@ export const Search = function (props: EditableSpanPropsType) {
     <div>
       <div>
         <TextField
-          sx={{ backgroundColor: "white", width: "350px" }}
+          sx={{ backgroundColor: "white", width: "100%" }}
           variant={"outlined"}
           size={"small"}
           value={title}

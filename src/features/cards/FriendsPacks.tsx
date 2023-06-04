@@ -1,38 +1,25 @@
-import React, { FC, useEffect, useState } from "react"
-import s from "./Packs.module.css"
+import React, { FC, useEffect } from "react"
+import s from "./FriendsPacks.module.css"
 import { useAppDispatch, useAppSelector } from "common/hooks"
 import { packsThunks } from "features/packs/packs.slice"
-import {
-  ButtonGroup,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableSortLabel,
-} from "@mui/material"
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material"
 import Button from "@mui/material/Button"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { NavLink, useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
-import { CustomSlider } from "features/packs/Packs/CustomSlider/CustomSlider"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
 import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
 
-export const Packs: FC = () => {
+export const FriendsPack: FC = () => {
   const dispatch = useAppDispatch()
   const cardPacks = useAppSelector((state) => state.packs.cardPacks.cardPacks)
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
   const isLoading = useAppSelector((state) => state.app.isLoading)
   const id = useAppSelector((state) => (state.auth.profile ? state.auth.profile._id : ""))
-  const minCardsCount = useAppSelector((state) => state.packs.cardPacks.minCardsCount)
-  const maxCardsCount = useAppSelector((state) => state.packs.cardPacks.maxCardsCount)
+
   const [searchParams, setSearchParams] = useSearchParams({})
   const params = Object.fromEntries(searchParams)
   const cardPacksSettings = useAppSelector((state) => state.packs.cardPacks)
-  const navigate = useNavigate()
-  console.log(cardPacks)
+  // console.log(cardPacks)
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -55,7 +42,6 @@ export const Packs: FC = () => {
       setSearchParams({ ...params, sortPacks: "1name" })
     }
   }
-
   // Sort by cardsCount
   const handleSortCardsRequest = (): void => {
     if (params.sortPacks === undefined) {
@@ -71,7 +57,6 @@ export const Packs: FC = () => {
       setSearchParams({ ...params, sortPacks: "1cardsCount" })
     }
   }
-
   // Sort by updated date
   const handleSortUpdatedDateRequest = (): void => {
     if (params.sortPacks === undefined) {
@@ -87,7 +72,6 @@ export const Packs: FC = () => {
       setSearchParams({ ...params, sortPacks: "1updated" })
     }
   }
-
   // Sort by user_name
   const handleSortUserNameRequest = (): void => {
     if (params.sortPacks === undefined) {
@@ -119,61 +103,6 @@ export const Packs: FC = () => {
     }, 1000)
   }
 
-  // Button switcher
-  const switchMyCardHandler = () => {
-    setSearchParams({ ...params, user_id: id })
-  }
-  const switchAllCardHandler = () => {
-    delete params.user_id
-    setSearchParams({ ...params })
-  }
-
-  //Slider
-  useEffect(() => {
-    if (minCardsCount !== undefined && maxCardsCount !== undefined) {
-      setValue1(minCardsCount)
-      setValue2(maxCardsCount)
-    }
-  }, [minCardsCount, maxCardsCount])
-
-  const [value1, setValue1] = useState(0)
-  const [value2, setValue2] = useState(100)
-
-  // useEffect(() => {
-  //   clearTimeout(timerId)
-  //   timerId = setTimeout(() => {
-  //     if (value1) {
-  //       setSearchParams({ ...params, min: value1.toString() })
-  //     }
-  //     if (value1 === minCardsCount) {
-  //       delete params.min
-  //       setSearchParams({ ...params })
-  //     }
-  //   }, 1000)
-  // }, [value1])
-  //
-  // useEffect(() => {
-  //   clearTimeout(timerId)
-  //   timerId = setTimeout(() => {
-  //     if (value2) {
-  //       setSearchParams({ ...params, max: value2.toString() })
-  //     }
-  //     if (value2 === maxCardsCount) {
-  //       delete params.max
-  //       setSearchParams({ ...params })
-  //     }
-  //   }, 1000)
-  // }, [value2])
-
-  const onChangeSliderHandler = (event: Event, value: number | number[]) => {
-    if (Array.isArray(value)) {
-      setValue1(value[0])
-      setValue2(value[1])
-    } else {
-      setValue1(value)
-    }
-  }
-
   // Pagination
   const onChangePagination = (newPage: number, newCount: number) => {
     // console.log("newPage", newPage)
@@ -196,34 +125,20 @@ export const Packs: FC = () => {
   }
 
   return (
-    <div>
+    <div className={s.friendsPacks}>
+      <div className={s.back}>
+        <NavLink to={"/"}>← Back to Packs List</NavLink>
+      </div>
       <div className={s.header}>
-        <div className={s.packsList}>Packs list</div>
+        <div className={s.packsList}>Friend’s Pack</div>
         <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
-          Add new pack
+          Learn to pack
         </Button>
       </div>
       <div className={s.settings}>
         <div className={s.search}>
           <div>Search</div>
           <Search onChange={changeSearchParams} value={params.packName || ""} />
-        </div>
-        <div className={s.show}>
-          <div>Show packs cards</div>
-          <ButtonGroup>
-            <Button variant={params.user_id === id ? "contained" : "outlined"} onClick={switchMyCardHandler}>
-              My
-            </Button>
-            <Button variant={params.user_id !== id ? "contained" : "outlined"} onClick={switchAllCardHandler}>
-              All
-            </Button>
-          </ButtonGroup>
-        </div>
-        <div className={s.numbers}>
-          <div>Number of cards</div>
-          <div>
-            <CustomSlider value={[value1, value2]} onChange={onChangeSliderHandler} />
-          </div>
         </div>
         <div className={s.filter}>
           <div>Filter</div>
@@ -279,21 +194,14 @@ export const Packs: FC = () => {
           <TableBody>
             {cardPacks &&
               cardPacks.map((row) => (
-                <TableRow key={row._id} onClick={() => navigate(`/friends-pack/${row._id}`)} className={s.tableRow}>
+                <TableRow key={row._id}>
                   <TableCell component="th" scope="row" align="center">
                     {row.name}
                   </TableCell>
                   <TableCell align="center">{row.cardsCount}</TableCell>
                   <TableCell align="center">{row.updated}</TableCell>
                   <TableCell align="center">{row.user_name}</TableCell>
-                  <TableCell
-                    align="center"
-                    onClick={(event) => {
-                      event.stopPropagation()
-                    }}
-                  >
-                    Actions
-                  </TableCell>
+                  <TableCell align="center">Actions</TableCell>
                 </TableRow>
               ))}
           </TableBody>
