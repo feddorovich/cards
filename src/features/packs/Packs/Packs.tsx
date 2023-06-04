@@ -31,20 +31,13 @@ export const Packs: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams({})
   const params = Object.fromEntries(searchParams)
   const cardPacksSettings = useAppSelector((state) => state.packs.cardPacks)
-  // console.log(isLoading)
+  console.log(cardPacks)
 
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(packsThunks.getPacks(params))
     }
   }, [isLoggedIn, searchParams])
-
-  const [orderDirection, setOrderDirection] = useState<"asc" | "desc">("asc")
-
-  const handleSortRequest = (): void => {
-    // setSearchParams({ ...params, sortPacks: "0name" })
-    setOrderDirection(orderDirection === "asc" ? "desc" : "asc")
-  }
 
   // Sort by name
   const handleSortNameRequest = (): void => {
@@ -57,19 +50,56 @@ export const Packs: FC = () => {
     }
     if (params.sortPacks === "1name") {
       setSearchParams({ ...params, sortPacks: "0name" })
+    } else {
+      setSearchParams({ ...params, sortPacks: "1name" })
     }
   }
 
   // Sort by cardsCount
-  const [orderCardsDirection, setOrderCardsDirection] = useState<"asc" | "desc">(
-    params.sortPacks === "0cardsCount" ? "asc" : "desc"
-  )
   const handleSortCardsRequest = (): void => {
-    setOrderCardsDirection(orderCardsDirection === "asc" ? "desc" : "asc")
-    if (params.sortPacks === "1cardsCount" || params.sortPacks === "") {
+    if (params.sortPacks === undefined) {
+      setSearchParams({ ...params, sortPacks: "0cardsCount" })
+    }
+    if (params.sortPacks === "0cardsCount") {
+      delete params.sortPacks
+      setSearchParams({ ...params })
+    }
+    if (params.sortPacks === "1cardsCount") {
       setSearchParams({ ...params, sortPacks: "0cardsCount" })
     } else {
       setSearchParams({ ...params, sortPacks: "1cardsCount" })
+    }
+  }
+
+  // Sort by updated date
+  const handleSortUpdatedDateRequest = (): void => {
+    if (params.sortPacks === undefined) {
+      setSearchParams({ ...params, sortPacks: "0updated" })
+    }
+    if (params.sortPacks === "0updated") {
+      delete params.sortPacks
+      setSearchParams({ ...params })
+    }
+    if (params.sortPacks === "1updated") {
+      setSearchParams({ ...params, sortPacks: "0updated" })
+    } else {
+      setSearchParams({ ...params, sortPacks: "1updated" })
+    }
+  }
+
+  // Sort by user_name
+  const handleSortUserNameRequest = (): void => {
+    if (params.sortPacks === undefined) {
+      setSearchParams({ ...params, sortPacks: "1user_name" })
+    }
+    if (params.sortPacks === "0user_name") {
+      delete params.sortPacks
+      setSearchParams({ ...params })
+    }
+    if (params.sortPacks === "1user_name") {
+      setSearchParams({ ...params, sortPacks: "0user_name" })
+    } else {
+      setSearchParams({ ...params, sortPacks: "1user_name" })
     }
   }
 
@@ -219,17 +249,26 @@ export const Packs: FC = () => {
                 </TableSortLabel>
               </TableCell>
               <TableCell align="center" onClick={handleSortCardsRequest}>
-                <TableSortLabel active={true} direction={orderCardsDirection}>
+                <TableSortLabel
+                  active={params.sortPacks === "0cardsCount" || params.sortPacks === "1cardsCount"}
+                  direction={params.sortPacks === "0cardsCount" || "" ? "asc" : "desc"}
+                >
                   Cards
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="center" onClick={handleSortRequest}>
-                <TableSortLabel active={true} direction={orderDirection}>
+              <TableCell align="center" onClick={handleSortUpdatedDateRequest}>
+                <TableSortLabel
+                  active={params.sortPacks === "0updated" || params.sortPacks === "1updated"}
+                  direction={params.sortPacks === "0updated" || "" ? "asc" : "desc"}
+                >
                   Last Updated
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="center" onClick={handleSortRequest}>
-                <TableSortLabel active={true} direction={orderDirection}>
+              <TableCell align="center" onClick={handleSortUserNameRequest}>
+                <TableSortLabel
+                  active={params.sortPacks === "0user_name" || params.sortPacks === "1user_name"}
+                  direction={params.sortPacks === "1user_name" || "" ? "asc" : "desc"}
+                >
                   Created by
                 </TableSortLabel>
               </TableCell>
@@ -245,7 +284,7 @@ export const Packs: FC = () => {
                   </TableCell>
                   <TableCell align="center">{row.cardsCount}</TableCell>
                   <TableCell align="center">{row.updated}</TableCell>
-                  <TableCell align="center">{row.created}</TableCell>
+                  <TableCell align="center">{row.user_name}</TableCell>
                   <TableCell align="center">Actions</TableCell>
                 </TableRow>
               ))}
