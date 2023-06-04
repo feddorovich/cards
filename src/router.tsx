@@ -9,6 +9,7 @@ import { SetNewPassword } from "features/auth/SetNewPassword/SetNewPassword"
 import { Profile } from "features/profile/Profile"
 import React from "react"
 import { FriendsPack } from "features/cards/Cards/FriendsPack"
+import { MyPack } from "features/cards/Cards/MyPack"
 
 export const router = createBrowserRouter([
   {
@@ -73,6 +74,14 @@ export const router = createBrowserRouter([
     element: (
       <Layout>
         <FriendsPack />
+      </Layout>
+    ),
+  },
+  {
+    path: "/my-pack/:packId",
+    element: (
+      <Layout>
+        <MyPack />
       </Layout>
     ),
   },

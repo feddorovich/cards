@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react"
-import s from "./FriendsPack.module.css"
+import s from "./MyPack.module.css"
 import { useAppDispatch, useAppSelector } from "common/hooks"
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material"
 import Button from "@mui/material/Button"
@@ -9,7 +9,7 @@ import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
 import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
 import { cardsThunks } from "features/cards/cards.slice"
 
-export const FriendsPack: FC = () => {
+export const MyPack: FC = () => {
   const dispatch = useAppDispatch()
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
   const isLoading = useAppSelector((state) => state.app.isLoading)
@@ -117,14 +117,14 @@ export const FriendsPack: FC = () => {
   }
 
   return (
-    <div className={s.friendsPacks}>
+    <div className={s.myPack}>
       <div className={s.back}>
         <NavLink to={"/"}>← Back to Packs List</NavLink>
       </div>
       <div className={s.header}>
-        <div className={s.packsList}>Friend’s Pack</div>
+        <div className={s.packsList}>My Pack</div>
         <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
-          Learn to pack
+          Add new card
         </Button>
       </div>
       <div className={s.settings}>
@@ -173,6 +173,7 @@ export const FriendsPack: FC = () => {
                 </TableSortLabel>
               </TableCell>
               <TableCell align="center">Grade</TableCell>
+              <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -185,6 +186,7 @@ export const FriendsPack: FC = () => {
                   <TableCell align="center">{row.answer}</TableCell>
                   <TableCell align="center">{row.updated}</TableCell>
                   <TableCell align="center">{row.rating}</TableCell>
+                  <TableCell align="center"></TableCell>
                 </TableRow>
               ))}
           </TableBody>

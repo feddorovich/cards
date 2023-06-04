@@ -1,0 +1,72 @@
+.myPack {
+    padding: 0 50px 50px;
+}
+
+.back {
+    display: inline-block;
+    cursor: pointer;
+    margin: 25px 0;
+    font-weight: 400;
+    line-height: 24px;
+    color: #000000;
+    background-color: #efeffc;
+    padding: 5px 15px;
+    border-radius: 10px;
+    transition: 0.5s;
+}
+
+.back:hover {
+    background-color: #e4e4ff;
+}
+
+.back a {
+    color: #000000;
+    text-decoration: none;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.packsList {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 27px;
+    color: #000000;
+}
+
+.settings {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    gap: 20px;
+}
+
+.search, .filter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 17px;
+    color: #000000;
+}
+
+.search {
+    width: 100%;
+}
+
+.noPacks {
+    display: flex;
+    justify-content: center;
+    margin: 50px;
+    font-size: 20px;
+    opacity: 0.8;
+}
+
+.pagination {
+    margin: 20px 0;
+}

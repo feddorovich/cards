@@ -42,12 +42,14 @@ export const Packs: FC = () => {
 
   // Sort by name
   const handleSortNameRequest = (): void => {
+    if (isLoading) return
     if (params.sortPacks === undefined) {
       setSearchParams({ ...params, sortPacks: "1name" })
     }
     if (params.sortPacks === "0name") {
       delete params.sortPacks
       setSearchParams({ ...params })
+      return
     }
     if (params.sortPacks === "1name") {
       setSearchParams({ ...params, sortPacks: "0name" })
@@ -58,12 +60,14 @@ export const Packs: FC = () => {
 
   // Sort by cardsCount
   const handleSortCardsRequest = (): void => {
+    if (isLoading) return
     if (params.sortPacks === undefined) {
       setSearchParams({ ...params, sortPacks: "0cardsCount" })
     }
     if (params.sortPacks === "0cardsCount") {
       delete params.sortPacks
       setSearchParams({ ...params })
+      return
     }
     if (params.sortPacks === "1cardsCount") {
       setSearchParams({ ...params, sortPacks: "0cardsCount" })
@@ -74,12 +78,14 @@ export const Packs: FC = () => {
 
   // Sort by updated date
   const handleSortUpdatedDateRequest = (): void => {
+    if (isLoading) return
     if (params.sortPacks === undefined) {
       setSearchParams({ ...params, sortPacks: "0updated" })
     }
     if (params.sortPacks === "0updated") {
       delete params.sortPacks
       setSearchParams({ ...params })
+      return
     }
     if (params.sortPacks === "1updated") {
       setSearchParams({ ...params, sortPacks: "0updated" })
@@ -90,12 +96,14 @@ export const Packs: FC = () => {
 
   // Sort by user_name
   const handleSortUserNameRequest = (): void => {
+    if (isLoading) return
     if (params.sortPacks === undefined) {
       setSearchParams({ ...params, sortPacks: "1user_name" })
     }
     if (params.sortPacks === "0user_name") {
       delete params.sortPacks
       setSearchParams({ ...params })
+      return
     }
     if (params.sortPacks === "1user_name") {
       setSearchParams({ ...params, sortPacks: "0user_name" })
@@ -279,7 +287,11 @@ export const Packs: FC = () => {
           <TableBody>
             {cardPacks &&
               cardPacks.map((row) => (
-                <TableRow key={row._id} onClick={() => navigate(`/friends-pack/${row._id}`)} className={s.tableRow}>
+                <TableRow
+                  key={row._id}
+                  onClick={() => navigate(id === row._id ? `/my-pack/${row._id}` : `/friends-pack/${row._id}`)}
+                  className={s.tableRow}
+                >
                   <TableCell component="th" scope="row" align="center">
                     {row.name}
                   </TableCell>
