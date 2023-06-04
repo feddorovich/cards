@@ -14,7 +14,7 @@ import {
   TableSortLabel,
 } from "@mui/material"
 import Button from "@mui/material/Button"
-import { Navigate, useSearchParams } from "react-router-dom"
+import { useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
 import { CustomSlider } from "features/packs/Packs/CustomSlider/CustomSlider"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
@@ -24,13 +24,14 @@ export const Packs: FC = () => {
   const dispatch = useAppDispatch()
   const cardPacks = useAppSelector((state) => state.packs.cardPacks.cardPacks)
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+  const isLoading = useAppSelector((state) => state.app.isLoading)
   const id = useAppSelector((state) => (state.auth.profile ? state.auth.profile._id : ""))
   const minCardsCount = useAppSelector((state) => state.packs.cardPacks.minCardsCount)
   const maxCardsCount = useAppSelector((state) => state.packs.cardPacks.maxCardsCount)
   const [searchParams, setSearchParams] = useSearchParams({})
   const params = Object.fromEntries(searchParams)
   const cardPacksSettings = useAppSelector((state) => state.packs.cardPacks)
-  // console.log(cardPacksSettings)
+  // console.log(isLoading)
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -127,7 +128,6 @@ export const Packs: FC = () => {
       }
     } else {
       if (newCount === 10) {
-        console.log("s")
         delete params.pageCount
         setSearchParams({ ...params, page: newPage.toString() })
       } else {
@@ -231,6 +231,7 @@ export const Packs: FC = () => {
             itemsCountForPage={+params.pageCount || cardPacksSettings.pageCount}
             totalCount={cardPacksSettings.cardPacksTotalCount}
             onChange={onChangePagination}
+            isLoading={isLoading}
           />
         </div>
       )}
