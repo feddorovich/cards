@@ -1,7 +1,17 @@
 import React, { FC, useEffect } from "react"
 import s from "features/cards/Cards/FriendsPack.module.css"
 import { useAppDispatch, useAppSelector } from "common/hooks"
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material"
+import {
+  CircularProgress,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+} from "@mui/material"
 import Button from "@mui/material/Button"
 import { NavLink, useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
@@ -11,36 +21,35 @@ import { cardsThunks } from "features/cards/Cards/cards.slice"
 
 export const FriendsPack: FC = () => {
   const dispatch = useAppDispatch()
-  const cardPacks = useAppSelector((state) => state.packs.cardPacks.cardPacks)
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
   const isLoading = useAppSelector((state) => state.app.isLoading)
-  const id = useAppSelector((state) => (state.auth.profile ? state.auth.profile._id : ""))
   const [searchParams, setSearchParams] = useSearchParams({})
   const params = Object.fromEntries(searchParams)
-  const cardPacksSettings = useAppSelector((state) => state.packs.cardPacks)
+  //
   const cards = useAppSelector((state) => state.cards.cards.cards)
-  const packId = document.location.href.split("/").pop()
+  const cardsSettings = useAppSelector((state) => state.cards.cards)
+  const packId = document.location.href.split("/")[4].split("?")[0]
   console.log(packId)
 
   useEffect(() => {
     if (packId) {
-      dispatch(cardsThunks.getCards({ cardsPack_id: packId }))
+      dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
     }
-  }, [packId])
+  }, [packId, isLoggedIn, searchParams])
 
   // Sort by name
-  const handleSortNameRequest = (): void => {
-    if (params.sortPacks === undefined) {
-      setSearchParams({ ...params, sortPacks: "1name" })
+  const handleSortQuestionRequest = (): void => {
+    if (params.sortCards === undefined) {
+      setSearchParams({ ...params, sortCards: "1question" })
     }
-    if (params.sortPacks === "0name") {
-      delete params.sortPacks
+    if (params.sortCards === "0question") {
+      delete params.sortCards
       setSearchParams({ ...params })
     }
-    if (params.sortPacks === "1name") {
-      setSearchParams({ ...params, sortPacks: "0name" })
+    if (params.sortCards === "1question") {
+      setSearchParams({ ...params, sortCards: "0question" })
     } else {
-      setSearchParams({ ...params, sortPacks: "1name" })
+      setSearchParams({ ...params, sortCards: "1question" })
     }
   }
   // Sort by cardsCount
@@ -96,10 +105,10 @@ export const FriendsPack: FC = () => {
 
     timerId = setTimeout(() => {
       if (!title) {
-        delete params.packName
+        delete params.cardQuestion
         setSearchParams({ ...params })
       } else {
-        setSearchParams({ ...params, packName: title })
+        setSearchParams({ ...params, cardQuestion: title })
       }
     }, 1000)
   }
@@ -111,12 +120,12 @@ export const FriendsPack: FC = () => {
     if (newPage === 1) {
       delete params.page
       setSearchParams({ ...params, pageCount: newCount.toString() })
-      if (newCount === 10) {
+      if (newCount === 5) {
         delete params.pageCount
         setSearchParams({ ...params })
       }
     } else {
-      if (newCount === 10) {
+      if (newCount === 5) {
         delete params.pageCount
         setSearchParams({ ...params, page: newPage.toString() })
       } else {
@@ -157,10 +166,10 @@ export const FriendsPack: FC = () => {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center" onClick={handleSortNameRequest}>
+              <TableCell align="center" onClick={handleSortQuestionRequest}>
                 <TableSortLabel
-                  active={params.sortPacks === "0name" || params.sortPacks === "1name"}
-                  direction={params.sortPacks === "1name" || "" ? "asc" : "desc"}
+                  active={params.sortCards === "0question" || params.sortCards === "1question"}
+                  direction={params.sortCards === "1question" || "" ? "asc" : "desc"}
                 >
                   Question
                 </TableSortLabel>
@@ -206,15 +215,15 @@ export const FriendsPack: FC = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      {cardPacks && cardPacks.length === 0 && (
+      {cards && cards.length === 0 && (
         <div className={s.noPacks}>Unfortunately, we couldn't find any results based on your specified parameters.</div>
       )}
-      {Object.keys(cardPacksSettings).length && (
+      {Object.keys(cardsSettings).length && (
         <div className={s.pagination}>
           <SuperPagination
-            page={+params.page || cardPacksSettings.page}
-            itemsCountForPage={+params.pageCount || cardPacksSettings.pageCount}
-            totalCount={cardPacksSettings.cardPacksTotalCount}
+            page={+params.page || cardsSettings.page}
+            itemsCountForPage={+params.pageCount || cardsSettings.pageCount}
+            totalCount={cardsSettings.cardsTotalCount}
             onChange={onChangePagination}
             isLoading={isLoading}
           />
