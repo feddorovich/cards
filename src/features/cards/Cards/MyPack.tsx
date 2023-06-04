@@ -1,13 +1,25 @@
 import React, { FC, useEffect } from "react"
 import s from "./MyPack.module.css"
 import { useAppDispatch, useAppSelector } from "common/hooks"
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material"
+import {
+  IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+} from "@mui/material"
 import Button from "@mui/material/Button"
 import { NavLink, useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
 import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
 import { cardsThunks } from "features/cards/cards.slice"
+import EditIcon from "@mui/icons-material/Edit"
+import DeleteIcon from "@mui/icons-material/Delete"
 
 export const MyPack: FC = () => {
   const dispatch = useAppDispatch()
@@ -18,6 +30,7 @@ export const MyPack: FC = () => {
   const cards = useAppSelector((state) => state.cards.cards.cards)
   const cardsSettings = useAppSelector((state) => state.cards.cards)
   const packId = document.location.href.split("/")[4].split("?")[0]
+  const id = useAppSelector((state) => (state.auth.profile ? state.auth.profile._id : ""))
   // console.log(packId)
 
   useEffect(() => {
@@ -116,6 +129,27 @@ export const MyPack: FC = () => {
     }
   }
 
+  // Add card
+  const addCardHandler = async (cardsPackId: string) => {
+    await dispatch(cardsThunks.addCard(cardsPackId))
+    dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
+  }
+  // Delete card
+  const deleteCardHandler = async (cardsPackId: string) => {
+    await dispatch(cardsThunks.deleteCard(cardsPackId))
+    dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
+  }
+  // Update card
+  const updateCardHandler = async (cardsPackId: string) => {
+    await dispatch(cardsThunks.updateCard(cardsPackId))
+    dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
+  }
+  // Grade card
+  const gradeCardHandler = async (cardsPackId: string) => {
+    await dispatch(cardsThunks.gradeCard(cardsPackId))
+    dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
+  }
+
   return (
     <div className={s.myPack}>
       <div className={s.back}>
@@ -123,7 +157,14 @@ export const MyPack: FC = () => {
       </div>
       <div className={s.header}>
         <div className={s.packsList}>My Pack</div>
-        <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
+        <Button
+          type={"submit"}
+          variant="contained"
+          color={"primary"}
+          sx={{ borderRadius: 6 }}
+          disabled={isLoading}
+          onClick={() => addCardHandler(packId)}
+        >
           Add new card
         </Button>
       </div>
@@ -185,8 +226,22 @@ export const MyPack: FC = () => {
                   </TableCell>
                   <TableCell align="center">{row.answer}</TableCell>
                   <TableCell align="center">{row.updated}</TableCell>
-                  <TableCell align="center">{row.rating}</TableCell>
-                  <TableCell align="center"></TableCell>
+                  <TableCell align="center">
+                    {row.grade.toFixed(1)}
+                    <Button onClick={() => gradeCardHandler(row._id)}>Grade</Button>
+                  </TableCell>
+                  <TableCell align="center">
+                    {row.user_id === id && (
+                      <div>
+                        <IconButton aria-label="edit" disabled={isLoading} onClick={() => updateCardHandler(row._id)}>
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton aria-label="delete" disabled={isLoading} onClick={() => deleteCardHandler(row._id)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </div>
+                    )}
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>

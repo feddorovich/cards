@@ -223,7 +223,14 @@ export const Packs: FC = () => {
     <div>
       <div className={s.header}>
         <div className={s.packsList}>Packs list</div>
-        <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }} onClick={addPackHandler}>
+        <Button
+          type={"submit"}
+          variant="contained"
+          color={"primary"}
+          sx={{ borderRadius: 6 }}
+          onClick={addPackHandler}
+          disabled={isLoading}
+        >
           Add new pack
         </Button>
       </div>
@@ -325,10 +332,10 @@ export const Packs: FC = () => {
                         <IconButton aria-label="learn">
                           <SchoolIcon />
                         </IconButton>
-                        <IconButton aria-label="edit" onClick={() => editPackHandler(row._id)}>
+                        <IconButton aria-label="edit" disabled={isLoading} onClick={() => editPackHandler(row._id)}>
                           <EditIcon />
                         </IconButton>
-                        <IconButton aria-label="delete" onClick={() => deletePackHandler(row._id)}>
+                        <IconButton aria-label="delete" disabled={isLoading} onClick={() => deletePackHandler(row._id)}>
                           <DeleteIcon />
                         </IconButton>
                       </div>
