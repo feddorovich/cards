@@ -24,6 +24,7 @@ import SchoolIcon from "@mui/icons-material/School"
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import { cardsActions } from "features/cards/cards.slice"
+import { ToastContainer } from "react-toastify"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()
@@ -37,7 +38,7 @@ export const Packs: FC = () => {
   const params = Object.fromEntries(searchParams)
   const cardPacksSettings = useAppSelector((state) => state.packs.cardPacks)
   const navigate = useNavigate()
-  // console.log(id)
+  console.log(cardPacks)
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -314,7 +315,14 @@ export const Packs: FC = () => {
               cardPacks.map((row) => (
                 <TableRow
                   key={row._id}
-                  onClick={() => navigate(id === row.user_id ? `/my-pack/${row._id}` : `/friends-pack/${row._id}`)}
+                  // TODO
+                  onClick={() => {
+                    if (row.cardsCount === 0 && id !== row.user_id) {
+                      alert("No cards to study")
+                      return
+                    }
+                    navigate(id === row.user_id ? `/my-pack/${row._id}` : `/friends-pack/${row._id}`)
+                  }}
                   className={s.tableRow}
                 >
                   <TableCell component="th" scope="row" align="center">
