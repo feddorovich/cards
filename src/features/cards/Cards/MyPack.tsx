@@ -133,7 +133,7 @@ export const MyPack: FC = () => {
           <Search onChange={changeSearchParams} value={params.packName || ""} />
         </div>
         <div className={s.filter}>
-          <div>Filter</div>
+          <div>Reset</div>
           <Button
             variant={"contained"}
             color={"inherit"}

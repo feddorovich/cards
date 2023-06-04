@@ -13,6 +13,27 @@ const getPacks = createAppAsyncThunk<{ cardPacks: GetPacksResponseType }, ArgPac
     }
   }
 )
+const addPack = createAppAsyncThunk("packs/addPack", async (arg, { rejectWithValue }) => {
+  try {
+    await packsApi.addPack()
+  } catch (e) {
+    return rejectWithValue(e)
+  }
+})
+const deletePack = createAppAsyncThunk("packs/delete", async (id: string, { rejectWithValue }) => {
+  try {
+    await packsApi.deletePack(id)
+  } catch (e) {
+    return rejectWithValue(e)
+  }
+})
+const editPack = createAppAsyncThunk("packs/edit", async (id: string, { rejectWithValue }) => {
+  try {
+    await packsApi.editPack(id)
+  } catch (e) {
+    return rejectWithValue(e)
+  }
+})
 
 const slice = createSlice({
   name: "packs",
@@ -29,4 +50,4 @@ const slice = createSlice({
 
 export const packsReducer = slice.reducer
 export const packsActions = slice.actions
-export const packsThunks = { getPacks }
+export const packsThunks = { getPacks, addPack, deletePack, editPack }

@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks"
 import { packsThunks } from "features/packs/packs.slice"
 import {
   ButtonGroup,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -19,6 +20,9 @@ import { Search } from "features/packs/Packs/Search/Search"
 import { CustomSlider } from "features/packs/Packs/CustomSlider/CustomSlider"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
 import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
+import SchoolIcon from "@mui/icons-material/School"
+import DeleteIcon from "@mui/icons-material/Delete"
+import EditIcon from "@mui/icons-material/Edit"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()
@@ -32,7 +36,7 @@ export const Packs: FC = () => {
   const params = Object.fromEntries(searchParams)
   const cardPacksSettings = useAppSelector((state) => state.packs.cardPacks)
   const navigate = useNavigate()
-  // console.log(cardPacks)
+  console.log(id)
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -57,7 +61,6 @@ export const Packs: FC = () => {
       setSearchParams({ ...params, sortPacks: "1name" })
     }
   }
-
   // Sort by cardsCount
   const handleSortCardsRequest = (): void => {
     if (isLoading) return
@@ -75,7 +78,6 @@ export const Packs: FC = () => {
       setSearchParams({ ...params, sortPacks: "1cardsCount" })
     }
   }
-
   // Sort by updated date
   const handleSortUpdatedDateRequest = (): void => {
     if (isLoading) return
@@ -93,7 +95,6 @@ export const Packs: FC = () => {
       setSearchParams({ ...params, sortPacks: "1updated" })
     }
   }
-
   // Sort by user_name
   const handleSortUserNameRequest = (): void => {
     if (isLoading) return
@@ -203,11 +204,26 @@ export const Packs: FC = () => {
     }
   }
 
+  // addPack
+  const addPackHandler = async () => {
+    await dispatch(packsThunks.addPack())
+    dispatch(packsThunks.getPacks(params))
+  }
+
+  const deletePackHandler = async (id: string) => {
+    await dispatch(packsThunks.deletePack(id))
+    dispatch(packsThunks.getPacks(params))
+  }
+  const editPackHandler = async (id: string) => {
+    await dispatch(packsThunks.editPack(id))
+    dispatch(packsThunks.getPacks(params))
+  }
+
   return (
     <div>
       <div className={s.header}>
         <div className={s.packsList}>Packs list</div>
-        <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
+        <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }} onClick={addPackHandler}>
           Add new pack
         </Button>
       </div>
@@ -234,7 +250,7 @@ export const Packs: FC = () => {
           </div>
         </div>
         <div className={s.filter}>
-          <div>Filter</div>
+          <div>Reset</div>
           <Button
             variant={"contained"}
             color={"inherit"}
@@ -247,7 +263,7 @@ export const Packs: FC = () => {
       </div>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
-          <TableHead>
+          <TableHead className={s.tableHead}>
             <TableRow>
               <TableCell align="center" onClick={handleSortNameRequest}>
                 <TableSortLabel
@@ -289,7 +305,7 @@ export const Packs: FC = () => {
               cardPacks.map((row) => (
                 <TableRow
                   key={row._id}
-                  onClick={() => navigate(id === row._id ? `/my-pack/${row._id}` : `/friends-pack/${row._id}`)}
+                  onClick={() => navigate(id === row.user_id ? `/my-pack/${row._id}` : `/friends-pack/${row._id}`)}
                   className={s.tableRow}
                 >
                   <TableCell component="th" scope="row" align="center">
@@ -304,7 +320,26 @@ export const Packs: FC = () => {
                       event.stopPropagation()
                     }}
                   >
-                    Actions
+                    {row.user_id === id && (
+                      <div>
+                        <IconButton aria-label="learn">
+                          <SchoolIcon />
+                        </IconButton>
+                        <IconButton aria-label="edit" onClick={() => editPackHandler(row._id)}>
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton aria-label="delete" onClick={() => deletePackHandler(row._id)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </div>
+                    )}
+                    {row.user_id !== id && (
+                      <div>
+                        <IconButton aria-label="learn">
+                          <SchoolIcon />
+                        </IconButton>
+                      </div>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

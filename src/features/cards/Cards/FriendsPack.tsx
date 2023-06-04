@@ -129,11 +129,11 @@ export const FriendsPack: FC = () => {
       </div>
       <div className={s.settings}>
         <div className={s.search}>
-          <div>Search</div>
+          <div>Search by questions</div>
           <Search onChange={changeSearchParams} value={params.packName || ""} />
         </div>
         <div className={s.filter}>
-          <div>Filter</div>
+          <div>Reset</div>
           <Button
             variant={"contained"}
             color={"inherit"}

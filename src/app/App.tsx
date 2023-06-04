@@ -22,7 +22,7 @@ function App() {
   }
 
   return (
-    <div style={{ margin: "50px" }}>
+    <div style={{ margin: "50px 50px 0" }}>
       <Packs />
     </div>
   )

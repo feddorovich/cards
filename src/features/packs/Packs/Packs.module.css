@@ -43,7 +43,15 @@
 }
 
 .pagination {
-    margin: 20px 0;
+    padding: 20px 0;
+}
+.tableHead {
+    background-color: #EFEFEF;
+    transition: 0.5s;
+}
+
+.tableHead:hover {
+    background-color: #e7e5e5;
 }
 
 .tableRow:hover {
@@ -52,5 +60,5 @@
 
 .tableRow:hover {
     cursor: pointer;
-    background-color: #e0e0e0;
+    background-color: #e7e5e5;
 }

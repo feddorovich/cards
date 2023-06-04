@@ -8,6 +8,15 @@ export const packsApi = {
     }
     return instance.get("cards/pack", { params: defaultArg })
   },
+  addPack: () => {
+    return instance.post("cards/pack", { cardsPack: {} }, {})
+  },
+  deletePack: (id: string) => {
+    return instance.delete("cards/pack", { params: { id: id } })
+  },
+  editPack: (id: string) => {
+    return instance.put("cards/pack", { cardsPack: { _id: id, name: "new Name" } }, {})
+  },
 }
 
 export type ArgPacksType = {
