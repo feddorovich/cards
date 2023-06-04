@@ -1,13 +1,23 @@
 import React, { FC, useEffect } from "react"
 import s from "./FriendsPack.module.css"
 import { useAppDispatch, useAppSelector } from "common/hooks"
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material"
+import {
+  CircularProgress,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+} from "@mui/material"
 import Button from "@mui/material/Button"
 import { NavLink, useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
 import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
-import { cardsThunks } from "features/cards/cards.slice"
+import { cardsActions, cardsThunks } from "features/cards/cards.slice"
 
 export const FriendsPack: FC = () => {
   const dispatch = useAppDispatch()
@@ -114,6 +124,14 @@ export const FriendsPack: FC = () => {
         setSearchParams({ ...params, page: newPage.toString(), pageCount: newCount.toString() })
       }
     }
+  }
+
+  if (cardsSettings.packName === undefined) {
+    return (
+      <div style={{ position: "fixed", top: "30%", textAlign: "center", width: "100%" }}>
+        <CircularProgress />
+      </div>
+    )
   }
 
   return (

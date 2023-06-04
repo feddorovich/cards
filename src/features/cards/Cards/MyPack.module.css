@@ -67,6 +67,11 @@
     opacity: 0.8;
 }
 
+.noPacksButton {
+    display: flex;
+    justify-content: center;
+}
+
 .pagination {
     margin: 20px 0;
 }

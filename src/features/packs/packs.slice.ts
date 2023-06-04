@@ -40,7 +40,11 @@ const slice = createSlice({
   initialState: {
     cardPacks: {} as GetPacksResponseType,
   },
-  reducers: {},
+  reducers: {
+    setEmptyPacks: (state) => {
+      state.cardPacks = {} as GetPacksResponseType
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getPacks.fulfilled, (state, action) => {
       state.cardPacks = action.payload.cardPacks

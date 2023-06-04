@@ -47,7 +47,11 @@ const slice = createSlice({
   initialState: {
     cards: {} as GetCardsResponseType,
   },
-  reducers: {},
+  reducers: {
+    setEmptyCards: (state) => {
+      state.cards = {} as GetCardsResponseType
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getCards.fulfilled, (state, action) => {
       state.cards = action.payload.cards

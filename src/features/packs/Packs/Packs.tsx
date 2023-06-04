@@ -23,6 +23,7 @@ import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
 import SchoolIcon from "@mui/icons-material/School"
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
+import { cardsActions } from "features/cards/cards.slice"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()
@@ -36,11 +37,12 @@ export const Packs: FC = () => {
   const params = Object.fromEntries(searchParams)
   const cardPacksSettings = useAppSelector((state) => state.packs.cardPacks)
   const navigate = useNavigate()
-  console.log(id)
+  // console.log(id)
 
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(packsThunks.getPacks(params))
+      dispatch(cardsActions.setEmptyCards())
     }
   }, [isLoggedIn, searchParams])
 

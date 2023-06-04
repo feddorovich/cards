@@ -2,6 +2,7 @@ import React, { FC, useEffect } from "react"
 import s from "./MyPack.module.css"
 import { useAppDispatch, useAppSelector } from "common/hooks"
 import {
+  CircularProgress,
   IconButton,
   Paper,
   Table,
@@ -17,7 +18,7 @@ import { NavLink, useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
 import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
-import { cardsThunks } from "features/cards/cards.slice"
+import { cardsActions, cardsThunks } from "features/cards/cards.slice"
 import EditIcon from "@mui/icons-material/Edit"
 import DeleteIcon from "@mui/icons-material/Delete"
 
@@ -31,7 +32,7 @@ export const MyPack: FC = () => {
   const cardsSettings = useAppSelector((state) => state.cards.cards)
   const packId = document.location.href.split("/")[4].split("?")[0]
   const id = useAppSelector((state) => (state.auth.profile ? state.auth.profile._id : ""))
-  // console.log(packId)
+  // console.log(cardsSettings)
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -150,115 +151,154 @@ export const MyPack: FC = () => {
     dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
   }
 
+  if (cardsSettings.packName === undefined) {
+    return (
+      <div style={{ position: "fixed", top: "30%", textAlign: "center", width: "100%" }}>
+        <CircularProgress />
+      </div>
+    )
+  }
+
   return (
     <div className={s.myPack}>
       <div className={s.back}>
         <NavLink to={"/"}>← Back to Packs List</NavLink>
       </div>
-      <div className={s.header}>
-        <div className={s.packsList}>My Pack</div>
-        <Button
-          type={"submit"}
-          variant="contained"
-          color={"primary"}
-          sx={{ borderRadius: 6 }}
-          disabled={isLoading}
-          onClick={() => addCardHandler(packId)}
-        >
-          Add new card
-        </Button>
-      </div>
-      <div className={s.settings}>
-        <div className={s.search}>
-          <div>Search</div>
-          <Search onChange={changeSearchParams} value={params.packName || ""} />
+
+      {cards && cards.length === 0 ? (
+        <div>
+          <div className={s.header}>
+            <div className={s.packsList}>My Pack - {cardsSettings.packName}</div>
+          </div>
+          <div className={s.noPacks}>This pack is empty. Click add new card to fill this pack.</div>
+          <div className={s.noPacksButton}>
+            <Button
+              type={"submit"}
+              variant="contained"
+              color={"primary"}
+              size={"large"}
+              sx={{ borderRadius: 6 }}
+              disabled={isLoading}
+              onClick={() => addCardHandler(packId)}
+            >
+              Add new card
+            </Button>
+          </div>
         </div>
-        <div className={s.filter}>
-          <div>Reset</div>
-          <Button
-            variant={"contained"}
-            color={"inherit"}
-            onClick={() => setSearchParams({})}
-            sx={{ padding: 0, minWidth: 0, height: "100%" }}
-          >
-            <FilterAltOffIcon />
-          </Button>
-        </div>
-      </div>
-      <TableContainer component={Paper}>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center" onClick={handleSortQuestionRequest}>
-                <TableSortLabel
-                  active={params.sortCards === "0question" || params.sortCards === "1question"}
-                  direction={params.sortCards === "1question" || "" ? "asc" : "desc"}
-                >
-                  Question
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align="center" onClick={handleSortAnswerRequest}>
-                <TableSortLabel
-                  active={params.sortCards === "0answer" || params.sortCards === "1answer"}
-                  direction={params.sortCards === "0answer" || "" ? "asc" : "desc"}
-                >
-                  Answer
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align="center" onClick={handleSortUpdatedDateRequest}>
-                <TableSortLabel
-                  active={params.sortCards === "0updated" || params.sortCards === "1updated"}
-                  direction={params.sortCards === "0updated" || "" ? "asc" : "desc"}
-                >
-                  Last Updated
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align="center">Grade</TableCell>
-              <TableCell align="center">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {cards &&
-              cards.map((row) => (
-                <TableRow key={row._id}>
-                  <TableCell component="th" scope="row" align="center">
-                    {row.question}
+      ) : (
+        <div>
+          {" "}
+          <div className={s.header}>
+            <div className={s.packsList}>My Pack - {cardsSettings.packName}</div>
+            <Button
+              type={"submit"}
+              variant="contained"
+              color={"primary"}
+              sx={{ borderRadius: 6 }}
+              disabled={isLoading}
+              onClick={() => addCardHandler(packId)}
+            >
+              Add new card
+            </Button>
+          </div>
+          <div className={s.settings}>
+            <div className={s.search}>
+              <div>Search</div>
+              <Search onChange={changeSearchParams} value={params.packName || ""} />
+            </div>
+            <div className={s.filter}>
+              <div>Reset</div>
+              <Button
+                variant={"contained"}
+                color={"inherit"}
+                onClick={() => setSearchParams({})}
+                sx={{ padding: 0, minWidth: 0, height: "100%" }}
+              >
+                <FilterAltOffIcon />
+              </Button>
+            </div>
+          </div>
+          <TableContainer component={Paper}>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center" onClick={handleSortQuestionRequest}>
+                    <TableSortLabel
+                      active={params.sortCards === "0question" || params.sortCards === "1question"}
+                      direction={params.sortCards === "1question" || "" ? "asc" : "desc"}
+                    >
+                      Question
+                    </TableSortLabel>
                   </TableCell>
-                  <TableCell align="center">{row.answer}</TableCell>
-                  <TableCell align="center">{row.updated}</TableCell>
-                  <TableCell align="center">
-                    {row.grade.toFixed(1)}
-                    <Button onClick={() => gradeCardHandler(row._id)}>Grade</Button>
+                  <TableCell align="center" onClick={handleSortAnswerRequest}>
+                    <TableSortLabel
+                      active={params.sortCards === "0answer" || params.sortCards === "1answer"}
+                      direction={params.sortCards === "0answer" || "" ? "asc" : "desc"}
+                    >
+                      Answer
+                    </TableSortLabel>
                   </TableCell>
-                  <TableCell align="center">
-                    {row.user_id === id && (
-                      <div>
-                        <IconButton aria-label="edit" disabled={isLoading} onClick={() => updateCardHandler(row._id)}>
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton aria-label="delete" disabled={isLoading} onClick={() => deleteCardHandler(row._id)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </div>
-                    )}
+                  <TableCell align="center" onClick={handleSortUpdatedDateRequest}>
+                    <TableSortLabel
+                      active={params.sortCards === "0updated" || params.sortCards === "1updated"}
+                      direction={params.sortCards === "0updated" || "" ? "asc" : "desc"}
+                    >
+                      Last Updated
+                    </TableSortLabel>
                   </TableCell>
+                  <TableCell align="center">Grade</TableCell>
+                  <TableCell align="center">Actions</TableCell>
                 </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      {cards && cards.length === 0 && (
-        <div className={s.noPacks}>Unfortunately, we couldn't find any results based on your specified parameters.</div>
-      )}
-      {Object.keys(cardsSettings).length && (
-        <div className={s.pagination}>
-          <SuperPagination
-            page={+params.page || cardsSettings.page}
-            itemsCountForPage={+params.pageCount || cardsSettings.pageCount}
-            totalCount={cardsSettings.cardsTotalCount}
-            onChange={onChangePagination}
-            isLoading={isLoading}
-          />
+              </TableHead>
+              <TableBody>
+                {cards &&
+                  cards.map((row) => (
+                    <TableRow key={row._id}>
+                      <TableCell component="th" scope="row" align="center">
+                        {row.question}
+                      </TableCell>
+                      <TableCell align="center">{row.answer}</TableCell>
+                      <TableCell align="center">{row.updated}</TableCell>
+                      <TableCell align="center">
+                        {row.grade.toFixed(1)}
+                        <Button onClick={() => gradeCardHandler(row._id)}>Grade</Button>
+                      </TableCell>
+                      <TableCell align="center">
+                        {row.user_id === id && (
+                          <div>
+                            <IconButton
+                              aria-label="edit"
+                              disabled={isLoading}
+                              onClick={() => updateCardHandler(row._id)}
+                            >
+                              <EditIcon />
+                            </IconButton>
+                            <IconButton
+                              aria-label="delete"
+                              disabled={isLoading}
+                              onClick={() => deleteCardHandler(row._id)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </div>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          {Object.keys(cardsSettings).length && (
+            <div className={s.pagination}>
+              <SuperPagination
+                page={+params.page || cardsSettings.page}
+                itemsCountForPage={+params.pageCount || cardsSettings.pageCount}
+                totalCount={cardsSettings.cardsTotalCount}
+                onChange={onChangePagination}
+                isLoading={isLoading}
+              />
+            </div>
+          )}
         </div>
       )}
     </div>
