@@ -42,7 +42,21 @@ export const Packs: FC = () => {
   const [orderDirection, setOrderDirection] = useState<"asc" | "desc">("asc")
 
   const handleSortRequest = (): void => {
+    // setSearchParams({ ...params, sortPacks: "0name" })
     setOrderDirection(orderDirection === "asc" ? "desc" : "asc")
+  }
+
+  // Sort by name
+  const [orderNameDirection, setOrderNameDirection] = useState<"asc" | "desc">(
+    params.sortPacks === "0name" ? "asc" : "desc"
+  )
+  const handleSortNameRequest = (): void => {
+    setOrderNameDirection(orderNameDirection === "asc" ? "desc" : "asc")
+    if (params.sortPacks === "1name" || params.sortPacks === "") {
+      setSearchParams({ ...params, sortPacks: "0name" })
+    } else {
+      setSearchParams({ ...params, sortPacks: "1name" })
+    }
   }
 
   // Debounce & Search
@@ -182,8 +196,8 @@ export const Packs: FC = () => {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center" onClick={handleSortRequest}>
-                <TableSortLabel active={true} direction={orderDirection}>
+              <TableCell align="center" onClick={handleSortNameRequest}>
+                <TableSortLabel active={true} direction={orderNameDirection}>
                   Name
                 </TableSortLabel>
               </TableCell>
