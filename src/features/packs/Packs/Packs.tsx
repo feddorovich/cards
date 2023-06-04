@@ -47,15 +47,29 @@ export const Packs: FC = () => {
   }
 
   // Sort by name
-  const [orderNameDirection, setOrderNameDirection] = useState<"asc" | "desc">(
-    params.sortPacks === "0name" ? "asc" : "desc"
-  )
   const handleSortNameRequest = (): void => {
-    setOrderNameDirection(orderNameDirection === "asc" ? "desc" : "asc")
-    if (params.sortPacks === "1name" || params.sortPacks === "") {
-      setSearchParams({ ...params, sortPacks: "0name" })
-    } else {
+    if (params.sortPacks === undefined) {
       setSearchParams({ ...params, sortPacks: "1name" })
+    }
+    if (params.sortPacks === "0name") {
+      delete params.sortPacks
+      setSearchParams({ ...params })
+    }
+    if (params.sortPacks === "1name") {
+      setSearchParams({ ...params, sortPacks: "0name" })
+    }
+  }
+
+  // Sort by cardsCount
+  const [orderCardsDirection, setOrderCardsDirection] = useState<"asc" | "desc">(
+    params.sortPacks === "0cardsCount" ? "asc" : "desc"
+  )
+  const handleSortCardsRequest = (): void => {
+    setOrderCardsDirection(orderCardsDirection === "asc" ? "desc" : "asc")
+    if (params.sortPacks === "1cardsCount" || params.sortPacks === "") {
+      setSearchParams({ ...params, sortPacks: "0cardsCount" })
+    } else {
+      setSearchParams({ ...params, sortPacks: "1cardsCount" })
     }
   }
 
@@ -197,12 +211,15 @@ export const Packs: FC = () => {
           <TableHead>
             <TableRow>
               <TableCell align="center" onClick={handleSortNameRequest}>
-                <TableSortLabel active={true} direction={orderNameDirection}>
+                <TableSortLabel
+                  active={params.sortPacks === "0name" || params.sortPacks === "1name"}
+                  direction={params.sortPacks === "1name" || "" ? "asc" : "desc"}
+                >
                   Name
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="center" onClick={handleSortRequest}>
-                <TableSortLabel active={true} direction={orderDirection}>
+              <TableCell align="center" onClick={handleSortCardsRequest}>
+                <TableSortLabel active={true} direction={orderCardsDirection}>
                   Cards
                 </TableSortLabel>
               </TableCell>
