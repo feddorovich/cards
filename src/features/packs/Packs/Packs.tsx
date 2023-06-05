@@ -187,37 +187,26 @@ export const Packs: FC = () => {
   const [value1, setValue1] = useState(0)
   const [value2, setValue2] = useState(100)
 
-  useEffect(() => {
-    clearTimeout(timerId)
-    timerId = setTimeout(() => {
-      if (value1) {
-        setSearchParams({ ...params, min: value1.toString() })
-      }
-      if (value1 === minCardsCount) {
-        delete params.min
-        setSearchParams({ ...params })
-      }
-    }, 1000)
-  }, [value1])
-
-  useEffect(() => {
-    clearTimeout(timerId)
-    timerId = setTimeout(() => {
-      if (value2) {
-        setSearchParams({ ...params, max: value2.toString() })
-      }
-      if (value2 === maxCardsCount) {
-        delete params.max
-        setSearchParams({ ...params })
-      }
-    }, 1000)
-  }, [value2])
-
   const onChangeSliderHandler = (event: React.SyntheticEvent | Event, value: number | Array<number>) => {
+    clearTimeout(timerId)
     if (Array.isArray(value)) {
-      console.log(value[0], value[1])
       setValue1(value[0])
       setValue2(value[1])
+      if (value[1] === maxCardsCount && value[0] === minCardsCount) {
+        delete params.max
+        delete params.min
+        setSearchParams({ ...params })
+      } else {
+        if (value[1] !== maxCardsCount && value[0] === minCardsCount) {
+          delete params.min
+          setSearchParams({ ...params, max: value[1].toString() })
+        } else if (value[1] === maxCardsCount && value[0] !== minCardsCount) {
+          delete params.max
+          setSearchParams({ ...params, min: value[0].toString() })
+        } else {
+          setSearchParams({ ...params, min: value[0].toString(), max: value[1].toString() })
+        }
+      }
     } else {
       setValue1(value)
     }
@@ -257,7 +246,13 @@ export const Packs: FC = () => {
         <div className={s.numbers}>
           <div>Number of cards</div>
           <div>
-            <CustomSlider value={[value1, value2]} onChangeCommitted={onChangeSliderHandler} />
+            <CustomSlider
+              value={[value1, value2]}
+              min={minCardsCount}
+              max={maxCardsCount}
+              disabled={isLoading}
+              onChangeCommitted={onChangeSliderHandler}
+            />
           </div>
         </div>
         <div className={s.filter}>
