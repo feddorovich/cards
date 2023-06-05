@@ -24,7 +24,6 @@ import SchoolIcon from "@mui/icons-material/School"
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import { cardsActions } from "features/cards/cards.slice"
-import { ToastContainer } from "react-toastify"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()
@@ -161,16 +160,17 @@ export const Packs: FC = () => {
     }
   }
 
-  // addPack
+  // add pack
   const addPackHandler = async () => {
     await dispatch(packsThunks.addPack())
     dispatch(packsThunks.getPacks(params))
   }
-
+  // delete pack
   const deletePackHandler = async (id: string) => {
     await dispatch(packsThunks.deletePack(id))
     dispatch(packsThunks.getPacks(params))
   }
+  // edit pack
   const editPackHandler = async (id: string) => {
     await dispatch(packsThunks.editPack(id))
     dispatch(packsThunks.getPacks(params))
@@ -179,13 +179,13 @@ export const Packs: FC = () => {
   //Slider
   useEffect(() => {
     if (minCardsCount !== undefined && maxCardsCount !== undefined) {
-      setValue1(minCardsCount)
-      setValue2(maxCardsCount)
+      setValue1(+params.min || minCardsCount)
+      setValue2(+params.max || maxCardsCount)
     }
   }, [minCardsCount, maxCardsCount])
 
   const [value1, setValue1] = useState(0)
-  const [value2, setValue2] = useState(100)
+  const [value2, setValue2] = useState(110)
 
   const onChangeSliderHandler = (event: React.SyntheticEvent | Event, value: number | Array<number>) => {
     clearTimeout(timerId)
