@@ -24,6 +24,7 @@ import SchoolIcon from "@mui/icons-material/School"
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import { cardsActions } from "features/cards/cards.slice"
+import { appActions } from "app/app.slice"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()
@@ -308,54 +309,79 @@ export const Packs: FC = () => {
           </TableHead>
           <TableBody>
             {cardPacks &&
-              cardPacks.map((row) => (
-                <TableRow
-                  key={row._id}
-                  // TODO
-                  onClick={() => {
-                    if (row.cardsCount === 0 && id !== row.user_id) {
-                      alert("No cards to study")
-                      return
-                    }
-                    navigate(id === row.user_id ? `/my-pack/${row._id}` : `/friends-pack/${row._id}`)
-                  }}
-                  className={s.tableRow}
-                >
-                  <TableCell component="th" scope="row" align="center">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="center">{row.cardsCount}</TableCell>
-                  <TableCell align="center">{row.updated}</TableCell>
-                  <TableCell align="center">{row.user_name}</TableCell>
-                  <TableCell
-                    align="center"
-                    onClick={(event) => {
-                      event.stopPropagation()
-                    }}
-                  >
-                    {row.user_id === id && (
-                      <div>
+              cardPacks.map((row) => {
+                if (row.cardsCount === 0 && id !== row.user_id) {
+                  return (
+                    <TableRow
+                      key={row._id}
+                      onClick={() => {
+                        dispatch(appActions.setError({ error: "No cards to study" }))
+                      }}
+                      className={s.tableRowDisabled}
+                    >
+                      <TableCell component="th" scope="row" align="center">
+                        {row.name}
+                      </TableCell>
+                      <TableCell align="center">{row.cardsCount}</TableCell>
+                      <TableCell align="center">{row.updated}</TableCell>
+                      <TableCell align="center">{row.user_name}</TableCell>
+                      <TableCell align="center">
                         <IconButton aria-label="learn">
                           <SchoolIcon />
                         </IconButton>
-                        <IconButton aria-label="edit" disabled={isLoading} onClick={() => editPackHandler(row._id)}>
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton aria-label="delete" disabled={isLoading} onClick={() => deletePackHandler(row._id)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </div>
-                    )}
-                    {row.user_id !== id && (
-                      <div>
-                        <IconButton aria-label="learn">
-                          <SchoolIcon />
-                        </IconButton>
-                      </div>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
+                      </TableCell>
+                    </TableRow>
+                  )
+                } else {
+                  return (
+                    <TableRow
+                      key={row._id}
+                      onClick={() => {
+                        navigate(id === row.user_id ? `/my-pack/${row._id}` : `/friends-pack/${row._id}`)
+                      }}
+                      className={s.tableRowActive}
+                    >
+                      <TableCell component="th" scope="row" align="center">
+                        {row.name}
+                      </TableCell>
+                      <TableCell align="center">{row.cardsCount}</TableCell>
+                      <TableCell align="center">{row.updated}</TableCell>
+                      <TableCell align="center">{row.user_name}</TableCell>
+                      <TableCell
+                        align="center"
+                        onClick={(event) => {
+                          event.stopPropagation()
+                        }}
+                      >
+                        {row.user_id === id && (
+                          <div>
+                            <IconButton aria-label="learn">
+                              <SchoolIcon />
+                            </IconButton>
+                            <IconButton aria-label="edit" disabled={isLoading} onClick={() => editPackHandler(row._id)}>
+                              <EditIcon />
+                            </IconButton>
+                            <IconButton
+                              aria-label="delete"
+                              disabled={isLoading}
+                              onClick={() => deletePackHandler(row._id)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </div>
+                        )}
+                        {row.user_id !== id && (
+                          <div>
+                            <IconButton aria-label="learn">
+                              <SchoolIcon />
+                            </IconButton>
+                          </div>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  )
+                }
+              })}
           </TableBody>
         </Table>
       </TableContainer>

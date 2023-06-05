@@ -54,11 +54,15 @@
     background-color: #e7e5e5;
 }
 
-.tableRow:hover {
+.tableRowActive:hover {
     transition: 0.5s;
 }
 
-.tableRow:hover {
+.tableRowActive:hover {
     cursor: pointer;
     background-color: #e7e5e5;
+}
+
+.tableRowDisabled {
+    opacity: 0.5;
 }
