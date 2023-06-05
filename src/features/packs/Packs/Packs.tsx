@@ -38,7 +38,7 @@ export const Packs: FC = () => {
   const params = Object.fromEntries(searchParams)
   const cardPacksSettings = useAppSelector((state) => state.packs.cardPacks)
   const navigate = useNavigate()
-  console.log(cardPacks)
+  // console.log(cardPacks)
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -140,52 +140,6 @@ export const Packs: FC = () => {
     setSearchParams({ ...params })
   }
 
-  //Slider
-  useEffect(() => {
-    if (minCardsCount !== undefined && maxCardsCount !== undefined) {
-      setValue1(minCardsCount)
-      setValue2(maxCardsCount)
-    }
-  }, [minCardsCount, maxCardsCount])
-
-  const [value1, setValue1] = useState(0)
-  const [value2, setValue2] = useState(100)
-
-  // useEffect(() => {
-  //   clearTimeout(timerId)
-  //   timerId = setTimeout(() => {
-  //     if (value1) {
-  //       setSearchParams({ ...params, min: value1.toString() })
-  //     }
-  //     if (value1 === minCardsCount) {
-  //       delete params.min
-  //       setSearchParams({ ...params })
-  //     }
-  //   }, 1000)
-  // }, [value1])
-  //
-  // useEffect(() => {
-  //   clearTimeout(timerId)
-  //   timerId = setTimeout(() => {
-  //     if (value2) {
-  //       setSearchParams({ ...params, max: value2.toString() })
-  //     }
-  //     if (value2 === maxCardsCount) {
-  //       delete params.max
-  //       setSearchParams({ ...params })
-  //     }
-  //   }, 1000)
-  // }, [value2])
-
-  const onChangeSliderHandler = (event: Event, value: number | number[]) => {
-    if (Array.isArray(value)) {
-      setValue1(value[0])
-      setValue2(value[1])
-    } else {
-      setValue1(value)
-    }
-  }
-
   // Pagination
   const onChangePagination = (newPage: number, newCount: number) => {
     // console.log("newPage", newPage)
@@ -222,6 +176,53 @@ export const Packs: FC = () => {
     dispatch(packsThunks.getPacks(params))
   }
 
+  //Slider
+  useEffect(() => {
+    if (minCardsCount !== undefined && maxCardsCount !== undefined) {
+      setValue1(minCardsCount)
+      setValue2(maxCardsCount)
+    }
+  }, [minCardsCount, maxCardsCount])
+
+  const [value1, setValue1] = useState(0)
+  const [value2, setValue2] = useState(100)
+
+  useEffect(() => {
+    clearTimeout(timerId)
+    timerId = setTimeout(() => {
+      if (value1) {
+        setSearchParams({ ...params, min: value1.toString() })
+      }
+      if (value1 === minCardsCount) {
+        delete params.min
+        setSearchParams({ ...params })
+      }
+    }, 1000)
+  }, [value1])
+
+  useEffect(() => {
+    clearTimeout(timerId)
+    timerId = setTimeout(() => {
+      if (value2) {
+        setSearchParams({ ...params, max: value2.toString() })
+      }
+      if (value2 === maxCardsCount) {
+        delete params.max
+        setSearchParams({ ...params })
+      }
+    }, 1000)
+  }, [value2])
+
+  const onChangeSliderHandler = (event: React.SyntheticEvent | Event, value: number | Array<number>) => {
+    if (Array.isArray(value)) {
+      console.log(value[0], value[1])
+      setValue1(value[0])
+      setValue2(value[1])
+    } else {
+      setValue1(value)
+    }
+  }
+
   return (
     <div>
       <div className={s.header}>
@@ -256,7 +257,7 @@ export const Packs: FC = () => {
         <div className={s.numbers}>
           <div>Number of cards</div>
           <div>
-            <CustomSlider value={[value1, value2]} onChange={onChangeSliderHandler} />
+            <CustomSlider value={[value1, value2]} onChangeCommitted={onChangeSliderHandler} />
           </div>
         </div>
         <div className={s.filter}>
