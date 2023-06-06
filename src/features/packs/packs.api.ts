@@ -3,7 +3,7 @@ import { instance } from "common/api/common.api"
 export const packsApi = {
   getPacks: (arg: ArgPacksType = {}) => {
     const defaultArg: ArgPacksType = {
-      pageCount: 10,
+      pageCount: 5,
       ...arg,
     }
     return instance.get("cards/pack", { params: defaultArg })

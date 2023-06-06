@@ -147,12 +147,12 @@ export const Packs: FC = () => {
     if (newPage === 1) {
       delete params.page
       setSearchParams({ ...params, pageCount: newCount.toString() })
-      if (newCount === 10) {
+      if (newCount === 5) {
         delete params.pageCount
         setSearchParams({ ...params })
       }
     } else {
-      if (newCount === 10) {
+      if (newCount === 5) {
         delete params.pageCount
         setSearchParams({ ...params, page: newPage.toString() })
       } else {
