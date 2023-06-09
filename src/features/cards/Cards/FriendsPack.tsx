@@ -27,7 +27,7 @@ export const FriendsPack: FC = () => {
   const params = Object.fromEntries(searchParams)
   const cards = useAppSelector((state) => state.cards.cards.cards)
   const cardsSettings = useAppSelector((state) => state.cards.cards)
-  const packId = document.location.href.split("/")[5].split("?")[0]
+  const packId = document.location.href.split("/")[4].split("?")[0]
 
   useEffect(() => {
     if (isLoggedIn) {
