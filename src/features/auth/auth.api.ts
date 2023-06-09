@@ -7,7 +7,7 @@ const messageBody = () => {
     <p>Hello,</p>
     <p>You are receiving this email because you requested a password reset.</p>
     <p>To create a new password, please click on the link below:</p>
-    <p><a href="http://localhost:3000/set-new-password/$token$">Create New Password</a></p>
+    <p><a href="https://feddorovich.github.io/cards/#/set-new-password/$token$">Create New Password</a></p>
     <p>If you did not request a password reset, please ignore this email.</p>
     <p>Best regards,<br>Your Team</p>
   </div>
