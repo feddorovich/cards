@@ -17,7 +17,7 @@ import { NavLink, useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
 import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
-import { cardsActions, cardsThunks } from "features/cards/cards.slice"
+import { cardsThunks } from "features/cards/cards.slice"
 
 export const FriendsPack: FC = () => {
   const dispatch = useAppDispatch()
@@ -27,8 +27,7 @@ export const FriendsPack: FC = () => {
   const params = Object.fromEntries(searchParams)
   const cards = useAppSelector((state) => state.cards.cards.cards)
   const cardsSettings = useAppSelector((state) => state.cards.cards)
-  const packId = document.location.href.split("/")[4].split("?")[0]
-  // console.log(packId)
+  const packId = document.location.href.split("/")[5].split("?")[0]
 
   useEffect(() => {
     if (isLoggedIn) {

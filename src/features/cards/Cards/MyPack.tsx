@@ -18,7 +18,7 @@ import { NavLink, useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
 import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
-import { cardsActions, cardsThunks } from "features/cards/cards.slice"
+import { cardsThunks } from "features/cards/cards.slice"
 import EditIcon from "@mui/icons-material/Edit"
 import DeleteIcon from "@mui/icons-material/Delete"
 
@@ -30,9 +30,8 @@ export const MyPack: FC = () => {
   const params = Object.fromEntries(searchParams)
   const cards = useAppSelector((state) => state.cards.cards.cards)
   const cardsSettings = useAppSelector((state) => state.cards.cards)
-  const packId = document.location.href.split("/")[4].split("?")[0]
+  const packId = document.location.href.split("/")[5].split("?")[0]
   const id = useAppSelector((state) => (state.auth.profile ? state.auth.profile._id : ""))
-  // console.log(cardsSettings)
 
   useEffect(() => {
     if (isLoggedIn) {
