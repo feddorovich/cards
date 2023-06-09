@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom"
+import { createBrowserRouter, createHashRouter } from "react-router-dom"
 import { Layout } from "features/layout/Layout"
 import App from "app/App"
 import { Login } from "features/auth/Login/Login"
@@ -11,7 +11,7 @@ import React from "react"
 import { FriendsPack } from "features/cards/Cards/FriendsPack"
 import { MyPack } from "features/cards/Cards/MyPack"
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: "/",
     element: (
