@@ -25,7 +25,6 @@ export const EditPackModal: FC<EditPackPropsType> = ({ children, _id }) => {
   const packName = useAppSelector((state) =>
     state.packs.cardPacks.cardPacks ? state.packs.cardPacks.cardPacks.find((pack) => pack._id === _id)?.name : ""
   )
-  console.log(packName)
 
   const formik = useFormik({
     initialValues: {
@@ -44,7 +43,7 @@ export const EditPackModal: FC<EditPackPropsType> = ({ children, _id }) => {
       await dispatch(packsThunks.editPack({ _id, name: values.name }))
       await dispatch(packsThunks.getPacks(params))
       handleClose()
-      formik.resetForm()
+      // formik.resetForm()
     },
   })
 

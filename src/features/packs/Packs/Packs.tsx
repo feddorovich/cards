@@ -173,11 +173,6 @@ export const Packs: FC = () => {
     await dispatch(packsThunks.deletePack(id))
     dispatch(packsThunks.getPacks(params))
   }
-  // edit pack
-  // const editPackHandler = async (id: string) => {
-  //   await dispatch(packsThunks.editPack(id))
-  //   dispatch(packsThunks.getPacks(params))
-  // }
 
   //Slider
   useEffect(() => {
