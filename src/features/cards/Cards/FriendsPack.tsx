@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks"
 import {
   CircularProgress,
   Paper,
+  Rating,
   Table,
   TableBody,
   TableCell,
@@ -204,7 +205,9 @@ export const FriendsPack: FC = () => {
                   </TableCell>
                   <TableCell align="center">{row.answer}</TableCell>
                   <TableCell align="center">{row.updated}</TableCell>
-                  <TableCell align="center">{row.rating}</TableCell>
+                  <TableCell align="center">
+                    <Rating name="read-only" readOnly precision={0.5} value={+row.grade} />
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>

@@ -33,6 +33,7 @@ import {
 } from "features/packs/packs.selector"
 import { selectId, selectIsLoggedIn } from "features/auth/auth.selector"
 import { selectIsLoading } from "app/app.selector"
+import { AddNewPack } from "features/modal/AddNewPack"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()
@@ -222,16 +223,18 @@ export const Packs: FC = () => {
     <div>
       <div className={s.header}>
         <div className={s.packsList}>Packs list</div>
-        <Button
-          type={"submit"}
-          variant="contained"
-          color={"primary"}
-          sx={{ borderRadius: 6 }}
-          onClick={addPackHandler}
-          disabled={isLoading}
-        >
-          Add new pack
-        </Button>
+        <AddNewPack>
+          <Button
+            type={"submit"}
+            variant="contained"
+            color={"primary"}
+            sx={{ borderRadius: 6 }}
+            // onClick={addPackHandler}
+            disabled={isLoading}
+          >
+            Add new pack
+          </Button>
+        </AddNewPack>
       </div>
       <div className={s.settings}>
         <div className={s.search}>
