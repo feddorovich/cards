@@ -33,8 +33,9 @@ import {
 } from "features/packs/packs.selector"
 import { selectId, selectIsLoggedIn } from "features/auth/auth.selector"
 import { selectIsLoading } from "app/app.selector"
-import { AddNewPackModal } from "features/modal/AddNewPackModal"
-import { EditPackModal } from "features/modal/EditPackModal"
+import { AddNewPackModal } from "features/modal/AddNewPackModal/AddNewPackModal"
+import { EditPackModal } from "features/modal/EditPackModal/EditPackModal"
+import { DeletePackModal } from "features/modal/DeletePack/DeletePackModal"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()
@@ -363,12 +364,10 @@ export const Packs: FC = () => {
                                 <EditIcon />
                               </EditPackModal>
                             </IconButton>
-                            <IconButton
-                              aria-label="delete"
-                              disabled={isLoading}
-                              onClick={() => deletePackHandler(row._id)}
-                            >
-                              <DeleteIcon />
+                            <IconButton aria-label="delete" disabled={isLoading}>
+                              <DeletePackModal _id={row._id}>
+                                <DeleteIcon />
+                              </DeletePackModal>
                             </IconButton>
                           </div>
                         )}

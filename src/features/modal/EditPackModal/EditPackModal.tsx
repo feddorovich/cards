@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useState } from "react"
 import { BasicModal } from "features/modal/BasicModal"
-import s from "./EditPack.module.css"
+import s from "features/modal/EditPackModal/EditPack.module.css"
 import { useFormik } from "formik"
 import { Checkbox, FormControlLabel, TextField } from "@mui/material"
 import Button from "@mui/material/Button"

@@ -1,0 +1,12 @@
+.wrapper {
+    padding: 0 10px
+}
+
+.text {
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0 10px;
+}
