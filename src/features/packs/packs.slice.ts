@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils"
-import { ArgAddPacksType, ArgPacksType, GetPacksResponseType, packsApi } from "features/packs/packs.api"
+import { ArgAddPackType, ArgEditPackType, ArgPacksType, GetPacksResponseType, packsApi } from "features/packs/packs.api"
 
 const getPacks = createAppAsyncThunk<{ cardPacks: GetPacksResponseType }, ArgPacksType>(
   "packs/getPacks",
@@ -13,7 +13,7 @@ const getPacks = createAppAsyncThunk<{ cardPacks: GetPacksResponseType }, ArgPac
     }
   }
 )
-const addPack = createAppAsyncThunk("packs/addPack", async (arg: ArgAddPacksType, { rejectWithValue }) => {
+const addPack = createAppAsyncThunk("packs/addPack", async (arg: ArgAddPackType, { rejectWithValue }) => {
   try {
     await packsApi.addPack(arg)
   } catch (e) {
@@ -27,9 +27,9 @@ const deletePack = createAppAsyncThunk("packs/delete", async (id: string, { reje
     return rejectWithValue(e)
   }
 })
-const editPack = createAppAsyncThunk("packs/edit", async (id: string, { rejectWithValue }) => {
+const editPack = createAppAsyncThunk("packs/edit", async (arg: ArgEditPackType, { rejectWithValue }) => {
   try {
-    await packsApi.editPack(id)
+    await packsApi.editPack(arg)
   } catch (e) {
     return rejectWithValue(e)
   }

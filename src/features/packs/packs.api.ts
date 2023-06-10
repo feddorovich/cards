@@ -8,14 +8,14 @@ export const packsApi = {
     }
     return instance.get("cards/pack", { params: defaultArg })
   },
-  addPack: (cardsPack: ArgAddPacksType) => {
+  addPack: (cardsPack: ArgAddPackType) => {
     return instance.post("cards/pack", { cardsPack }, {})
   },
   deletePack: (id: string) => {
     return instance.delete("cards/pack", { params: { id: id } })
   },
-  editPack: (id: string) => {
-    return instance.put("cards/pack", { cardsPack: { _id: id, name: "new Name" } }, {})
+  editPack: (cardsPack: ArgEditPackType) => {
+    return instance.put("cards/pack", { cardsPack }, {})
   },
 }
 
@@ -54,8 +54,11 @@ export type CardPacksType = {
   updated: string
   __v: number
 }
-
-export type ArgAddPacksType = {
+export type ArgAddPackType = {
   name: string
   private: boolean
+}
+export type ArgEditPackType = {
+  _id: string
+  name: string
 }

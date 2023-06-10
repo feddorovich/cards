@@ -34,6 +34,7 @@ import {
 import { selectId, selectIsLoggedIn } from "features/auth/auth.selector"
 import { selectIsLoading } from "app/app.selector"
 import { AddNewPackModal } from "features/modal/AddNewPackModal"
+import { EditPackModal } from "features/modal/EditPackModal"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()
@@ -173,10 +174,10 @@ export const Packs: FC = () => {
     dispatch(packsThunks.getPacks(params))
   }
   // edit pack
-  const editPackHandler = async (id: string) => {
-    await dispatch(packsThunks.editPack(id))
-    dispatch(packsThunks.getPacks(params))
-  }
+  // const editPackHandler = async (id: string) => {
+  //   await dispatch(packsThunks.editPack(id))
+  //   dispatch(packsThunks.getPacks(params))
+  // }
 
   //Slider
   useEffect(() => {
@@ -362,8 +363,10 @@ export const Packs: FC = () => {
                             <IconButton aria-label="learn">
                               <SchoolIcon />
                             </IconButton>
-                            <IconButton aria-label="edit" disabled={isLoading} onClick={() => editPackHandler(row._id)}>
-                              <EditIcon />
+                            <IconButton aria-label="edit" disabled={isLoading}>
+                              <EditPackModal _id={row._id}>
+                                <EditIcon />
+                              </EditPackModal>
                             </IconButton>
                             <IconButton
                               aria-label="delete"
