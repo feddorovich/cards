@@ -1,0 +1,16 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 0 10px;
+}
+
+.header button {
+    color: black;
+    padding: 0;
+}
+
+.line {
+    opacity: 0.5;
+    margin: 0 0 20px;
+}
