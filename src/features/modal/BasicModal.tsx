@@ -14,8 +14,7 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  // border: "2px solid #000",
-  borderRadius: "2px",
+  borderRadius: "10px",
   boxShadow: 24,
   p: 4,
   padding: 3,
@@ -25,12 +24,22 @@ type BasicModalPropsType = {
   children: ReactNode
   childrenOpen?: ReactNode
   title: string
+  open: boolean
+  handleOpen: () => void
+  handleClose: () => void
 }
 
-export const BasicModal: FC<BasicModalPropsType> = ({ children, title, childrenOpen }) => {
-  const [open, setOpen] = React.useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+export const BasicModal: FC<BasicModalPropsType> = ({
+  children,
+  title,
+  childrenOpen,
+  open,
+  handleOpen,
+  handleClose,
+}) => {
+  // const [open, setOpen] = React.useState(false)
+  // const handleOpen = () => setOpen(true)
+  // const handleClose = () => setOpen(false)
 
   return (
     <div>
@@ -51,7 +60,6 @@ export const BasicModal: FC<BasicModalPropsType> = ({ children, title, childrenO
             </IconButton>
           </div>
           <div className={s.line}></div>
-          {/*<hr className={s.line} />*/}
           {children}
         </Box>
       </Modal>
