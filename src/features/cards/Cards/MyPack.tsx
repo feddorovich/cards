@@ -5,6 +5,7 @@ import {
   CircularProgress,
   IconButton,
   Paper,
+  Rating,
   Table,
   TableBody,
   TableCell,
@@ -147,11 +148,6 @@ export const MyPack: FC = () => {
     await dispatch(cardsThunks.updateCard(cardsPackId))
     dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
   }
-  // Grade card
-  const gradeCardHandler = async (cardsPackId: string) => {
-    await dispatch(cardsThunks.gradeCard(cardsPackId))
-    dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
-  }
 
   if (cardsSettings.packName === undefined) {
     return (
@@ -262,8 +258,15 @@ export const MyPack: FC = () => {
                       <TableCell align="center">{row.answer}</TableCell>
                       <TableCell align="center">{row.updated}</TableCell>
                       <TableCell align="center">
-                        {row.grade.toFixed(1)}
-                        <Button onClick={() => gradeCardHandler(row._id)}>Grade</Button>
+                        <Rating
+                          name="simple-controlled"
+                          precision={0.5}
+                          value={+row.grade}
+                          onChange={async (event, newValue) => {
+                            await dispatch(cardsThunks.gradeCard({ grade: newValue ? newValue : 0, card_id: row._id }))
+                            dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
+                          }}
+                        />
                       </TableCell>
                       <TableCell align="center">
                         {row.user_id === id && (

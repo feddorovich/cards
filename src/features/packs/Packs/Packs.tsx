@@ -39,7 +39,6 @@ export const Packs: FC = () => {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams({})
   const params = Object.fromEntries(searchParams)
-
   const cardPacks = useAppSelector(selectCardPacks)
   const cardPacksSettings = useAppSelector(selectCardPacksSettings)
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
@@ -150,8 +149,6 @@ export const Packs: FC = () => {
 
   // Pagination
   const onChangePagination = (newPage: number, newCount: number) => {
-    // console.log("newPage", newPage)
-    // console.log("newCount", newCount)
     if (newPage === 1) {
       delete params.page
       setSearchParams({ ...params, pageCount: newCount.toString() })
@@ -244,10 +241,18 @@ export const Packs: FC = () => {
         <div className={s.show}>
           <div>Show packs cards</div>
           <ButtonGroup>
-            <Button variant={params.user_id === id ? "contained" : "outlined"} onClick={switchMyCardHandler}>
+            <Button
+              variant={params.user_id === id ? "contained" : "outlined"}
+              onClick={switchMyCardHandler}
+              disabled={isLoading}
+            >
               My
             </Button>
-            <Button variant={params.user_id !== id ? "contained" : "outlined"} onClick={switchAllCardHandler}>
+            <Button
+              variant={params.user_id !== id ? "contained" : "outlined"}
+              onClick={switchAllCardHandler}
+              disabled={isLoading}
+            >
               All
             </Button>
           </ButtonGroup>

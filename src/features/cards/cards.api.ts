@@ -27,22 +27,14 @@ export const cardsApi = {
       {}
     )
   },
-  gradeCard: (cardsPack_id: string) => {
-    return instance.put(
-      "cards/grade",
-      {
-        grade: 1,
-        card_id: cardsPack_id,
-      },
-      {}
-    )
+  gradeCard: (arg: ArgGradeType) => {
+    return instance.put("cards/grade", arg, {})
   },
 }
 
 export type ArgCardsType = {
   cardsPack_id: string
 }
-
 export type GetCardsResponseType = {
   cards: CardsType[]
   packUserId: string
@@ -58,7 +50,6 @@ export type GetCardsResponseType = {
   token: string
   tokenDeathTime: number
 }
-
 export type CardsType = {
   _id: string
   cardsPack_id: string
@@ -72,4 +63,9 @@ export type CardsType = {
   created: string
   updated: string
   __v: number
+}
+
+export type ArgGradeType = {
+  grade: number
+  card_id: string
 }
