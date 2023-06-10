@@ -25,20 +25,28 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import { cardsActions } from "features/cards/cards.slice"
 import { appActions } from "app/app.slice"
+import {
+  selectCardPacks,
+  selectCardPacksSettings,
+  selectMaxCardsCount,
+  selectMinCardsCount,
+} from "features/packs/packs.selector"
+import { selectId, selectIsLoggedIn } from "features/auth/auth.selector"
+import { selectIsLoading } from "app/app.selector"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()
-  const cardPacks = useAppSelector((state) => state.packs.cardPacks.cardPacks)
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
-  const isLoading = useAppSelector((state) => state.app.isLoading)
-  const id = useAppSelector((state) => (state.auth.profile ? state.auth.profile._id : ""))
-  const minCardsCount = useAppSelector((state) => state.packs.cardPacks.minCardsCount)
-  const maxCardsCount = useAppSelector((state) => state.packs.cardPacks.maxCardsCount)
+  const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams({})
   const params = Object.fromEntries(searchParams)
-  const cardPacksSettings = useAppSelector((state) => state.packs.cardPacks)
-  const navigate = useNavigate()
-  // console.log(cardPacks)
+
+  const cardPacks = useAppSelector(selectCardPacks)
+  const cardPacksSettings = useAppSelector(selectCardPacksSettings)
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
+  const isLoading = useAppSelector(selectIsLoading)
+  const minCardsCount = useAppSelector(selectMinCardsCount)
+  const maxCardsCount = useAppSelector(selectMaxCardsCount)
+  const id = useAppSelector(selectId)
 
   useEffect(() => {
     if (isLoggedIn) {

@@ -21,17 +21,20 @@ import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
 import { cardsThunks } from "features/cards/cards.slice"
 import EditIcon from "@mui/icons-material/Edit"
 import DeleteIcon from "@mui/icons-material/Delete"
+import { selectId, selectIsLoggedIn } from "features/auth/auth.selector"
+import { selectIsLoading } from "app/app.selector"
+import { selectCards, selectCardsSettings } from "features/cards/cards.selector"
 
 export const MyPack: FC = () => {
   const dispatch = useAppDispatch()
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
-  const isLoading = useAppSelector((state) => state.app.isLoading)
   const [searchParams, setSearchParams] = useSearchParams({})
   const params = Object.fromEntries(searchParams)
-  const cards = useAppSelector((state) => state.cards.cards.cards)
-  const cardsSettings = useAppSelector((state) => state.cards.cards)
+  const id = useAppSelector(selectId)
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
+  const isLoading = useAppSelector(selectIsLoading)
+  const cards = useAppSelector(selectCards)
+  const cardsSettings = useAppSelector(selectCardsSettings)
   const packId = document.location.href.split("/")[4].split("?")[0]
-  const id = useAppSelector((state) => (state.auth.profile ? state.auth.profile._id : ""))
 
   useEffect(() => {
     if (isLoggedIn) {
