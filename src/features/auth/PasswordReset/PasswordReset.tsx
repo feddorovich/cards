@@ -6,13 +6,15 @@ import { useFormik } from "formik"
 import { authThunks } from "features/auth/auth.slice"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "common/hooks"
+import { selectIsLoggedIn, selectRedirectPath } from "features/auth/auth.selector"
+import { selectIsLoading } from "app/app.selector"
 
 export const PasswordReset: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const redirectPath = useAppSelector((state) => state.auth.redirectPath)
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
-  const isLoading = useAppSelector((state) => state.app.isLoading)
+  const redirectPath = useAppSelector(selectRedirectPath)
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
+  const isLoading = useAppSelector(selectIsLoading)
 
   useEffect(() => {
     if (redirectPath) navigate(redirectPath)

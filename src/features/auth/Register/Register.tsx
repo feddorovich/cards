@@ -9,13 +9,15 @@ import IconButton from "@mui/material/IconButton"
 import VisibilityOff from "@mui/icons-material/VisibilityOff"
 import Visibility from "@mui/icons-material/Visibility"
 import { useAppDispatch, useAppSelector } from "common/hooks"
+import { selectIsLoggedIn, selectRedirectPath } from "features/auth/auth.selector"
+import { selectIsLoading } from "app/app.selector"
 
 export const Register: FC = () => {
   const dispatch = useAppDispatch()
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
-  const isLoading = useAppSelector((state) => state.app.isLoading)
   const navigate = useNavigate()
-  const redirectPath = useAppSelector((state) => state.auth.redirectPath)
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
+  const isLoading = useAppSelector(selectIsLoading)
+  const redirectPath = useAppSelector(selectRedirectPath)
 
   // see password
   const [showPassword, setShowPassword] = React.useState(false)

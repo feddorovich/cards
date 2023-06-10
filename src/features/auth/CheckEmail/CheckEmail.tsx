@@ -5,9 +5,10 @@ import s from "./CheckEmail.module.css"
 import { Navigate, NavLink } from "react-router-dom"
 import checkEmail from "assets/image/checkEmail.png"
 import { useAppSelector } from "common/hooks"
+import { selectIsLoggedIn } from "features/auth/auth.selector"
 
 export const CheckEmail: FC = () => {
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
 
   if (isLoggedIn) {
     return <Navigate to="/" />

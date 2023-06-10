@@ -4,10 +4,12 @@ import { CircularProgress } from "@mui/material"
 import { Navigate } from "react-router-dom"
 import { useAppSelector } from "common/hooks"
 import { Packs } from "features/packs/Packs/Packs"
+import { selectIsAppInitialized } from "app/app.selector"
+import { selectIsLoggedIn } from "features/auth/auth.selector"
 
 function App() {
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
-  const isAppInitialized = useAppSelector((state) => state.app.isAppInitialized)
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
+  const isAppInitialized = useAppSelector(selectIsAppInitialized)
 
   if (!isAppInitialized) {
     return (
