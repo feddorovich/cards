@@ -18,7 +18,7 @@ const style = {
   borderRadius: "2px",
   boxShadow: 24,
   p: 4,
-  padding: 2,
+  padding: 3,
 }
 
 type BasicModalPropsType = {
@@ -50,7 +50,8 @@ export const BasicModal: FC<BasicModalPropsType> = ({ children, title, childrenO
               <CloseIcon />
             </IconButton>
           </div>
-          <hr className={s.line} />
+          <div className={s.line}></div>
+          {/*<hr className={s.line} />*/}
           {children}
         </Box>
       </Modal>

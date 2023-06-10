@@ -3,12 +3,12 @@ import TextField from "@mui/material/TextField"
 import SearchIcon from "@mui/icons-material/Search"
 import { InputAdornment } from "@mui/material"
 
-type EditableSpanPropsType = {
+type SearchPropsType = {
   onChange: (newValue: string) => void
   value: string
 }
 
-export const Search = function (props: EditableSpanPropsType) {
+export const Search = function (props: SearchPropsType) {
   let [title, setTitle] = useState(props.value)
 
   const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
