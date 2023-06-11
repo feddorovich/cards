@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react"
-import { CircularProgress, Grid, Paper } from "@mui/material"
+import { CircularProgress, FormControl, FormControlLabel, Grid, Paper, Radio, RadioGroup } from "@mui/material"
 import s from "./Learn.module.css"
 import { Navigate, NavLink } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "common/hooks"
@@ -10,10 +10,12 @@ import { selectCards } from "features/cards/cards.selector"
 import { selectIsLoggedIn } from "features/auth/auth.selector"
 import { CardsType } from "features/cards/cards.api"
 import { CardPacksType } from "features/packs/packs.api"
+import { selectIsLoading } from "app/app.selector"
 
 export const Learn: FC = () => {
   const dispatch = useAppDispatch()
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
+  const isLoading = useAppSelector(selectIsLoading)
   const packId = document.location.href.split("/")[4].split("?")[0]
   const pack: CardPacksType | undefined = useAppSelector((state) =>
     state.packs.cardPacks.cardPacks ? state.packs.cardPacks.cardPacks.find((pack) => pack._id === packId) : undefined
@@ -21,7 +23,20 @@ export const Learn: FC = () => {
   const cards = useAppSelector(selectCards)
   let [card, setCard] = useState<CardsType>()
   let [showAnswer, setShowAnswer] = useState<boolean>(false)
-  // console.log(pack)
+
+  // Radio group
+  const options = [
+    { value: 1, label: "Did not know the answer" },
+    { value: 2, label: "Had a vague idea" },
+    { value: 3, label: "Had some knowledge but unsure" },
+    { value: 4, label: "Had a good understanding" },
+    { value: 5, label: "Knew the answer" },
+  ]
+  const [selectedValue, setSelectedValue] = useState<number>(0)
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedValue(+event.target.value)
+  }
+  // console.log(selectedValue)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,7 +80,12 @@ export const Learn: FC = () => {
     return <Navigate to="/login" />
   }
 
-  const nextOnclickHandler = () => {
+  const nextOnclickHandler = async () => {
+    if (card) {
+      await dispatch(cardsThunks.gradeCard({ grade: selectedValue, card_id: card?._id }))
+    }
+    // await dispatch(cardsThunks.getCards({ cardsPack_id: packId }))
+    setSelectedValue(0)
     setShowAnswer(false)
     setCard(getCard(cards))
   }
@@ -102,10 +122,34 @@ export const Learn: FC = () => {
                 </div>
               )}
               {showAnswer && (
-                <div className={s.next}>
-                  <Button color="primary" variant="contained" sx={{ borderRadius: 6 }} onClick={nextOnclickHandler}>
-                    Next
-                  </Button>
+                <div>
+                  <div className={s.answer}>
+                    <b>Answer</b>: {card?.answer}
+                  </div>
+                  <div className={s.rateYourself}>Rate yourself:</div>
+                  <FormControl component="fieldset">
+                    <RadioGroup aria-label="options" name="options" value={selectedValue} onChange={handleChange}>
+                      {options.map((option) => (
+                        <FormControlLabel
+                          key={option.value}
+                          value={option.value}
+                          control={<Radio />}
+                          label={option.label}
+                        />
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                  <div className={s.next}>
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      sx={{ borderRadius: 6 }}
+                      disabled={selectedValue === 0 || isLoading}
+                      onClick={nextOnclickHandler}
+                    >
+                      Next
+                    </Button>
+                  </div>
                 </div>
               )}
             </Paper>
