@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useState } from "react"
 import { BasicModal } from "features/modal/BasicModal"
-import s from "./DeletePack.module.css"
+import s from "./DeletePackModal.module.css"
 import Button from "@mui/material/Button"
 import { packsThunks } from "features/packs/packs.slice"
 import { useAppDispatch, useAppSelector } from "common/hooks"

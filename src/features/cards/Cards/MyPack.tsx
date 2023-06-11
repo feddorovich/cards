@@ -25,6 +25,7 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import { selectId, selectIsLoggedIn } from "features/auth/auth.selector"
 import { selectIsLoading } from "app/app.selector"
 import { selectCards, selectCardsSettings } from "features/cards/cards.selector"
+import { AddNewCardModal } from "features/modal/AddNewCardModal/AddNewCardModal"
 
 export const MyPack: FC = () => {
   const dispatch = useAppDispatch()
@@ -134,10 +135,10 @@ export const MyPack: FC = () => {
   }
 
   // Add card
-  const addCardHandler = async (cardsPackId: string) => {
-    await dispatch(cardsThunks.addCard(cardsPackId))
-    dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
-  }
+  // const addCardHandler = async (cardsPackId: string) => {
+  //   await dispatch(cardsThunks.addCard(cardsPackId))
+  //   dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
+  // }
   // Delete card
   const deleteCardHandler = async (cardsPackId: string) => {
     await dispatch(cardsThunks.deleteCard(cardsPackId))
@@ -177,9 +178,9 @@ export const MyPack: FC = () => {
               size={"large"}
               sx={{ borderRadius: 6 }}
               disabled={isLoading}
-              onClick={() => addCardHandler(packId)}
+              // onClick={() => addCardHandler(packId)}
             >
-              Add new card
+              <AddNewCardModal cardsPack_id={packId}>Add new card</AddNewCardModal>
             </Button>
           </div>
         </div>
@@ -194,9 +195,9 @@ export const MyPack: FC = () => {
               color={"primary"}
               sx={{ borderRadius: 6 }}
               disabled={isLoading}
-              onClick={() => addCardHandler(packId)}
+              // onClick={() => addCardHandler(packId)}
             >
-              Add new card
+              <AddNewCardModal cardsPack_id={packId}>Add new card</AddNewCardModal>
             </Button>
           </div>
           <div className={s.settings}>
@@ -261,6 +262,7 @@ export const MyPack: FC = () => {
                         <Rating
                           name="simple-controlled"
                           precision={0.5}
+                          disabled={isLoading}
                           value={+row.grade}
                           onChange={async (event, newValue) => {
                             await dispatch(cardsThunks.gradeCard({ grade: newValue ? newValue : 0, card_id: row._id }))

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils"
-import { ArgCardsType, ArgGradeType, cardsApi, GetCardsResponseType } from "features/cards/cards.api"
+import { ArgAddCardType, ArgCardsType, ArgGradeType, cardsApi, GetCardsResponseType } from "features/cards/cards.api"
 
 const getCards = createAppAsyncThunk<{ cards: GetCardsResponseType }, ArgCardsType>(
   "cards/getCards",
@@ -13,9 +13,9 @@ const getCards = createAppAsyncThunk<{ cards: GetCardsResponseType }, ArgCardsTy
     }
   }
 )
-const addCard = createAppAsyncThunk("cards/addCard", async (cardsPackId: string, { rejectWithValue }) => {
+const addCard = createAppAsyncThunk("cards/addCard", async (arg: ArgAddCardType, { rejectWithValue }) => {
   try {
-    await cardsApi.addCard(cardsPackId)
+    await cardsApi.addCard(arg)
   } catch (e) {
     return rejectWithValue(e)
   }

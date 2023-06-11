@@ -35,7 +35,7 @@ import { selectId, selectIsLoggedIn } from "features/auth/auth.selector"
 import { selectIsLoading } from "app/app.selector"
 import { AddNewPackModal } from "features/modal/AddNewPackModal/AddNewPackModal"
 import { EditPackModal } from "features/modal/EditPackModal/EditPackModal"
-import { DeletePackModal } from "features/modal/DeletePack/DeletePackModal"
+import { DeletePackModal } from "features/modal/DeletePackModal/DeletePackModal"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()

@@ -8,8 +8,8 @@ export const cardsApi = {
     }
     return instance.get("cards/card", { params: defaultArg })
   },
-  addCard: (cardsPack_id: string) => {
-    return instance.post("cards/card", { card: { cardsPack_id: cardsPack_id } }, {})
+  addCard: (card: ArgAddCardType) => {
+    return instance.post("cards/card", { card }, {})
   },
   deleteCard: (cardsPack_id: string) => {
     return instance.delete("cards/card", { params: { id: cardsPack_id } })
@@ -64,8 +64,14 @@ export type CardsType = {
   updated: string
   __v: number
 }
-
 export type ArgGradeType = {
   grade: number
   card_id: string
+}
+export type ArgAddCardType = {
+  cardsPack_id: string
+  question?: string
+  answer?: string
+  answerImg?: string
+  questionImg?: string
 }
