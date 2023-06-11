@@ -26,6 +26,7 @@ import { selectId, selectIsLoggedIn } from "features/auth/auth.selector"
 import { selectIsLoading } from "app/app.selector"
 import { selectCards, selectCardsSettings } from "features/cards/cards.selector"
 import { AddNewCardModal } from "features/modal/AddNewCardModal/AddNewCardModal"
+import { EditCardModal } from "features/modal/EditCardModal/EditCardModal"
 
 export const MyPack: FC = () => {
   const dispatch = useAppDispatch()
@@ -134,21 +135,16 @@ export const MyPack: FC = () => {
     }
   }
 
-  // Add card
-  // const addCardHandler = async (cardsPackId: string) => {
-  //   await dispatch(cardsThunks.addCard(cardsPackId))
-  //   dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
-  // }
   // Delete card
   const deleteCardHandler = async (cardsPackId: string) => {
     await dispatch(cardsThunks.deleteCard(cardsPackId))
     dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
   }
   // Update card
-  const updateCardHandler = async (cardsPackId: string) => {
-    await dispatch(cardsThunks.updateCard(cardsPackId))
-    dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
-  }
+  // const updateCardHandler = async (cardsPackId: string) => {
+  //   await dispatch(cardsThunks.updateCard(cardsPackId))
+  //   dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
+  // }
 
   if (cardsSettings.packName === undefined) {
     return (
@@ -178,7 +174,6 @@ export const MyPack: FC = () => {
               size={"large"}
               sx={{ borderRadius: 6 }}
               disabled={isLoading}
-              // onClick={() => addCardHandler(packId)}
             >
               <AddNewCardModal cardsPack_id={packId}>Add new card</AddNewCardModal>
             </Button>
@@ -189,14 +184,7 @@ export const MyPack: FC = () => {
           {" "}
           <div className={s.header}>
             <div className={s.packsList}>My Pack - {cardsSettings.packName}</div>
-            <Button
-              type={"submit"}
-              variant="contained"
-              color={"primary"}
-              sx={{ borderRadius: 6 }}
-              disabled={isLoading}
-              // onClick={() => addCardHandler(packId)}
-            >
+            <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }} disabled={isLoading}>
               <AddNewCardModal cardsPack_id={packId}>Add new card</AddNewCardModal>
             </Button>
           </div>
@@ -276,9 +264,11 @@ export const MyPack: FC = () => {
                             <IconButton
                               aria-label="edit"
                               disabled={isLoading}
-                              onClick={() => updateCardHandler(row._id)}
+                              // onClick={() => updateCardHandler(row._id)}
                             >
-                              <EditIcon />
+                              <EditCardModal cardsPack_id={packId} cardId={row._id}>
+                                <EditIcon />
+                              </EditCardModal>
                             </IconButton>
                             <IconButton
                               aria-label="delete"

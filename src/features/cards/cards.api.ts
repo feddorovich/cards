@@ -14,18 +14,8 @@ export const cardsApi = {
   deleteCard: (cardsPack_id: string) => {
     return instance.delete("cards/card", { params: { id: cardsPack_id } })
   },
-  updateCard: (cardsPack_id: string) => {
-    return instance.put(
-      "cards/card",
-      {
-        card: {
-          _id: cardsPack_id,
-          question: "new question",
-          answer: "answer",
-        },
-      },
-      {}
-    )
+  updateCard: (card: ArgUpdateCardType) => {
+    return instance.put("cards/card", { card }, {})
   },
   gradeCard: (arg: ArgGradeType) => {
     return instance.put("cards/grade", arg, {})
@@ -74,4 +64,9 @@ export type ArgAddCardType = {
   answer?: string
   answerImg?: string
   questionImg?: string
+}
+export type ArgUpdateCardType = {
+  _id: string
+  question?: string
+  answer?: string
 }

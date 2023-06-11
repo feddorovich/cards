@@ -1,0 +1,28 @@
+.wrapper {
+    padding: 0 10px
+}
+
+.selectText {
+    color: #000000;
+    opacity: .5;
+    margin: 0 0 10px;
+}
+
+.packField {
+    position: relative;
+    margin: 20px 0;
+}
+
+.packFieldError {
+    color: #d33131;
+    position: absolute;
+    top: 10px;
+    right: -2px;
+    font-size: 13px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0 10px;
+}
