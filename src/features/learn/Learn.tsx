@@ -36,12 +36,10 @@ export const Learn: FC = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedValue(+event.target.value)
   }
-  // console.log(selectedValue)
 
   useEffect(() => {
     const fetchData = async () => {
       if (isLoggedIn) {
-        await dispatch(packsThunks.getPacks({}))
         await dispatch(cardsThunks.getCards({ cardsPack_id: packId }))
       }
     }
@@ -49,10 +47,19 @@ export const Learn: FC = () => {
   }, [isLoggedIn])
 
   useEffect(() => {
-    if (cards !== undefined) {
-      setCard(getCard(cards))
+    const fetchData = async () => {
+      if (cards !== undefined) {
+        await setCard(getCard(cards))
+      }
     }
+    fetchData()
   }, [cards])
+
+  useEffect(() => {
+    if (card !== undefined) {
+      dispatch(packsThunks.getPacks({ user_id: card?.user_id, pageCount: 100 }))
+    }
+  }, [card])
 
   const getCard = (cards: CardsType[]) => {
     const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0)
@@ -68,7 +75,7 @@ export const Learn: FC = () => {
     return cards[res.id + 1]
   }
 
-  if (!cards) {
+  if (card?.question === undefined || pack?.name === undefined) {
     return (
       <div style={{ position: "fixed", top: "30%", textAlign: "center", width: "100%" }}>
         <CircularProgress />
@@ -84,7 +91,6 @@ export const Learn: FC = () => {
     if (card) {
       await dispatch(cardsThunks.gradeCard({ grade: selectedValue, card_id: card?._id }))
     }
-    // await dispatch(cardsThunks.getCards({ cardsPack_id: packId }))
     setSelectedValue(0)
     setShowAnswer(false)
     setCard(getCard(cards))
@@ -115,6 +121,7 @@ export const Learn: FC = () => {
                     color="primary"
                     variant="contained"
                     sx={{ borderRadius: 6 }}
+                    disabled={isLoading}
                     onClick={() => setShowAnswer(true)}
                   >
                     Show answer

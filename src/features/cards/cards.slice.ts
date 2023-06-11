@@ -47,7 +47,6 @@ const gradeCard = createAppAsyncThunk<{ updatedGrade: GradeCardResponseType }, a
   async (arg: ArgGradeType, { rejectWithValue }) => {
     try {
       const res = await cardsApi.gradeCard(arg)
-      // console.log(res.data.updatedGrade)
       return { updatedGrade: res.data.updatedGrade }
     } catch (e) {
       return rejectWithValue(e)
@@ -71,9 +70,9 @@ const slice = createSlice({
         state.cards = action.payload.cards
       })
       .addCase(gradeCard.fulfilled, (state, action) => {
-        // TODO
-        // const card = state.cards.cards.find((card) => card._id === action.payload.updatedGrade.card_id)
-        // console.log(card)
+        const cardIndex = state.cards.cards.findIndex((card) => card._id === action.payload.updatedGrade.card_id)
+        state.cards.cards[cardIndex].grade = action.payload.updatedGrade.grade
+        state.cards.cards[cardIndex].shots = action.payload.updatedGrade.shots
       })
   },
 })

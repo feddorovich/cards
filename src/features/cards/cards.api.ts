@@ -24,6 +24,7 @@ export const cardsApi = {
 
 export type ArgCardsType = {
   cardsPack_id: string
+  pageCount?: number
 }
 export type GetCardsResponseType = {
   cards: CardsType[]
