@@ -11,8 +11,8 @@ export const cardsApi = {
   addCard: (card: ArgAddCardType) => {
     return instance.post("cards/card", { card }, {})
   },
-  deleteCard: (cardsPack_id: string) => {
-    return instance.delete("cards/card", { params: { id: cardsPack_id } })
+  deleteCard: (id: string) => {
+    return instance.delete("cards/card", { params: { id } })
   },
   updateCard: (card: ArgUpdateCardType) => {
     return instance.put("cards/card", { card }, {})

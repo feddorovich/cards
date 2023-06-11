@@ -27,6 +27,7 @@ import { selectIsLoading } from "app/app.selector"
 import { selectCards, selectCardsSettings } from "features/cards/cards.selector"
 import { AddNewCardModal } from "features/modal/AddNewCardModal/AddNewCardModal"
 import { EditCardModal } from "features/modal/EditCardModal/EditCardModal"
+import { DeleteCardModal } from "features/modal/DeleteCardModal/DeleteCardModal"
 
 export const MyPack: FC = () => {
   const dispatch = useAppDispatch()
@@ -116,8 +117,6 @@ export const MyPack: FC = () => {
 
   // Pagination
   const onChangePagination = (newPage: number, newCount: number) => {
-    // console.log("newPage", newPage)
-    // console.log("newCount", newCount)
     if (newPage === 1) {
       delete params.page
       setSearchParams({ ...params, pageCount: newCount.toString() })
@@ -134,17 +133,6 @@ export const MyPack: FC = () => {
       }
     }
   }
-
-  // Delete card
-  const deleteCardHandler = async (cardsPackId: string) => {
-    await dispatch(cardsThunks.deleteCard(cardsPackId))
-    dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
-  }
-  // Update card
-  // const updateCardHandler = async (cardsPackId: string) => {
-  //   await dispatch(cardsThunks.updateCard(cardsPackId))
-  //   dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
-  // }
 
   if (cardsSettings.packName === undefined) {
     return (
@@ -261,21 +249,15 @@ export const MyPack: FC = () => {
                       <TableCell align="center">
                         {row.user_id === id && (
                           <div>
-                            <IconButton
-                              aria-label="edit"
-                              disabled={isLoading}
-                              // onClick={() => updateCardHandler(row._id)}
-                            >
+                            <IconButton aria-label="edit" disabled={isLoading}>
                               <EditCardModal cardsPack_id={packId} cardId={row._id}>
                                 <EditIcon />
                               </EditCardModal>
                             </IconButton>
-                            <IconButton
-                              aria-label="delete"
-                              disabled={isLoading}
-                              onClick={() => deleteCardHandler(row._id)}
-                            >
-                              <DeleteIcon />
+                            <IconButton aria-label="delete" disabled={isLoading}>
+                              <DeleteCardModal cardId={row._id}>
+                                <DeleteIcon />
+                              </DeleteCardModal>
                             </IconButton>
                           </div>
                         )}

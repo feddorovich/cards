@@ -27,9 +27,9 @@ const addCard = createAppAsyncThunk("cards/addCard", async (arg: ArgAddCardType,
     return rejectWithValue(e)
   }
 })
-const deleteCard = createAppAsyncThunk("cards/deleteCard", async (cardsPackId: string, { rejectWithValue }) => {
+const deleteCard = createAppAsyncThunk("cards/deleteCard", async (cardId: string, { rejectWithValue }) => {
   try {
-    await cardsApi.deleteCard(cardsPackId)
+    await cardsApi.deleteCard(cardId)
   } catch (e) {
     return rejectWithValue(e)
   }
