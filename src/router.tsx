@@ -10,6 +10,7 @@ import { Profile } from "features/profile/Profile"
 import React from "react"
 import { FriendsPack } from "features/cards/Cards/FriendsPack"
 import { MyPack } from "features/cards/Cards/MyPack"
+import { Learn } from "features/learn/Learn"
 
 export const router = createBrowserRouter([
   {
@@ -82,6 +83,14 @@ export const router = createBrowserRouter([
     element: (
       <Layout>
         <MyPack />
+      </Layout>
+    ),
+  },
+  {
+    path: "/learn/:packId",
+    element: (
+      <Layout>
+        <Learn />
       </Layout>
     ),
   },

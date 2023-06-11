@@ -350,8 +350,15 @@ export const Packs: FC = () => {
                       >
                         {row.user_id === id && (
                           <div>
-                            <IconButton aria-label="learn">
-                              <SchoolIcon />
+                            <IconButton
+                              aria-label="learn"
+                              onClick={() => {
+                                navigate(`/learn/${row._id}`)
+                              }}
+                            >
+                              <div>
+                                <SchoolIcon />
+                              </div>
                             </IconButton>
                             <IconButton aria-label="edit" disabled={isLoading}>
                               <EditPackModal _id={row._id}>
@@ -367,7 +374,12 @@ export const Packs: FC = () => {
                         )}
                         {row.user_id !== id && (
                           <div>
-                            <IconButton aria-label="learn">
+                            <IconButton
+                              aria-label="learn"
+                              onClick={() => {
+                                navigate(`/learn/${row._id}`)
+                              }}
+                            >
                               <SchoolIcon />
                             </IconButton>
                           </div>
