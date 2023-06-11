@@ -1,8 +1,8 @@
 import React, { FC, ReactNode, useState } from "react"
 import { BasicModal } from "features/modal/BasicModal"
-import s from "./AddNewCard.module.css"
+import s from "./AddNewCardModal.module.css"
 import { useFormik } from "formik"
-import { TextField } from "@mui/material"
+import { MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
 import { useAppDispatch, useAppSelector } from "common/hooks"
 import { useSearchParams } from "react-router-dom"
@@ -48,6 +48,12 @@ export const AddNewCardModal: FC<AddNewPackPropsType> = ({ children, cardsPack_i
     },
   })
 
+  // Change format
+  const [format, setFormat] = useState("Text")
+  const handleFormatChange = (event: SelectChangeEvent) => {
+    setFormat(event.target.value as string)
+  }
+
   return (
     <div>
       <BasicModal
@@ -58,55 +64,67 @@ export const AddNewCardModal: FC<AddNewPackPropsType> = ({ children, cardsPack_i
         handleClose={handleClose}
       >
         <div className={s.wrapper}>
-          <form onSubmit={formik.handleSubmit} className={s.form}>
-            <div className={s.packField}>
-              <TextField
-                variant="standard"
-                label="Question"
-                margin="normal"
-                autoComplete="off"
-                error={!!formik.touched.question && !!formik.errors.question}
-                sx={{ backgroundColor: "white", width: "100%" }}
-                {...formik.getFieldProps("question")}
-              />
-              {formik.touched.question && formik.errors.question ? (
-                <div className={s.packFieldError}>{formik.errors.question}</div>
-              ) : null}
-            </div>
-            <div className={s.packField}>
-              <TextField
-                variant="standard"
-                label="Answer"
-                margin="normal"
-                autoComplete="off"
-                error={!!formik.touched.answer && !!formik.errors.answer}
-                sx={{ backgroundColor: "white", width: "100%" }}
-                {...formik.getFieldProps("answer")}
-              />
-              {formik.touched.answer && formik.errors.answer ? (
-                <div className={s.packFieldError}>{formik.errors.answer}</div>
-              ) : null}
-            </div>
-            <div className={s.buttons}>
-              <Button
-                variant="contained"
-                color={"inherit"}
-                onClick={handleClose}
-                sx={{ borderRadius: 6, backgroundColor: "white", width: 120 }}
-              >
-                Cancel
-              </Button>
-              <Button
-                type={"submit"}
-                variant="contained"
-                color={"primary"}
-                disabled={isLoading}
-                sx={{ borderRadius: 6, width: 120 }}
-              >
-                Save
-              </Button>
-            </div>
-          </form>
+          <div className={s.selectText}>
+            <p>Choose a question format</p>
+          </div>
+          <Select value={format} onChange={handleFormatChange} size={"small"} sx={{ width: "100%" }}>
+            <MenuItem value={"Text"}>Text</MenuItem>
+            <MenuItem value={"Picture"}>Picture</MenuItem>
+          </Select>
+
+          {format === "Text" ? (
+            <form onSubmit={formik.handleSubmit} className={s.form}>
+              <div className={s.packField}>
+                <TextField
+                  variant="standard"
+                  label="Question"
+                  margin="normal"
+                  autoComplete="off"
+                  error={!!formik.touched.question && !!formik.errors.question}
+                  sx={{ backgroundColor: "white", width: "100%", margin: "8px 0 0" }}
+                  {...formik.getFieldProps("question")}
+                />
+                {formik.touched.question && formik.errors.question ? (
+                  <div className={s.packFieldError}>{formik.errors.question}</div>
+                ) : null}
+              </div>
+              <div className={s.packField}>
+                <TextField
+                  variant="standard"
+                  label="Answer"
+                  margin="normal"
+                  autoComplete="off"
+                  error={!!formik.touched.answer && !!formik.errors.answer}
+                  sx={{ backgroundColor: "white", width: "100%", margin: "8px 0 0" }}
+                  {...formik.getFieldProps("answer")}
+                />
+                {formik.touched.answer && formik.errors.answer ? (
+                  <div className={s.packFieldError}>{formik.errors.answer}</div>
+                ) : null}
+              </div>
+              <div className={s.buttons}>
+                <Button
+                  variant="contained"
+                  color={"inherit"}
+                  onClick={handleClose}
+                  sx={{ borderRadius: 6, backgroundColor: "white", width: 120 }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type={"submit"}
+                  variant="contained"
+                  color={"primary"}
+                  disabled={isLoading}
+                  sx={{ borderRadius: 6, width: 120 }}
+                >
+                  Save
+                </Button>
+              </div>
+            </form>
+          ) : (
+            <div style={{ margin: "25px 0" }}>Picture</div>
+          )}
         </div>
       </BasicModal>
     </div>

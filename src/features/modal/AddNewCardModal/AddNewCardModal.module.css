@@ -2,8 +2,15 @@
     padding: 0 10px
 }
 
+.selectText {
+    color: #000000;
+    opacity: .5;
+    margin: 0 0 10px;
+}
+
 .packField {
     position: relative;
+    margin: 20px 0;
 }
 
 .packFieldError {
