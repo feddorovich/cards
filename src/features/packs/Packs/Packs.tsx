@@ -169,12 +169,6 @@ export const Packs: FC = () => {
     }
   }
 
-  // delete pack
-  const deletePackHandler = async (id: string) => {
-    await dispatch(packsThunks.deletePack(id))
-    dispatch(packsThunks.getPacks(params))
-  }
-
   //Slider
   useEffect(() => {
     if (minCardsCount !== undefined && maxCardsCount !== undefined) {

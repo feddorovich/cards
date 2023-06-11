@@ -1,13 +1,12 @@
 import React, { FC, ReactNode, useState } from "react"
 import { BasicModal } from "features/modal/BasicModal"
 import s from "./DeletePack.module.css"
-import { useFormik } from "formik"
-import { Checkbox, FormControlLabel, TextField } from "@mui/material"
 import Button from "@mui/material/Button"
 import { packsThunks } from "features/packs/packs.slice"
 import { useAppDispatch, useAppSelector } from "common/hooks"
 import { useSearchParams } from "react-router-dom"
 import { selectIsLoading } from "app/app.selector"
+import Typography from "@mui/material/Typography"
 
 type EditPackPropsType = {
   children: ReactNode
@@ -26,6 +25,11 @@ export const DeletePackModal: FC<EditPackPropsType> = ({ children, _id }) => {
     state.packs.cardPacks.cardPacks ? state.packs.cardPacks.cardPacks.find((pack) => pack._id === _id)?.name : ""
   )
 
+  const deletePackHandler = async () => {
+    await dispatch(packsThunks.deletePack(_id))
+    dispatch(packsThunks.getPacks(params))
+  }
+
   return (
     <div>
       <BasicModal
@@ -37,8 +41,12 @@ export const DeletePackModal: FC<EditPackPropsType> = ({ children, _id }) => {
       >
         <div className={s.wrapper}>
           <div className={s.text}>
-            <p>Do you really want to remove Pack Name? </p>
-            <p>All cards will be deleted.</p>
+            <Typography variant="h6">
+              <p>
+                Do you really want to remove <b>{packName}</b> ?
+              </p>
+              <p>All cards will be deleted.</p>
+            </Typography>
           </div>
           <div className={s.buttons}>
             <Button
@@ -54,6 +62,7 @@ export const DeletePackModal: FC<EditPackPropsType> = ({ children, _id }) => {
               variant="contained"
               color={"error"}
               disabled={isLoading}
+              onClick={deletePackHandler}
               sx={{ borderRadius: 6, width: 120 }}
             >
               Delete

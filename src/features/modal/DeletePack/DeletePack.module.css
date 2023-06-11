@@ -3,6 +3,11 @@
 }
 
 .text {
+    margin: 10px 0;
+}
+
+.text p {
+    font-size: 18px;
 }
 
 .buttons {
