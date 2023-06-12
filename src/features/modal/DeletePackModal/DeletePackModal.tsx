@@ -4,9 +4,10 @@ import s from "./DeletePackModal.module.css"
 import Button from "@mui/material/Button"
 import { packsThunks } from "features/packs/packs.slice"
 import { useAppDispatch, useAppSelector } from "common/hooks"
-import { useSearchParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { selectIsLoading } from "app/app.selector"
 import Typography from "@mui/material/Typography"
+import { cardsThunks } from "features/cards/cards.slice"
 
 type EditPackPropsType = {
   children: ReactNode
@@ -14,6 +15,7 @@ type EditPackPropsType = {
 }
 
 export const DeletePackModal: FC<EditPackPropsType> = ({ children, _id }) => {
+  const navigate = useNavigate()
   const isLoading = useAppSelector(selectIsLoading)
   const dispatch = useAppDispatch()
   const [searchParams, setSearchParams] = useSearchParams({})
@@ -27,7 +29,10 @@ export const DeletePackModal: FC<EditPackPropsType> = ({ children, _id }) => {
 
   const deletePackHandler = async () => {
     await dispatch(packsThunks.deletePack(_id))
-    dispatch(packsThunks.getPacks(params))
+    await dispatch(packsThunks.getPacks(params))
+    if (Object.keys(params).length === 0) {
+      navigate("/")
+    }
   }
 
   return (
