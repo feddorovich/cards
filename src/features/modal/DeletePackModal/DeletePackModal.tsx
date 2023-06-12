@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from "react"
+import React, { FC, ReactNode, useEffect, useState } from "react"
 import { BasicModal } from "features/modal/BasicModal"
 import s from "./DeletePackModal.module.css"
 import Button from "@mui/material/Button"
@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { selectIsLoading } from "app/app.selector"
 import Typography from "@mui/material/Typography"
-import { cardsThunks } from "features/cards/cards.slice"
+import { selectId } from "features/auth/auth.selector"
 
 type EditPackPropsType = {
   children: ReactNode
@@ -15,10 +15,11 @@ type EditPackPropsType = {
 }
 
 export const DeletePackModal: FC<EditPackPropsType> = ({ children, _id }) => {
-  const navigate = useNavigate()
-  const isLoading = useAppSelector(selectIsLoading)
   const dispatch = useAppDispatch()
   const [searchParams, setSearchParams] = useSearchParams({})
+  const navigate = useNavigate()
+  const isLoading = useAppSelector(selectIsLoading)
+  const id = useAppSelector(selectId)
   const params = Object.fromEntries(searchParams)
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
@@ -26,6 +27,12 @@ export const DeletePackModal: FC<EditPackPropsType> = ({ children, _id }) => {
   const packName = useAppSelector((state) =>
     state.packs.cardPacks.cardPacks ? state.packs.cardPacks.cardPacks.find((pack) => pack._id === _id)?.name : ""
   )
+
+  useEffect(() => {
+    if (packName === "") {
+      dispatch(packsThunks.getPacks({ user_id: id, pageCount: 100 }))
+    }
+  }, [packName])
 
   const deletePackHandler = async () => {
     await dispatch(packsThunks.deletePack(_id))
