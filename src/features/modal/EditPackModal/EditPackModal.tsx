@@ -8,6 +8,7 @@ import { packsThunks } from "features/packs/packs.slice"
 import { useAppDispatch, useAppSelector } from "common/hooks"
 import { useSearchParams } from "react-router-dom"
 import { selectIsLoading } from "app/app.selector"
+import { cardsThunks } from "features/cards/cards.slice"
 
 type EditPackPropsType = {
   children: ReactNode
@@ -42,6 +43,7 @@ export const EditPackModal: FC<EditPackPropsType> = ({ children, _id }) => {
     onSubmit: async (values) => {
       await dispatch(packsThunks.editPack({ _id, name: values.name }))
       await dispatch(packsThunks.getPacks(params))
+      await dispatch(cardsThunks.getCards({ cardsPack_id: _id, ...params }))
       handleClose()
       // formik.resetForm()
     },

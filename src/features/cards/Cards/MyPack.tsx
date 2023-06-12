@@ -15,7 +15,7 @@ import {
   TableSortLabel,
 } from "@mui/material"
 import Button from "@mui/material/Button"
-import { NavLink, useSearchParams } from "react-router-dom"
+import { NavLink, useNavigate, useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
 import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
@@ -28,6 +28,9 @@ import { selectCards, selectCardsSettings } from "features/cards/cards.selector"
 import { AddNewCardModal } from "features/modal/AddNewCardModal/AddNewCardModal"
 import { EditCardModal } from "features/modal/EditCardModal/EditCardModal"
 import { DeleteCardModal } from "features/modal/DeleteCardModal/DeleteCardModal"
+import SchoolIcon from "@mui/icons-material/School"
+import { EditPackModal } from "features/modal/EditPackModal/EditPackModal"
+import { DeletePackModal } from "features/modal/DeletePackModal/DeletePackModal"
 
 export const MyPack: FC = () => {
   const dispatch = useAppDispatch()
@@ -39,6 +42,7 @@ export const MyPack: FC = () => {
   const cards = useAppSelector(selectCards)
   const cardsSettings = useAppSelector(selectCardsSettings)
   const packId = document.location.href.split("/")[4].split("?")[0]
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -172,6 +176,28 @@ export const MyPack: FC = () => {
           {" "}
           <div className={s.header}>
             <div className={s.packsList}>My Pack - {cardsSettings.packName}</div>
+            <div>
+              <IconButton
+                aria-label="learn"
+                onClick={() => {
+                  navigate(`/learn/${packId}`)
+                }}
+              >
+                <div>
+                  <SchoolIcon />
+                </div>
+              </IconButton>
+              <IconButton aria-label="edit" disabled={isLoading}>
+                <EditPackModal _id={packId}>
+                  <EditIcon />
+                </EditPackModal>
+              </IconButton>
+              <IconButton aria-label="delete" disabled={isLoading}>
+                <DeletePackModal _id={packId}>
+                  <DeleteIcon />
+                </DeletePackModal>
+              </IconButton>
+            </div>
             <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }} disabled={isLoading}>
               <AddNewCardModal cardsPack_id={packId}>Add new card</AddNewCardModal>
             </Button>
