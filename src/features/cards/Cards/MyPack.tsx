@@ -173,31 +173,33 @@ export const MyPack: FC = () => {
         </div>
       ) : (
         <div>
-          {" "}
           <div className={s.header}>
-            <div className={s.packsList}>My Pack - {cardsSettings.packName}</div>
-            <div>
-              <IconButton
-                aria-label="learn"
-                onClick={() => {
-                  navigate(`/learn/${packId}`)
-                }}
-              >
-                <div>
-                  <SchoolIcon />
-                </div>
-              </IconButton>
-              <IconButton aria-label="edit" disabled={isLoading}>
-                <EditPackModal _id={packId}>
-                  <EditIcon />
-                </EditPackModal>
-              </IconButton>
-              <IconButton aria-label="delete" disabled={isLoading}>
-                <DeletePackModal _id={packId}>
-                  <DeleteIcon />
-                </DeletePackModal>
-              </IconButton>
+            <div className={s.packsList}>
+              My Pack - {cardsSettings.packName}
+              <div className={s.buttons}>
+                <IconButton
+                  aria-label="learn"
+                  onClick={() => {
+                    navigate(`/learn/${packId}`)
+                  }}
+                >
+                  <div>
+                    <SchoolIcon />
+                  </div>
+                </IconButton>
+                <IconButton aria-label="edit" disabled={isLoading}>
+                  <EditPackModal _id={packId}>
+                    <EditIcon />
+                  </EditPackModal>
+                </IconButton>
+                <IconButton aria-label="delete" disabled={isLoading}>
+                  <DeletePackModal _id={packId}>
+                    <DeleteIcon />
+                  </DeletePackModal>
+                </IconButton>
+              </div>
             </div>
+
             <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }} disabled={isLoading}>
               <AddNewCardModal cardsPack_id={packId}>Add new card</AddNewCardModal>
             </Button>
