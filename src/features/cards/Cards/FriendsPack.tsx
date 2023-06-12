@@ -14,7 +14,7 @@ import {
   TableSortLabel,
 } from "@mui/material"
 import Button from "@mui/material/Button"
-import { NavLink, useSearchParams } from "react-router-dom"
+import { NavLink, useNavigate, useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
 import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
@@ -25,6 +25,7 @@ import { selectCards, selectCardsSettings } from "features/cards/cards.selector"
 
 export const FriendsPack: FC = () => {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams({})
   const params = Object.fromEntries(searchParams)
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
@@ -144,7 +145,15 @@ export const FriendsPack: FC = () => {
       </div>
       <div className={s.header}>
         <div className={s.packsList}>Friend’s Pack</div>
-        <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }}>
+        <Button
+          type={"submit"}
+          variant="contained"
+          color={"primary"}
+          sx={{ borderRadius: 6 }}
+          onClick={() => {
+            navigate(`/learn/${packId}`)
+          }}
+        >
           Learn to pack
         </Button>
       </div>
