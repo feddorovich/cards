@@ -41,6 +41,7 @@ export const Learn: FC = () => {
     const fetchData = async () => {
       if (isLoggedIn) {
         await dispatch(cardsThunks.getCards({ cardsPack_id: packId }))
+        dispatch(packsThunks.getPacks({ user_id: card?.user_id, pageCount: 100 }))
       }
     }
     fetchData()
@@ -54,12 +55,6 @@ export const Learn: FC = () => {
     }
     fetchData()
   }, [cards])
-
-  useEffect(() => {
-    if (card !== undefined) {
-      dispatch(packsThunks.getPacks({ user_id: card?.user_id, pageCount: 100 }))
-    }
-  }, [card])
 
   const getCard = (cards: CardsType[]) => {
     const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0)
