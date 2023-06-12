@@ -215,7 +215,7 @@ export const FriendsPack: FC = () => {
                   <TableCell align="center">{row.answer}</TableCell>
                   <TableCell align="center">{row.updated}</TableCell>
                   <TableCell align="center">
-                    <Rating name="read-only" readOnly precision={0.5} value={+row.grade} />
+                    <Rating precision={0.1} readOnly value={+row.grade} />
                   </TableCell>
                 </TableRow>
               ))}

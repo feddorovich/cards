@@ -263,16 +263,7 @@ export const MyPack: FC = () => {
                       <TableCell align="center">{row.answer}</TableCell>
                       <TableCell align="center">{row.updated}</TableCell>
                       <TableCell align="center">
-                        <Rating
-                          name="simple-controlled"
-                          precision={0.5}
-                          disabled={isLoading}
-                          value={+row.grade}
-                          onChange={async (event, newValue) => {
-                            await dispatch(cardsThunks.gradeCard({ grade: newValue ? newValue : 0, card_id: row._id }))
-                            dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
-                          }}
-                        />
+                        <Rating precision={0.1} readOnly value={+row.grade} />
                       </TableCell>
                       <TableCell align="center">
                         {row.user_id === id && (
