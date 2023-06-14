@@ -3,6 +3,10 @@
     background-color: #FFFFFF;
 }
 
+.input input {
+    text-align: center;
+}
+
 .input input[type="number"] {
     -moz-appearance: textfield;
 }

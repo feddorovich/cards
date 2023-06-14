@@ -204,6 +204,10 @@ export const Packs: FC = () => {
     }
   }
   const onChangeSliderInputHandler1 = (value: number) => {
+    if (value < minCardsCount || value > maxCardsCount) {
+      dispatch(appActions.setError({ error: "Incorrect value" }))
+      return
+    }
     setValue1(value)
     clearTimeout(timerId)
     setTimerId(
@@ -218,6 +222,10 @@ export const Packs: FC = () => {
     )
   }
   const onChangeSliderInputHandler2 = (value: number) => {
+    if (value < minCardsCount || value > maxCardsCount) {
+      dispatch(appActions.setError({ error: "Incorrect value" }))
+      return
+    }
     setValue2(value)
     clearTimeout(timerId)
     setTimerId(
@@ -269,7 +277,7 @@ export const Packs: FC = () => {
         <div className={s.numbers}>
           <div>Number of cards</div>
           <div className={s.slider}>
-            <SliderInput value={value1} onChange={onChangeSliderInputHandler1} />
+            <SliderInput value={value1} onChange={onChangeSliderInputHandler1} disable={isLoading} />
             <CustomSlider
               value={[value1, value2]}
               min={minCardsCount}
@@ -277,7 +285,7 @@ export const Packs: FC = () => {
               disabled={isLoading}
               onChangeCommitted={onChangeSliderHandler}
             />
-            <SliderInput value={value2} onChange={onChangeSliderInputHandler2} />
+            <SliderInput value={value2} onChange={onChangeSliderInputHandler2} disable={isLoading} />
           </div>
         </div>
         <div className={s.filter}>
