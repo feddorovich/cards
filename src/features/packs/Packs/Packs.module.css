@@ -31,12 +31,12 @@
 }
 
 .numbers {
-    width: 350px;
+    width: 390px;
 }
 
 .slider {
     display: flex;
-    gap: 15px;
+    gap: 20px;
 }
 
 .noPacks {
