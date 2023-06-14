@@ -31,6 +31,7 @@ import { DeleteCardModal } from "features/modal/DeleteCardModal/DeleteCardModal"
 import SchoolIcon from "@mui/icons-material/School"
 import { EditPackModal } from "features/modal/EditPackModal/EditPackModal"
 import { DeletePackModal } from "features/modal/DeletePackModal/DeletePackModal"
+import { formatDate } from "common/utils"
 
 export const MyPack: FC = () => {
   const dispatch = useAppDispatch()
@@ -261,7 +262,7 @@ export const MyPack: FC = () => {
                         {row.question}
                       </TableCell>
                       <TableCell align="center">{row.answer}</TableCell>
-                      <TableCell align="center">{row.updated}</TableCell>
+                      <TableCell align="center">{formatDate(row.updated)}</TableCell>
                       <TableCell align="center">
                         <Rating precision={0.1} readOnly value={+row.grade} />
                       </TableCell>

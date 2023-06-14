@@ -22,6 +22,7 @@ import { cardsThunks } from "features/cards/cards.slice"
 import { selectIsLoggedIn } from "features/auth/auth.selector"
 import { selectIsLoading } from "app/app.selector"
 import { selectCards, selectCardsSettings } from "features/cards/cards.selector"
+import { formatDate } from "common/utils"
 
 export const FriendsPack: FC = () => {
   const dispatch = useAppDispatch()
@@ -213,7 +214,7 @@ export const FriendsPack: FC = () => {
                     {row.question}
                   </TableCell>
                   <TableCell align="center">{row.answer}</TableCell>
-                  <TableCell align="center">{row.updated}</TableCell>
+                  <TableCell align="center">{formatDate(row.updated)}</TableCell>
                   <TableCell align="center">
                     <Rating precision={0.1} readOnly value={+row.grade} />
                   </TableCell>
