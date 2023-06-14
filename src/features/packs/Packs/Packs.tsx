@@ -127,18 +127,20 @@ export const Packs: FC = () => {
   }
 
   // Debounce & Search
-  let timerId: NodeJS.Timeout
+  const [timerId, setTimerId] = useState<NodeJS.Timeout | undefined>()
   const changeSearchParams = (title: string) => {
     clearTimeout(timerId)
 
-    timerId = setTimeout(() => {
-      if (!title) {
-        delete params.packName
-        setSearchParams({ ...params })
-      } else {
-        setSearchParams({ ...params, packName: title })
-      }
-    }, 1000)
+    setTimerId(
+      setTimeout(() => {
+        if (!title) {
+          delete params.packName
+          setSearchParams({ ...params })
+        } else {
+          setSearchParams({ ...params, packName: title })
+        }
+      }, 1000)
+    )
   }
 
   // Button switcher
@@ -203,12 +205,31 @@ export const Packs: FC = () => {
   }
   const onChangeSliderInputHandler1 = (value: number) => {
     setValue1(value)
-    if (value === minCardsCount) {
-      delete params.min
-      setSearchParams({ ...params })
-    } else {
-      setSearchParams({ ...params, min: value.toString() })
-    }
+    clearTimeout(timerId)
+    setTimerId(
+      setTimeout(() => {
+        if (value === minCardsCount) {
+          delete params.min
+          setSearchParams({ ...params })
+        } else {
+          setSearchParams({ ...params, min: value.toString() })
+        }
+      }, 1000)
+    )
+  }
+  const onChangeSliderInputHandler2 = (value: number) => {
+    setValue2(value)
+    clearTimeout(timerId)
+    setTimerId(
+      setTimeout(() => {
+        if (value === maxCardsCount) {
+          delete params.max
+          setSearchParams({ ...params })
+        } else {
+          setSearchParams({ ...params, max: value.toString() })
+        }
+      }, 1000)
+    )
   }
 
   return (
@@ -256,6 +277,7 @@ export const Packs: FC = () => {
               disabled={isLoading}
               onChangeCommitted={onChangeSliderHandler}
             />
+            <SliderInput value={value2} onChange={onChangeSliderInputHandler2} />
           </div>
         </div>
         <div className={s.filter}>

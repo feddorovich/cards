@@ -3,15 +3,8 @@ import s from "./CustomSlider.module.css"
 import { Slider, SliderProps } from "@mui/material"
 
 export const CustomSlider: React.FC<SliderProps> = (props) => {
-  let value1
-  let value2
-  if (Array.isArray(props.value)) {
-    value1 = props.value[0]
-    value2 = props.value[1]
-  }
   return (
     <div className={s.slider}>
-      <div className={s.value1}>{value1}</div>
       <Slider
         sx={{
           // стили для слайдера
@@ -24,9 +17,8 @@ export const CustomSlider: React.FC<SliderProps> = (props) => {
             },
           },
         }}
-        {...props} // отдаём слайдеру пропсы если они есть (value например там внутри)
+        {...props}
       />
-      <div className={s.value2}>{value2}</div>
     </div>
   )
 }

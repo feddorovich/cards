@@ -36,6 +36,7 @@
 
 .slider {
     display: flex;
+    gap: 15px;
 }
 
 .noPacks {
