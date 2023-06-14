@@ -36,6 +36,7 @@ import { selectIsLoading } from "app/app.selector"
 import { AddNewPackModal } from "features/modal/AddNewPackModal/AddNewPackModal"
 import { EditPackModal } from "features/modal/EditPackModal/EditPackModal"
 import { DeletePackModal } from "features/modal/DeletePackModal/DeletePackModal"
+import { FormatDate } from "common/utils"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()
@@ -318,7 +319,7 @@ export const Packs: FC = () => {
                         {row.name}
                       </TableCell>
                       <TableCell align="center">{row.cardsCount}</TableCell>
-                      <TableCell align="center">{row.updated}</TableCell>
+                      <TableCell align="center">{FormatDate(row.updated)}</TableCell>
                       <TableCell align="center">{row.user_name}</TableCell>
                       <TableCell align="center">
                         <IconButton aria-label="learn">
@@ -340,7 +341,7 @@ export const Packs: FC = () => {
                         {row.name}
                       </TableCell>
                       <TableCell align="center">{row.cardsCount}</TableCell>
-                      <TableCell align="center">{row.updated}</TableCell>
+                      <TableCell align="center">{FormatDate(row.updated)}</TableCell>
                       <TableCell align="center">{row.user_name}</TableCell>
                       <TableCell
                         align="center"
