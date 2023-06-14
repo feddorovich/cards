@@ -1,28 +1,26 @@
 import React, { FC, useEffect, useState } from "react"
 import s from "./Packs.module.css"
 import { useAppDispatch, useAppSelector } from "common/hooks"
-import { packsThunks } from "features/packs/packs.slice"
-import {
-  ButtonGroup,
-  IconButton,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableSortLabel,
-} from "@mui/material"
-import Button from "@mui/material/Button"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import { Search } from "features/packs/Packs/Search/Search"
-import { CustomSlider } from "features/packs/Packs/CustomSlider/CustomSlider"
+import { packsThunks } from "features/packs/packs.slice"
+import TableSortLabel from "@mui/material/TableSortLabel"
+import TableRow from "@mui/material/TableRow"
+import TableHead from "@mui/material/TableHead"
+import TableContainer from "@mui/material/TableContainer"
+import TableCell from "@mui/material/TableCell"
+import TableBody from "@mui/material/TableBody"
+import Table from "@mui/material/Table"
+import Paper from "@mui/material/Paper"
+import IconButton from "@mui/material/IconButton"
+import ButtonGroup from "@mui/material/ButtonGroup"
+import Button from "@mui/material/Button"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
-import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
 import SchoolIcon from "@mui/icons-material/School"
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
+import { Search } from "features/packs/Packs/Search/Search"
+import { CustomSlider } from "features/packs/Packs/CustomSlider/CustomSlider"
+import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
 import { cardsActions } from "features/cards/cards.slice"
 import { appActions } from "app/app.slice"
 import {
