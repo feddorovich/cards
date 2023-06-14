@@ -1,0 +1,13 @@
+.input {
+    width: 45px;
+    background-color: #FFFFFF;
+}
+
+.input input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.input input[type="number"]::-webkit-inner-spin-button,
+.input input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}

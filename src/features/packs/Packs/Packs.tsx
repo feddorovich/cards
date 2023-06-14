@@ -35,6 +35,7 @@ import { AddNewPackModal } from "features/modal/AddNewPackModal/AddNewPackModal"
 import { EditPackModal } from "features/modal/EditPackModal/EditPackModal"
 import { DeletePackModal } from "features/modal/DeletePackModal/DeletePackModal"
 import { formatDate } from "common/utils"
+import { SliderInput } from "features/packs/Packs/CustomSlider/SliderInput"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()
@@ -175,12 +176,9 @@ export const Packs: FC = () => {
       setValue2(+params.max || maxCardsCount)
     }
   }, [minCardsCount, maxCardsCount])
-
   const [value1, setValue1] = useState(0)
   const [value2, setValue2] = useState(110)
-
   const onChangeSliderHandler = (event: React.SyntheticEvent | Event, value: number | Array<number>) => {
-    clearTimeout(timerId)
     if (Array.isArray(value)) {
       setValue1(value[0])
       setValue2(value[1])
@@ -201,6 +199,15 @@ export const Packs: FC = () => {
       }
     } else {
       setValue1(value)
+    }
+  }
+  const onChangeSliderInputHandler1 = (value: number) => {
+    setValue1(value)
+    if (value === minCardsCount) {
+      delete params.min
+      setSearchParams({ ...params })
+    } else {
+      setSearchParams({ ...params, min: value.toString() })
     }
   }
 
@@ -240,7 +247,8 @@ export const Packs: FC = () => {
         </div>
         <div className={s.numbers}>
           <div>Number of cards</div>
-          <div>
+          <div className={s.slider}>
+            <SliderInput value={value1} onChange={onChangeSliderInputHandler1} />
             <CustomSlider
               value={[value1, value2]}
               min={minCardsCount}
