@@ -167,7 +167,7 @@ export const MyPack: FC = () => {
               sx={{ borderRadius: 6 }}
               disabled={isLoading}
             >
-              <AddNewCardModal cardsPack_id={packId ? packId : ""}>Add new card</AddNewCardModal>
+              <AddNewCardModal cardsPack_id={packId ?? ""}>Add new card</AddNewCardModal>
             </Button>
           </div>
         </div>
@@ -188,12 +188,12 @@ export const MyPack: FC = () => {
                   </div>
                 </IconButton>
                 <IconButton aria-label="edit" disabled={isLoading}>
-                  <EditPackModal _id={packId ? packId : ""}>
+                  <EditPackModal _id={packId ?? ""}>
                     <EditIcon />
                   </EditPackModal>
                 </IconButton>
                 <IconButton aria-label="delete" disabled={isLoading}>
-                  <DeletePackModal _id={packId ? packId : ""}>
+                  <DeletePackModal _id={packId ?? ""}>
                     <DeleteIcon />
                   </DeletePackModal>
                 </IconButton>
@@ -201,7 +201,7 @@ export const MyPack: FC = () => {
             </div>
 
             <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }} disabled={isLoading}>
-              <AddNewCardModal cardsPack_id={packId ? packId : ""}>Add new card</AddNewCardModal>
+              <AddNewCardModal cardsPack_id={packId ?? ""}>Add new card</AddNewCardModal>
             </Button>
           </div>
           <div className={s.settings}>
@@ -269,7 +269,7 @@ export const MyPack: FC = () => {
                         {row.user_id === id && (
                           <div>
                             <IconButton aria-label="edit" disabled={isLoading}>
-                              <EditCardModal cardsPack_id={packId ? packId : ""} cardId={row._id}>
+                              <EditCardModal cardsPack_id={packId ?? ""} cardId={row._id}>
                                 <EditIcon />
                               </EditCardModal>
                             </IconButton>

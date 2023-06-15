@@ -11,6 +11,7 @@ import React from "react"
 import { FriendsPack } from "features/cards/Cards/FriendsPack"
 import { MyPack } from "features/cards/Cards/MyPack"
 import { Learn } from "features/learn/Learn"
+import { Users } from "features/users/Users"
 
 export const router = createHashRouter([
   {
@@ -91,6 +92,14 @@ export const router = createHashRouter([
     element: (
       <Layout>
         <Learn />
+      </Layout>
+    ),
+  },
+  {
+    path: "/users",
+    element: (
+      <Layout>
+        <Users />
       </Layout>
     ),
   },
