@@ -1,22 +1,20 @@
 import React, { FC, useEffect } from "react"
 import s from "./FriendsPack.module.css"
 import { useAppDispatch, useAppSelector } from "common/hooks"
-import {
-  CircularProgress,
-  Paper,
-  Rating,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableSortLabel,
-} from "@mui/material"
-import Button from "@mui/material/Button"
 import { NavLink, useNavigate, useParams, useSearchParams } from "react-router-dom"
-import { Search } from "features/packs/Packs/Search/Search"
+import TableSortLabel from "@mui/material/TableSortLabel"
+import TableRow from "@mui/material/TableRow"
+import TableHead from "@mui/material/TableHead"
+import TableContainer from "@mui/material/TableContainer"
+import TableCell from "@mui/material/TableCell"
+import TableBody from "@mui/material/TableBody"
+import Table from "@mui/material/Table"
+import Rating from "@mui/material/Rating"
+import Paper from "@mui/material/Paper"
+import CircularProgress from "@mui/material/CircularProgress"
+import Button from "@mui/material/Button"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
+import { Search } from "features/packs/Packs/Search/Search"
 import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
 import { cardsThunks } from "features/cards/cards.slice"
 import { selectIsLoggedIn } from "features/auth/auth.selector"

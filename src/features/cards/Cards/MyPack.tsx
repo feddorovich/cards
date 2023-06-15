@@ -1,34 +1,32 @@
 import React, { FC, useEffect } from "react"
 import s from "./MyPack.module.css"
 import { useAppDispatch, useAppSelector } from "common/hooks"
-import {
-  CircularProgress,
-  IconButton,
-  Paper,
-  Rating,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableSortLabel,
-} from "@mui/material"
-import Button from "@mui/material/Button"
 import { NavLink, useNavigate, useParams, useSearchParams } from "react-router-dom"
-import { Search } from "features/packs/Packs/Search/Search"
-import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
-import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
-import { cardsThunks } from "features/cards/cards.slice"
+import TableSortLabel from "@mui/material/TableSortLabel"
+import TableRow from "@mui/material/TableRow"
+import TableHead from "@mui/material/TableHead"
+import TableContainer from "@mui/material/TableContainer"
+import TableCell from "@mui/material/TableCell"
+import TableBody from "@mui/material/TableBody"
+import Table from "@mui/material/Table"
+import Rating from "@mui/material/Rating"
+import Paper from "@mui/material/Paper"
+import IconButton from "@mui/material/IconButton"
+import CircularProgress from "@mui/material/CircularProgress"
+import Button from "@mui/material/Button"
 import EditIcon from "@mui/icons-material/Edit"
 import DeleteIcon from "@mui/icons-material/Delete"
+import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
+import SchoolIcon from "@mui/icons-material/School"
+import { Search } from "features/packs/Packs/Search/Search"
+import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
+import { cardsThunks } from "features/cards/cards.slice"
 import { selectId, selectIsLoggedIn } from "features/auth/auth.selector"
 import { selectIsLoading } from "app/app.selector"
 import { selectCards, selectCardsSettings } from "features/cards/cards.selector"
 import { AddNewCardModal } from "features/modal/AddNewCardModal/AddNewCardModal"
 import { EditCardModal } from "features/modal/EditCardModal/EditCardModal"
 import { DeleteCardModal } from "features/modal/DeleteCardModal/DeleteCardModal"
-import SchoolIcon from "@mui/icons-material/School"
 import { EditPackModal } from "features/modal/EditPackModal/EditPackModal"
 import { DeletePackModal } from "features/modal/DeletePackModal/DeletePackModal"
 import { formatDate } from "common/utils"

@@ -1,7 +1,13 @@
 import React, { FC, useEffect, useState } from "react"
-import { CircularProgress, FormControl, FormControlLabel, Grid, Paper, Radio, RadioGroup } from "@mui/material"
+import RadioGroup from "@mui/material/RadioGroup"
+import Radio from "@mui/material/Radio"
+import Paper from "@mui/material/Paper"
+import Grid from "@mui/material/Grid"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import FormControl from "@mui/material/FormControl"
+import CircularProgress from "@mui/material/CircularProgress"
 import s from "./Learn.module.css"
-import { Navigate, NavLink } from "react-router-dom"
+import { Navigate, NavLink, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "common/hooks"
 import Button from "@mui/material/Button"
 import { packsThunks } from "features/packs/packs.slice"
@@ -16,7 +22,8 @@ export const Learn: FC = () => {
   const dispatch = useAppDispatch()
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
   const isLoading = useAppSelector(selectIsLoading)
-  const packId = document.location.href.split("/")[4].split("?")[0]
+  const { packId } = useParams()
+  // const packId = document.location.href.split("/")[4].split("?")[0]
   const pack: CardPacksType | undefined = useAppSelector((state) =>
     state.packs.cardPacks.cardPacks ? state.packs.cardPacks.cardPacks.find((pack) => pack._id === packId) : undefined
   )
@@ -40,7 +47,7 @@ export const Learn: FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (isLoggedIn) {
-        await dispatch(cardsThunks.getCards({ cardsPack_id: packId }))
+        await dispatch(cardsThunks.getCards({ cardsPack_id: packId ? packId : "" }))
         dispatch(packsThunks.getPacks({ user_id: card?.user_id, pageCount: 100 }))
       }
     }
