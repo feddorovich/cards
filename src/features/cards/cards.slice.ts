@@ -70,7 +70,6 @@ const slice = createSlice({
         state.cards = action.payload.cards
       })
       .addCase(gradeCard.fulfilled, (state, action) => {
-        debugger
         const cardIndex = state.cards.cards.findIndex((card) => card._id === action.payload.updatedGrade.card_id)
         state.cards.cards[cardIndex].grade = action.payload.updatedGrade.grade
         state.cards.cards[cardIndex].shots = action.payload.updatedGrade.shots

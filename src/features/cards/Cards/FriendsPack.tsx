@@ -14,7 +14,7 @@ import {
   TableSortLabel,
 } from "@mui/material"
 import Button from "@mui/material/Button"
-import { NavLink, useNavigate, useSearchParams } from "react-router-dom"
+import { NavLink, useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
 import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
@@ -33,7 +33,8 @@ export const FriendsPack: FC = () => {
   const isLoading = useAppSelector(selectIsLoading)
   const cards = useAppSelector(selectCards)
   const cardsSettings = useAppSelector(selectCardsSettings)
-  const packId = document.location.href.split("/")[4].split("?")[0]
+  const { packId } = useParams()
+  // const packId = document.location.href.split("/")[4].split("?")[0]
 
   useEffect(() => {
     if (isLoggedIn) {

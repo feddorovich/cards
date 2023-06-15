@@ -15,7 +15,7 @@ import {
   TableSortLabel,
 } from "@mui/material"
 import Button from "@mui/material/Button"
-import { NavLink, useNavigate, useSearchParams } from "react-router-dom"
+import { NavLink, useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { Search } from "features/packs/Packs/Search/Search"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
 import SuperPagination from "features/packs/Packs/Pagination/SuperPagination"
@@ -42,7 +42,8 @@ export const MyPack: FC = () => {
   const isLoading = useAppSelector(selectIsLoading)
   const cards = useAppSelector(selectCards)
   const cardsSettings = useAppSelector(selectCardsSettings)
-  const packId = document.location.href.split("/")[4].split("?")[0]
+  const { packId } = useParams()
+  // const packId = document.location.href.split("/")[4].split("?")[0]
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -168,7 +169,7 @@ export const MyPack: FC = () => {
               sx={{ borderRadius: 6 }}
               disabled={isLoading}
             >
-              <AddNewCardModal cardsPack_id={packId}>Add new card</AddNewCardModal>
+              <AddNewCardModal cardsPack_id={packId ? packId : ""}>Add new card</AddNewCardModal>
             </Button>
           </div>
         </div>
@@ -189,12 +190,12 @@ export const MyPack: FC = () => {
                   </div>
                 </IconButton>
                 <IconButton aria-label="edit" disabled={isLoading}>
-                  <EditPackModal _id={packId}>
+                  <EditPackModal _id={packId ? packId : ""}>
                     <EditIcon />
                   </EditPackModal>
                 </IconButton>
                 <IconButton aria-label="delete" disabled={isLoading}>
-                  <DeletePackModal _id={packId}>
+                  <DeletePackModal _id={packId ? packId : ""}>
                     <DeleteIcon />
                   </DeletePackModal>
                 </IconButton>
@@ -202,7 +203,7 @@ export const MyPack: FC = () => {
             </div>
 
             <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }} disabled={isLoading}>
-              <AddNewCardModal cardsPack_id={packId}>Add new card</AddNewCardModal>
+              <AddNewCardModal cardsPack_id={packId ? packId : ""}>Add new card</AddNewCardModal>
             </Button>
           </div>
           <div className={s.settings}>
@@ -270,7 +271,7 @@ export const MyPack: FC = () => {
                         {row.user_id === id && (
                           <div>
                             <IconButton aria-label="edit" disabled={isLoading}>
-                              <EditCardModal cardsPack_id={packId} cardId={row._id}>
+                              <EditCardModal cardsPack_id={packId ? packId : ""} cardId={row._id}>
                                 <EditIcon />
                               </EditCardModal>
                             </IconButton>
