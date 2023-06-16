@@ -57,6 +57,7 @@ export type ProfileType = {
   rememberMe: boolean
   isAdmin: boolean
   name: string
+  avatar?: string
   verified: boolean
   publicCardPacksCount: number
   created: string

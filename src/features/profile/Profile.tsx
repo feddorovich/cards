@@ -3,7 +3,6 @@ import { CircularProgress, Grid, Paper } from "@mui/material"
 import Button from "@mui/material/Button"
 import s from "./Profile.module.css"
 import { Navigate, NavLink } from "react-router-dom"
-import checkEmail from "assets/image/checkEmail.png"
 import { authThunks } from "features/auth/auth.slice"
 import { EditableSpan } from "features/profile/editableSpan/EditableSpan"
 import { useAppDispatch, useAppSelector } from "common/hooks"
@@ -11,7 +10,6 @@ import { InputTypeFile } from "features/profile/InputTypeProfile/InputTypeProfil
 
 export const Profile: FC = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
-  // const avatar = useAppSelector((state) => state.auth.profile?.avatar)
   const name = useAppSelector<string>((state) => (state.auth.profile ? state.auth.profile.name : ""))
   const email = useAppSelector<string>((state) => (state.auth.profile ? state.auth.profile.email : ""))
   const isAppInitialized = useAppSelector((state) => state.app.isAppInitialized)
@@ -23,7 +21,7 @@ export const Profile: FC = () => {
   }
 
   const changeName = (title: string) => {
-    dispatch(authThunks.changeProfileName(title))
+    dispatch(authThunks.changeProfileName({ name: title }))
   }
 
   if (!isAppInitialized) {
@@ -50,7 +48,6 @@ export const Profile: FC = () => {
               <div className={s.header}>Personal Information</div>
               <div className={s.img}>
                 <InputTypeFile />
-                {/*<img src={checkEmail} alt="email image" />*/}
               </div>
               <div className={s.editableSpan}>
                 <EditableSpan onChange={changeName} value={name} />

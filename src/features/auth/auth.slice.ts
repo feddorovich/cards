@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import {
   ArgLoginType,
   ArgNewPasswordType,
+  ArgProfileDataType,
   ArgRegisterType,
   authApi,
   NewPasswordResponseType,
@@ -54,11 +55,11 @@ const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswo
     }
   }
 )
-const changeProfileName = createAppAsyncThunk<{ updatedUser: ProfileType }, string>(
+const changeProfileName = createAppAsyncThunk<{ updatedUser: ProfileType }, ArgProfileDataType>(
   "auth/changeProfileName",
-  async (name, { rejectWithValue }) => {
+  async (arg, { rejectWithValue }) => {
     try {
-      const res = await authApi.changeProfileData({ name })
+      const res = await authApi.changeProfileData(arg)
       return { updatedUser: res.data.updatedUser }
     } catch (e) {
       return rejectWithValue(e)
