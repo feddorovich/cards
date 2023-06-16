@@ -11,6 +11,8 @@ import { useAppDispatch, useAppSelector } from "common/hooks"
 import { InputTypeFile } from "features/profile/InputTypeProfile/InputTypeProfile"
 import { selectEmail, selectIsLoggedIn, selectName } from "features/auth/auth.selector"
 import { selectIsAppInitialized, selectIsLoading } from "app/app.selector"
+import Typography from "@mui/material/Typography"
+import back from "assets/image/back.png"
 
 export const Profile: FC = () => {
   const dispatch = useAppDispatch()
@@ -43,7 +45,12 @@ export const Profile: FC = () => {
   return (
     <div className={s.wrapper}>
       <div className={s.back}>
-        <NavLink to={"/"}>← Back to Packs List</NavLink>
+        <NavLink to={"/"}>
+          <Typography>
+            <img src={back} alt="back" />
+            <span> Back to Packs List</span>
+          </Typography>
+        </NavLink>
       </div>
       <div className={s.profile}>
         <Grid container justifyContent={"center"}>

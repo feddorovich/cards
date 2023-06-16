@@ -27,7 +27,9 @@ export const Header = () => {
             </Typography>
             {isLoggedIn && (
               <div className={s.button}>
-                <NavLink to="/profile">{name}</NavLink>
+                <NavLink to="/profile">
+                  <Typography>{name}</Typography>
+                </NavLink>
                 <img src={avatar} alt="avatar" onClick={() => navigate("/profile")} />
               </div>
             )}

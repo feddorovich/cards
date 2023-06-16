@@ -30,6 +30,8 @@ import { DeleteCardModal } from "features/modal/DeleteCardModal/DeleteCardModal"
 import { EditPackModal } from "features/modal/EditPackModal/EditPackModal"
 import { DeletePackModal } from "features/modal/DeletePackModal/DeletePackModal"
 import { formatDate } from "common/utils"
+import Typography from "@mui/material/Typography"
+import back from "assets/image/back.png"
 
 export const MyPack: FC = () => {
   const dispatch = useAppDispatch()
@@ -149,7 +151,12 @@ export const MyPack: FC = () => {
   return (
     <div className={s.myPack}>
       <div className={s.back}>
-        <NavLink to={"/"}>← Back to Packs List</NavLink>
+        <NavLink to={"/"}>
+          <Typography>
+            <img src={back} alt="back" />
+            <span> Back to Packs List</span>
+          </Typography>
+        </NavLink>
       </div>
 
       {cards && cards.length === 0 ? (
@@ -224,8 +231,8 @@ export const MyPack: FC = () => {
           <TableContainer component={Paper}>
             <Table aria-label="simple table">
               <TableHead>
-                <TableRow>
-                  <TableCell align="center" onClick={handleSortQuestionRequest}>
+                <TableRow hover={true} className={s.tableHead}>
+                  <TableCell align="left" sx={{ padding: "8px 36px" }} onClick={handleSortQuestionRequest}>
                     <TableSortLabel
                       active={params.sortCards === "0question" || params.sortCards === "1question"}
                       direction={params.sortCards === "1question" || "" ? "asc" : "desc"}
@@ -233,7 +240,7 @@ export const MyPack: FC = () => {
                       Question
                     </TableSortLabel>
                   </TableCell>
-                  <TableCell align="center" onClick={handleSortAnswerRequest}>
+                  <TableCell align="left" onClick={handleSortAnswerRequest}>
                     <TableSortLabel
                       active={params.sortCards === "0answer" || params.sortCards === "1answer"}
                       direction={params.sortCards === "0answer" || "" ? "asc" : "desc"}
@@ -241,7 +248,7 @@ export const MyPack: FC = () => {
                       Answer
                     </TableSortLabel>
                   </TableCell>
-                  <TableCell align="center" onClick={handleSortUpdatedDateRequest}>
+                  <TableCell align="left" onClick={handleSortUpdatedDateRequest}>
                     <TableSortLabel
                       active={params.sortCards === "0updated" || params.sortCards === "1updated"}
                       direction={params.sortCards === "0updated" || "" ? "asc" : "desc"}
@@ -249,24 +256,24 @@ export const MyPack: FC = () => {
                       Last Updated
                     </TableSortLabel>
                   </TableCell>
-                  <TableCell align="center">Grade</TableCell>
+                  <TableCell align="left">Grade</TableCell>
                   <TableCell align="center">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {cards &&
                   cards.map((row) => (
-                    <TableRow key={row._id}>
-                      <TableCell component="th" scope="row" align="center" sx={{ padding: "8px 16px" }}>
+                    <TableRow key={row._id} hover={true}>
+                      <TableCell component="th" scope="row" align="left" sx={{ padding: "8px 36px" }}>
                         {row.question}
                       </TableCell>
-                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                      <TableCell align="left" sx={{ padding: "8px 16px" }}>
                         {row.answer}
                       </TableCell>
-                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                      <TableCell align="left" sx={{ padding: "8px 16px" }}>
                         {formatDate(row.updated)}
                       </TableCell>
-                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                      <TableCell align="left" sx={{ padding: "8px 16px" }}>
                         <Rating precision={0.1} readOnly value={+row.grade} />
                       </TableCell>
                       <TableCell align="center" sx={{ padding: "8px 16px" }}>

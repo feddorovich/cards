@@ -36,6 +36,7 @@ import { EditPackModal } from "features/modal/EditPackModal/EditPackModal"
 import { DeletePackModal } from "features/modal/DeletePackModal/DeletePackModal"
 import { formatDate } from "common/utils"
 import { SliderInput } from "features/packs/Packs/CustomSlider/SliderInput"
+import Typography from "@mui/material/Typography"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()
@@ -304,7 +305,7 @@ export const Packs: FC = () => {
         <Table aria-label="simple table">
           <TableHead className={s.tableHead}>
             <TableRow hover={true}>
-              <TableCell align="center" onClick={handleSortNameRequest}>
+              <TableCell align="left" onClick={handleSortNameRequest} sx={{ padding: "8px 36px" }}>
                 <TableSortLabel
                   active={params.sortPacks === "0name" || params.sortPacks === "1name"}
                   direction={params.sortPacks === "1name" || "" ? "asc" : "desc"}
@@ -312,7 +313,7 @@ export const Packs: FC = () => {
                   Name
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="center" onClick={handleSortCardsRequest}>
+              <TableCell align="left" onClick={handleSortCardsRequest}>
                 <TableSortLabel
                   active={params.sortPacks === "0cardsCount" || params.sortPacks === "1cardsCount"}
                   direction={params.sortPacks === "0cardsCount" || "" ? "asc" : "desc"}
@@ -320,7 +321,7 @@ export const Packs: FC = () => {
                   Cards
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="center" onClick={handleSortUpdatedDateRequest}>
+              <TableCell align="left" onClick={handleSortUpdatedDateRequest}>
                 <TableSortLabel
                   active={params.sortPacks === "0updated" || params.sortPacks === "1updated"}
                   direction={params.sortPacks === "0updated" || "" ? "asc" : "desc"}
@@ -328,7 +329,7 @@ export const Packs: FC = () => {
                   Last Updated
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="center" onClick={handleSortUserNameRequest}>
+              <TableCell align="left" onClick={handleSortUserNameRequest}>
                 <TableSortLabel
                   active={params.sortPacks === "0user_name" || params.sortPacks === "1user_name"}
                   direction={params.sortPacks === "1user_name" || "" ? "asc" : "desc"}
@@ -351,16 +352,16 @@ export const Packs: FC = () => {
                       }}
                       className={s.tableRowDisabled}
                     >
-                      <TableCell component="th" scope="row" align="center" sx={{ padding: "8px 16px" }}>
+                      <TableCell component="th" scope="row" align="left" sx={{ padding: "8px 36px" }}>
                         {row.name}
                       </TableCell>
-                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                      <TableCell align="left" sx={{ padding: "8px 16px" }}>
                         {row.cardsCount}
                       </TableCell>
-                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                      <TableCell align="left" sx={{ padding: "8px 16px" }}>
                         {formatDate(row.updated)}
                       </TableCell>
-                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                      <TableCell align="left" sx={{ padding: "8px 16px" }}>
                         {row.user_name}
                       </TableCell>
                       <TableCell align="center" sx={{ padding: "8px 16px" }}>
@@ -380,16 +381,16 @@ export const Packs: FC = () => {
                       }}
                       className={s.tableRowActive}
                     >
-                      <TableCell component="th" scope="row" align="center" sx={{ padding: "8px 16px" }}>
+                      <TableCell component="th" scope="row" align="left" sx={{ padding: "8px 36px" }}>
                         {row.name}
                       </TableCell>
-                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                      <TableCell align="left" sx={{ padding: "8px 16px" }}>
                         {row.cardsCount}
                       </TableCell>
-                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                      <TableCell align="left" sx={{ padding: "8px 16px" }}>
                         {formatDate(row.updated)}
                       </TableCell>
-                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                      <TableCell align="left" sx={{ padding: "8px 16px" }}>
                         {row.user_name}
                       </TableCell>
                       <TableCell

@@ -2,6 +2,7 @@ import React, { ChangeEvent } from "react"
 import { Pagination } from "@mui/material"
 import s from "./SuperPagination.module.css"
 import SuperSelect from "features/packs/Packs/Pagination/Select/SuperSelect"
+import Typography from "@mui/material/Typography"
 
 export type SuperPaginationPropsType = {
   id?: string
@@ -32,11 +33,6 @@ const SuperPagination: React.FC<SuperPaginationPropsType> = ({
   return (
     <div className={s.pagination}>
       <Pagination
-        sx={
-          {
-            // стили для Pagination // пишет студент
-          }
-        }
         page={page}
         count={lastPage}
         onChange={onChangeCallback}
@@ -46,7 +42,7 @@ const SuperPagination: React.FC<SuperPaginationPropsType> = ({
         color={"primary"}
       />
 
-      <span className={s.text1}>show</span>
+      <Typography variant={"body2"}>show</Typography>
 
       <SuperSelect
         value={itemsCountForPage}
@@ -59,7 +55,7 @@ const SuperPagination: React.FC<SuperPaginationPropsType> = ({
         onChange={onChangeSelect}
       />
 
-      <span className={s.text2}>cards per page</span>
+      <Typography variant={"body2"}>cards per page</Typography>
     </div>
   )
 }

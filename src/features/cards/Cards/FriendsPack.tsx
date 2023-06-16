@@ -21,6 +21,8 @@ import { selectIsLoggedIn } from "features/auth/auth.selector"
 import { selectIsLoading } from "app/app.selector"
 import { selectCards, selectCardsSettings } from "features/cards/cards.selector"
 import { formatDate } from "common/utils"
+import Typography from "@mui/material/Typography"
+import back from "assets/image/back.png"
 
 export const FriendsPack: FC = () => {
   const dispatch = useAppDispatch()
@@ -141,7 +143,12 @@ export const FriendsPack: FC = () => {
   return (
     <div className={s.friendsPacks}>
       <div className={s.back}>
-        <NavLink to={"/"}>← Back to Packs List</NavLink>
+        <NavLink to={"/"}>
+          <Typography>
+            <img src={back} alt="back" />
+            <span> Back to Packs List</span>
+          </Typography>
+        </NavLink>
       </div>
       <div className={s.header}>
         <div className={s.packsList}>Friend’s Pack</div>
@@ -177,8 +184,8 @@ export const FriendsPack: FC = () => {
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
-            <TableRow>
-              <TableCell align="center" onClick={handleSortQuestionRequest}>
+            <TableRow hover={true} className={s.tableHead}>
+              <TableCell align="left" sx={{ padding: "8px 36px" }} onClick={handleSortQuestionRequest}>
                 <TableSortLabel
                   active={params.sortCards === "0question" || params.sortCards === "1question"}
                   direction={params.sortCards === "1question" || "" ? "asc" : "desc"}
@@ -186,7 +193,7 @@ export const FriendsPack: FC = () => {
                   Question
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="center" onClick={handleSortAnswerRequest}>
+              <TableCell align="left" onClick={handleSortAnswerRequest}>
                 <TableSortLabel
                   active={params.sortCards === "0answer" || params.sortCards === "1answer"}
                   direction={params.sortCards === "0answer" || "" ? "asc" : "desc"}
@@ -194,7 +201,7 @@ export const FriendsPack: FC = () => {
                   Answer
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="center" onClick={handleSortUpdatedDateRequest}>
+              <TableCell align="left" onClick={handleSortUpdatedDateRequest}>
                 <TableSortLabel
                   active={params.sortCards === "0updated" || params.sortCards === "1updated"}
                   direction={params.sortCards === "0updated" || "" ? "asc" : "desc"}
@@ -202,23 +209,23 @@ export const FriendsPack: FC = () => {
                   Last Updated
                 </TableSortLabel>
               </TableCell>
-              <TableCell align="center">Grade</TableCell>
+              <TableCell align="left">Grade</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {cards &&
               cards.map((row) => (
-                <TableRow key={row._id}>
-                  <TableCell component="th" scope="row" align="center" sx={{ padding: "8px 16px" }}>
+                <TableRow hover={true} key={row._id}>
+                  <TableCell component="th" scope="row" align="left" sx={{ padding: "8px 36px" }}>
                     {row.question}
                   </TableCell>
-                  <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                  <TableCell align="left" sx={{ padding: "8px 16px" }}>
                     {row.answer}
                   </TableCell>
-                  <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                  <TableCell align="left" sx={{ padding: "8px 16px" }}>
                     {formatDate(row.updated)}
                   </TableCell>
-                  <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                  <TableCell align="left" sx={{ padding: "8px 16px" }}>
                     <Rating precision={0.1} readOnly value={+row.grade} />
                   </TableCell>
                 </TableRow>
