@@ -7,6 +7,7 @@ import checkEmail from "assets/image/checkEmail.png"
 import { authThunks } from "features/auth/auth.slice"
 import { EditableSpan } from "features/profile/editableSpan/EditableSpan"
 import { useAppDispatch, useAppSelector } from "common/hooks"
+import { InputTypeFile } from "features/profile/InputTypeProfile/InputTypeProfile"
 
 export const Profile: FC = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
@@ -48,7 +49,8 @@ export const Profile: FC = () => {
             <Paper className={s.paper}>
               <div className={s.header}>Personal Information</div>
               <div className={s.img}>
-                <img src={checkEmail} alt="email image" />
+                <InputTypeFile />
+                {/*<img src={checkEmail} alt="email image" />*/}
               </div>
               <div className={s.editableSpan}>
                 <EditableSpan onChange={changeName} value={name} />

@@ -45,6 +45,7 @@
 
 .img img {
     width: 96px;
+    border-radius: 50px;
 }
 
 .editableSpan {
