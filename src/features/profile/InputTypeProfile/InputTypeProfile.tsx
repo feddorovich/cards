@@ -2,21 +2,24 @@ import React, { ChangeEvent, useState } from "react"
 import { IconButton } from "@mui/material"
 import CloudUploadIcon from "@mui/icons-material/CloudUpload"
 import defaultAva from "assets/image/defaultAva.png"
+import s from "./InputTypeProfile.module.css"
+import { appActions } from "app/app.slice"
+import { useAppDispatch } from "common/hooks"
 
 export const InputTypeFile = () => {
+  const dispatch = useAppDispatch()
   const [ava, setAva] = useState(defaultAva)
   const [isAvaBroken, setIsAvaBroken] = useState(false)
 
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
       const file = e.target.files[0]
-      if (file.size < 4000000) {
+      if (file.size < 100000) {
         convertFileToBase64(file, (file64: string) => {
           setAva(file64)
-          // setAva("111")
         })
       } else {
-        console.error("Error: ", "Файл слишком большого размера")
+        dispatch(appActions.setError({ error: "The file is too large. File size up to 100 kb" }))
       }
     }
   }
@@ -32,13 +35,13 @@ export const InputTypeFile = () => {
 
   const errorHandler = () => {
     setIsAvaBroken(true)
-    alert("Кривая картинка")
+    dispatch(appActions.setError({ error: "Wrong file type or corrupted file" }))
   }
 
   return (
-    <div>
+    <div className={s.wrapper}>
       <img src={isAvaBroken ? defaultAva : ava} style={{ width: "100px" }} onError={errorHandler} alt="ava" />
-      <label>
+      <label className={s.uploadButton}>
         <input type="file" onChange={uploadHandler} style={{ display: "none" }} />
         <IconButton component="span">
           <CloudUploadIcon />
