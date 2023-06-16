@@ -209,12 +209,16 @@ export const FriendsPack: FC = () => {
             {cards &&
               cards.map((row) => (
                 <TableRow key={row._id}>
-                  <TableCell component="th" scope="row" align="center">
+                  <TableCell component="th" scope="row" align="center" sx={{ padding: "8px 16px" }}>
                     {row.question}
                   </TableCell>
-                  <TableCell align="center">{row.answer}</TableCell>
-                  <TableCell align="center">{formatDate(row.updated)}</TableCell>
-                  <TableCell align="center">
+                  <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                    {row.answer}
+                  </TableCell>
+                  <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                    {formatDate(row.updated)}
+                  </TableCell>
+                  <TableCell align="center" sx={{ padding: "8px 16px" }}>
                     <Rating precision={0.1} readOnly value={+row.grade} />
                   </TableCell>
                 </TableRow>

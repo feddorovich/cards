@@ -303,7 +303,7 @@ export const Packs: FC = () => {
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead className={s.tableHead}>
-            <TableRow>
+            <TableRow hover={true}>
               <TableCell align="center" onClick={handleSortNameRequest}>
                 <TableSortLabel
                   active={params.sortPacks === "0name" || params.sortPacks === "1name"}
@@ -351,13 +351,19 @@ export const Packs: FC = () => {
                       }}
                       className={s.tableRowDisabled}
                     >
-                      <TableCell component="th" scope="row" align="center">
+                      <TableCell component="th" scope="row" align="center" sx={{ padding: "8px 16px" }}>
                         {row.name}
                       </TableCell>
-                      <TableCell align="center">{row.cardsCount}</TableCell>
-                      <TableCell align="center">{formatDate(row.updated)}</TableCell>
-                      <TableCell align="center">{row.user_name}</TableCell>
-                      <TableCell align="center">
+                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                        {row.cardsCount}
+                      </TableCell>
+                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                        {formatDate(row.updated)}
+                      </TableCell>
+                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                        {row.user_name}
+                      </TableCell>
+                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
                         <IconButton aria-label="learn">
                           <SchoolIcon />
                         </IconButton>
@@ -367,20 +373,28 @@ export const Packs: FC = () => {
                 } else {
                   return (
                     <TableRow
+                      hover={true}
                       key={row._id}
                       onClick={() => {
                         navigate(id === row.user_id ? `/my-pack/${row._id}` : `/friends-pack/${row._id}`)
                       }}
                       className={s.tableRowActive}
                     >
-                      <TableCell component="th" scope="row" align="center">
+                      <TableCell component="th" scope="row" align="center" sx={{ padding: "8px 16px" }}>
                         {row.name}
                       </TableCell>
-                      <TableCell align="center">{row.cardsCount}</TableCell>
-                      <TableCell align="center">{formatDate(row.updated)}</TableCell>
-                      <TableCell align="center">{row.user_name}</TableCell>
+                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                        {row.cardsCount}
+                      </TableCell>
+                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                        {formatDate(row.updated)}
+                      </TableCell>
+                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                        {row.user_name}
+                      </TableCell>
                       <TableCell
                         align="center"
+                        sx={{ padding: "8px 16px" }}
                         onClick={(event) => {
                           event.stopPropagation()
                         }}

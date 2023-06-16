@@ -50,22 +50,17 @@
 .pagination {
     padding: 20px 0;
 }
+
 .tableHead {
     background-color: #EFEFEF;
-    transition: 0.5s;
 }
 
-.tableHead:hover {
-    background-color: #e7e5e5;
-}
-
-.tableRowActive:hover {
+.tableRowActive {
     transition: 0.5s;
 }
 
 .tableRowActive:hover {
     cursor: pointer;
-    background-color: #e7e5e5;
 }
 
 .tableRowDisabled {

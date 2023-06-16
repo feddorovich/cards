@@ -257,26 +257,28 @@ export const MyPack: FC = () => {
                 {cards &&
                   cards.map((row) => (
                     <TableRow key={row._id}>
-                      <TableCell component="th" scope="row" align="center">
+                      <TableCell component="th" scope="row" align="center" sx={{ padding: "8px 16px" }}>
                         {row.question}
                       </TableCell>
-                      <TableCell align="center">{row.answer}</TableCell>
-                      <TableCell align="center">{formatDate(row.updated)}</TableCell>
-                      <TableCell align="center">
+                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                        {row.answer}
+                      </TableCell>
+                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
+                        {formatDate(row.updated)}
+                      </TableCell>
+                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
                         <Rating precision={0.1} readOnly value={+row.grade} />
                       </TableCell>
-                      <TableCell align="center">
+                      <TableCell align="center" sx={{ padding: "8px 16px" }}>
                         {row.user_id === id && (
                           <div>
-                            <IconButton aria-label="edit" disabled={isLoading}>
+                            <IconButton aria-label="edit" disabled={isLoading} sx={{ padding: "1px 5px" }}>
                               <EditCardModal cardsPack_id={packId ?? ""} cardId={row._id}>
                                 <EditIcon />
                               </EditCardModal>
                             </IconButton>
-                            <IconButton aria-label="delete" disabled={isLoading}>
-                              <DeleteCardModal cardId={row._id}>
-                                <DeleteIcon />
-                              </DeleteCardModal>
+                            <IconButton aria-label="delete" disabled={isLoading} sx={{ padding: "1px 5px" }}>
+                              <DeleteCardModal cardId={row._id}>{<DeleteIcon />}</DeleteCardModal>
                             </IconButton>
                           </div>
                         )}
