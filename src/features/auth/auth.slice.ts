@@ -55,7 +55,7 @@ const setNewPassword = createAppAsyncThunk<NewPasswordResponseType, ArgNewPasswo
     }
   }
 )
-const changeProfileName = createAppAsyncThunk<{ updatedUser: ProfileType }, ArgProfileDataType>(
+const changeProfileData = createAppAsyncThunk<{ updatedUser: ProfileType }, ArgProfileDataType>(
   "auth/changeProfileName",
   async (arg, { rejectWithValue }) => {
     try {
@@ -123,7 +123,7 @@ const slice = createSlice({
         state.redirectPath = "/login"
         // Добавить уведомление о смене пароля
       })
-      .addCase(changeProfileName.fulfilled, (state, action) => {
+      .addCase(changeProfileData.fulfilled, (state, action) => {
         state.profile = action.payload.updatedUser
         // Добавить уведомление о смене имени
       })
@@ -132,4 +132,4 @@ const slice = createSlice({
 
 export const authReducer = slice.reducer
 export const authActions = slice.actions
-export const authThunks = { register, login, reset, setNewPassword, logout, changeProfileName }
+export const authThunks = { register, login, reset, setNewPassword, logout, changeProfileData }

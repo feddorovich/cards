@@ -4,15 +4,19 @@ import AppBar from "@mui/material/AppBar"
 import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import s from "./Header.module.css"
 import { LinearProgress } from "@mui/material"
 import { useAppSelector } from "common/hooks"
+import { selectAvatar, selectIsLoggedIn, selectName } from "features/auth/auth.selector"
+import { selectIsLoading } from "app/app.selector"
 
 export const Header = () => {
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
-  const name = useAppSelector((state) => (state.auth.profile ? state.auth.profile.name : ""))
-  const isLoading = useAppSelector((state) => state.app.isLoading)
+  const navigate = useNavigate()
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
+  const name = useAppSelector<string>(selectName)
+  const isLoading = useAppSelector(selectIsLoading)
+  const avatar = useAppSelector(selectAvatar)
 
   return (
     <div>
@@ -24,9 +28,10 @@ export const Header = () => {
             </Typography>
             {isLoggedIn && (
               <div className={s.button}>
-                <Button color="primary" variant="outlined" sx={{ borderRadius: 6 }}>
-                  <NavLink to="/profile">{name}</NavLink>
-                </Button>
+                {/*<Button color="primary" variant="outlined" sx={{ borderRadius: 6 }}>*/}
+                <NavLink to="/profile">{name}</NavLink>
+                {/*</Button>*/}
+                <img src={avatar} alt="avatar" onClick={() => navigate("/profile")} />
               </div>
             )}
           </Toolbar>

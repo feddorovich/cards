@@ -1,5 +1,7 @@
 import React, { FC } from "react"
-import { CircularProgress, Grid, Paper } from "@mui/material"
+import Paper from "@mui/material/Paper"
+import Grid from "@mui/material/Grid"
+import CircularProgress from "@mui/material/CircularProgress"
 import Button from "@mui/material/Button"
 import s from "./Profile.module.css"
 import { Navigate, NavLink } from "react-router-dom"
@@ -7,21 +9,23 @@ import { authThunks } from "features/auth/auth.slice"
 import { EditableSpan } from "features/profile/editableSpan/EditableSpan"
 import { useAppDispatch, useAppSelector } from "common/hooks"
 import { InputTypeFile } from "features/profile/InputTypeProfile/InputTypeProfile"
+import { selectEmail, selectIsLoggedIn, selectName } from "features/auth/auth.selector"
+import { selectIsAppInitialized, selectIsLoading } from "app/app.selector"
 
 export const Profile: FC = () => {
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
-  const name = useAppSelector<string>((state) => (state.auth.profile ? state.auth.profile.name : ""))
-  const email = useAppSelector<string>((state) => (state.auth.profile ? state.auth.profile.email : ""))
-  const isAppInitialized = useAppSelector((state) => state.app.isAppInitialized)
-  const isLoading = useAppSelector((state) => state.app.isLoading)
   const dispatch = useAppDispatch()
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
+  const name = useAppSelector<string>(selectName)
+  const email = useAppSelector<string>(selectEmail)
+  const isAppInitialized = useAppSelector(selectIsAppInitialized)
+  const isLoading = useAppSelector(selectIsLoading)
 
   const logoutHandler = () => {
     dispatch(authThunks.logout())
   }
 
   const changeName = (title: string) => {
-    dispatch(authThunks.changeProfileName({ name: title }))
+    dispatch(authThunks.changeProfileData({ name: title }))
   }
 
   if (!isAppInitialized) {

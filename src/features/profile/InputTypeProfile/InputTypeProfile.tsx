@@ -6,21 +6,22 @@ import s from "./InputTypeProfile.module.css"
 import { appActions } from "app/app.slice"
 import { useAppDispatch, useAppSelector } from "common/hooks"
 import { authThunks } from "features/auth/auth.slice"
+import { selectIsLoading } from "app/app.selector"
+import { selectAvatar } from "features/auth/auth.selector"
 
 export const InputTypeFile = () => {
-  const avatar = useAppSelector((state) => state.auth.profile?.avatar)
-  const isLoading = useAppSelector((state) => state.app.isLoading)
   const dispatch = useAppDispatch()
+  const avatar = useAppSelector(selectAvatar)
+  const isLoading = useAppSelector(selectIsLoading)
   const [ava, setAva] = useState(avatar ? avatar : defaultAva)
   const [isAvaBroken, setIsAvaBroken] = useState(false)
-  console.log(avatar)
 
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
       const file = e.target.files[0]
       if (file.size < 100000) {
         convertFileToBase64(file, async (file64: string) => {
-          await dispatch(authThunks.changeProfileName({ avatar: file64 }))
+          await dispatch(authThunks.changeProfileData({ avatar: file64 }))
           setAva(file64)
         })
       } else {
