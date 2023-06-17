@@ -32,6 +32,7 @@ import { DeletePackModal } from "features/modal/DeletePackModal/DeletePackModal"
 import { formatDate } from "common/utils"
 import Typography from "@mui/material/Typography"
 import back from "assets/image/back.png"
+import deckCover from "assets/image/deckCover.png"
 
 export const MyPack: FC = () => {
   const dispatch = useAppDispatch()
@@ -182,6 +183,7 @@ export const MyPack: FC = () => {
         <div>
           <div className={s.header}>
             <div className={s.packsList}>
+              <img src={cardsSettings.packDeckCover ? cardsSettings.packDeckCover : deckCover} alt="deckCover" />
               My Pack - {cardsSettings.packName}
               <div className={s.buttons}>
                 <IconButton
@@ -207,7 +209,13 @@ export const MyPack: FC = () => {
               </div>
             </div>
 
-            <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }} disabled={isLoading}>
+            <Button
+              type={"submit"}
+              variant="contained"
+              color={"primary"}
+              sx={{ borderRadius: 6, height: 36 }}
+              disabled={isLoading}
+            >
               <AddNewCardModal cardsPack_id={packId ?? ""}>Add new card</AddNewCardModal>
             </Button>
           </div>

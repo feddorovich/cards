@@ -33,6 +33,7 @@ export type GetCardsResponseType = {
   packPrivate: boolean
   packCreated: string
   packUpdated: string
+  packDeckCover?: string
   page: number
   pageCount: number
   cardsTotalCount: number

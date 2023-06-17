@@ -23,6 +23,7 @@ import { selectCards, selectCardsSettings } from "features/cards/cards.selector"
 import { formatDate } from "common/utils"
 import Typography from "@mui/material/Typography"
 import back from "assets/image/back.png"
+import deckCover from "assets/image/deckCover.png"
 
 export const FriendsPack: FC = () => {
   const dispatch = useAppDispatch()
@@ -149,12 +150,15 @@ export const FriendsPack: FC = () => {
         </NavLink>
       </div>
       <div className={s.header}>
-        <div className={s.packsList}>Friend’s Pack</div>
+        <div className={s.packsList}>
+          <img src={cardsSettings.packDeckCover ? cardsSettings.packDeckCover : deckCover} alt="deckCover" />
+          Friend’s Pack - {cardsSettings.packName}
+        </div>
         <Button
           type={"submit"}
           variant="contained"
           color={"primary"}
-          sx={{ borderRadius: 6 }}
+          sx={{ borderRadius: 6, height: 36 }}
           onClick={() => {
             navigate(`/learn/${packId}`)
           }}
