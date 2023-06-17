@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks"
 import { useSearchParams } from "react-router-dom"
 import { selectIsLoading } from "app/app.selector"
 import { cardsThunks } from "features/cards/cards.slice"
+import { CardUploadButton } from "features/modal/CardUploadButton/CardUploadButton"
 
 type AddNewPackPropsType = {
   children: ReactNode
@@ -28,6 +29,12 @@ export const EditCardModal: FC<AddNewPackPropsType> = ({ children, cardsPack_id,
   )
   const oldAnswer = useAppSelector((state) =>
     state.cards.cards ? state.cards.cards.cards.find((card) => card._id === cardId)?.answer : ""
+  )
+  const oldPictureQuestion = useAppSelector((state) =>
+    state.cards.cards ? state.cards.cards.cards.find((card) => card._id === cardId)?.questionImg : ""
+  )
+  const oldPictureAnswer = useAppSelector((state) =>
+    state.cards.cards ? state.cards.cards.cards.find((card) => card._id === cardId)?.answerImg : ""
   )
 
   const formik = useFormik({
@@ -59,6 +66,22 @@ export const EditCardModal: FC<AddNewPackPropsType> = ({ children, cardsPack_id,
   const [format, setFormat] = useState("Text")
   const handleFormatChange = (event: SelectChangeEvent) => {
     setFormat(event.target.value as string)
+  }
+
+  // Picture question & answer
+  const [pictureQuestion, setPictureQuestion] = useState(oldPictureQuestion)
+  const questionHandle = (picture: string) => setPictureQuestion(picture)
+  const [pictureAnswer, setPictureAnswer] = useState(oldPictureAnswer)
+  const answerHandle = (picture: string) => setPictureAnswer(picture)
+
+  // Picture question & answer upload
+  const handlePicturesUpload = async () => {
+    await dispatch(cardsThunks.updateCard({ _id: cardId, questionImg: pictureQuestion, answerImg: pictureAnswer }))
+    await dispatch(cardsThunks.getCards({ cardsPack_id, ...params }))
+    setPictureQuestion("")
+    setPictureAnswer("")
+    handleClose()
+    formik.resetForm()
   }
 
   return (
@@ -130,7 +153,35 @@ export const EditCardModal: FC<AddNewPackPropsType> = ({ children, cardsPack_id,
               </div>
             </form>
           ) : (
-            <div style={{ margin: "25px 0" }}>Picture</div>
+            <div>
+              <div className={s.pictures}>
+                {pictureQuestion && <img src={pictureQuestion} style={{ width: "100px" }} alt="pictureQuestion" />}{" "}
+              </div>
+              <CardUploadButton onChange={questionHandle} title={"Upload the question as an image"} />
+              <div className={s.pictures}>
+                {pictureAnswer && <img src={pictureAnswer} style={{ width: "100px" }} alt="answerQuestion" />}
+              </div>
+              <CardUploadButton onChange={answerHandle} title={"Upload the answer as an image"} />
+              <div className={s.buttons} style={{ padding: "30px 0 10px" }}>
+                <Button
+                  variant="contained"
+                  color={"inherit"}
+                  onClick={handleClose}
+                  sx={{ borderRadius: 6, backgroundColor: "white", width: 120 }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  color={"primary"}
+                  disabled={isLoading}
+                  onClick={handlePicturesUpload}
+                  sx={{ borderRadius: 6, width: 120 }}
+                >
+                  Save
+                </Button>
+              </div>
+            </div>
           )}
         </div>
       </BasicModal>

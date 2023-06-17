@@ -218,11 +218,23 @@ export const FriendsPack: FC = () => {
             {cards &&
               cards.map((row) => (
                 <TableRow hover={true} key={row._id}>
-                  <TableCell component="th" scope="row" align="left" sx={{ padding: "8px 36px" }}>
-                    {row.question}
+                  <TableCell component="th" scope="row" align="left" sx={{ padding: "8px 24px" }}>
+                    {row.questionImg ? (
+                      <div className={s.pictureQuestions}>
+                        <img src={row.questionImg} alt="questionImg" />
+                      </div>
+                    ) : (
+                      <span>{row.question}</span>
+                    )}
                   </TableCell>
                   <TableCell align="left" sx={{ padding: "8px 16px" }}>
-                    {row.answer}
+                    {row.answerImg ? (
+                      <div className={s.pictureQuestions}>
+                        <img src={row.answerImg} alt="answerImg" />
+                      </div>
+                    ) : (
+                      <span>{row.answer}</span>
+                    )}
                   </TableCell>
                   <TableCell align="left" sx={{ padding: "8px 16px" }}>
                     {formatDate(row.updated)}

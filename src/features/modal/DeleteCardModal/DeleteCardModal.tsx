@@ -3,7 +3,7 @@ import { BasicModal } from "features/modal/BasicModal"
 import s from "./DeleteCardModal.module.css"
 import Button from "@mui/material/Button"
 import { useAppDispatch, useAppSelector } from "common/hooks"
-import { useSearchParams } from "react-router-dom"
+import { useParams, useSearchParams } from "react-router-dom"
 import { selectIsLoading } from "app/app.selector"
 import Typography from "@mui/material/Typography"
 import { cardsThunks } from "features/cards/cards.slice"
@@ -21,7 +21,8 @@ export const DeleteCardModal: FC<EditPackPropsType> = ({ children, cardId }) => 
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-  const packId = document.location.href.split("/")[4].split("?")[0]
+  const { packId } = useParams()
+  // const packId = document.location.href.split("/")[4].split("?")[0]
   const oldQuestion = useAppSelector((state) =>
     state.cards.cards ? state.cards.cards.cards.find((card) => card._id === cardId)?.question : ""
   )
@@ -29,7 +30,7 @@ export const DeleteCardModal: FC<EditPackPropsType> = ({ children, cardId }) => 
   // Delete card
   const deleteCardHandler = async () => {
     await dispatch(cardsThunks.deleteCard(cardId))
-    dispatch(cardsThunks.getCards({ cardsPack_id: packId, ...params }))
+    dispatch(cardsThunks.getCards({ cardsPack_id: packId ?? "", ...params }))
   }
 
   return (

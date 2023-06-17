@@ -111,9 +111,15 @@ export const Learn: FC = () => {
         <Grid container justifyContent={"center"}>
           <Grid item sx={{ width: "450px" }}>
             <Paper className={s.paper}>
-              <div className={s.question}>
-                <b>Question</b>: {card?.question}
-              </div>
+              {card.questionImg ? (
+                <div className={s.questionImg}>
+                  <img src={card.questionImg} alt="questionImg" />
+                </div>
+              ) : (
+                <div className={s.question}>
+                  <b>Question</b>: {card?.question}
+                </div>
+              )}
               <div className={s.quantity}>
                 Number of attempts to answer the question: <b>{card?.shots}</b>
               </div>
@@ -132,9 +138,15 @@ export const Learn: FC = () => {
               )}
               {showAnswer && (
                 <div>
-                  <div className={s.answer}>
-                    <b>Answer</b>: {card?.answer}
-                  </div>
+                  {card.answerImg ? (
+                    <div className={s.answerImg}>
+                      <img src={card.answerImg} alt="answerImg" />
+                    </div>
+                  ) : (
+                    <div className={s.answer}>
+                      <b>Answer</b>: {card?.answer}
+                    </div>
+                  )}
                   <div className={s.rateYourself}>Rate yourself:</div>
                   <FormControl component="fieldset">
                     <RadioGroup aria-label="options" name="options" value={selectedValue} onChange={handleChange}>

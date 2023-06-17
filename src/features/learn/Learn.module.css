@@ -44,6 +44,25 @@
     color: #000000;
 }
 
+.questionImg {
+    display: flex;
+    justify-content: center;
+}
+
+.questionImg img {
+    max-width: 370px;
+}
+
+.answerImg {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.answerImg img {
+    max-width: 370px;
+}
+
 .quantity {
     font-style: normal;
     font-size: 14px;

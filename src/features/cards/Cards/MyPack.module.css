@@ -93,9 +93,13 @@
     justify-content: center;
 }
 
+.pictureQuestions  {
+    display: flex;
+    align-items: center;
+}
+
 .pictureQuestions img {
-    width: 100px;
-    height: 40px;
+    height: 36px;
 }
 
 .pagination {

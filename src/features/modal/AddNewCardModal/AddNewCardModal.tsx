@@ -64,11 +64,15 @@ export const AddNewCardModal: FC<AddNewPackPropsType> = ({ children, cardsPack_i
   const questionHandle = (picture: string) => setPictureQuestion(picture)
   const [pictureAnswer, setPictureAnswer] = useState("")
   const answerHandle = (picture: string) => setPictureAnswer(picture)
-  console.log(pictureQuestion)
 
   // Picture question & answer upload
-  const handlePicturesUpload = () => {
-    dispatch(cardsThunks.addCard({ cardsPack_id, questionImg: pictureQuestion, answerImg: pictureAnswer }))
+  const handlePicturesUpload = async () => {
+    await dispatch(cardsThunks.addCard({ cardsPack_id, questionImg: pictureQuestion, answerImg: pictureAnswer }))
+    await dispatch(cardsThunks.getCards({ cardsPack_id, ...params }))
+    setPictureQuestion("")
+    setPictureAnswer("")
+    handleClose()
+    formik.resetForm()
   }
 
   return (

@@ -84,6 +84,15 @@
     opacity: 0.8;
 }
 
+.pictureQuestions  {
+    display: flex;
+    align-items: center;
+}
+
+.pictureQuestions img {
+    height: 36px;
+}
+
 .pagination {
     margin: 20px 0;
 }
