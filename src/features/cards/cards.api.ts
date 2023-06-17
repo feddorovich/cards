@@ -55,6 +55,8 @@ export type CardsType = {
   created: string
   updated: string
   __v: number
+  questionImg?: string
+  answerImg?: string
 }
 export type ArgGradeType = {
   grade: number
@@ -79,4 +81,6 @@ export type ArgUpdateCardType = {
   _id: string
   question?: string
   answer?: string
+  answerImg?: string
+  questionImg?: string
 }

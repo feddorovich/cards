@@ -57,18 +57,18 @@ export const AddNewCardModal: FC<AddNewPackPropsType> = ({ children, cardsPack_i
 
   // Change format
   const [format, setFormat] = useState("Text")
-  const handleFormatChange = (event: SelectChangeEvent) => {
-    setFormat(event.target.value as string)
-  }
+  const handleFormatChange = (event: SelectChangeEvent) => setFormat(event.target.value as string)
 
   // Picture question & answer
   const [pictureQuestion, setPictureQuestion] = useState("")
-  const questionHandle = (picture: string) => {
-    setPictureQuestion(picture)
-  }
+  const questionHandle = (picture: string) => setPictureQuestion(picture)
   const [pictureAnswer, setPictureAnswer] = useState("")
-  const answerHandle = (picture: string) => {
-    setPictureAnswer(picture)
+  const answerHandle = (picture: string) => setPictureAnswer(picture)
+  console.log(pictureQuestion)
+
+  // Picture question & answer upload
+  const handlePicturesUpload = () => {
+    dispatch(cardsThunks.addCard({ cardsPack_id, questionImg: pictureQuestion, answerImg: pictureAnswer }))
   }
 
   return (
@@ -159,10 +159,10 @@ export const AddNewCardModal: FC<AddNewPackPropsType> = ({ children, cardsPack_i
                   Cancel
                 </Button>
                 <Button
-                  type={"submit"}
                   variant="contained"
                   color={"primary"}
                   disabled={isLoading}
+                  onClick={handlePicturesUpload}
                   sx={{ borderRadius: 6, width: 120 }}
                 >
                   Save

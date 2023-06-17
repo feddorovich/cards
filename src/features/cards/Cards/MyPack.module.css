@@ -93,6 +93,11 @@
     justify-content: center;
 }
 
+.pictureQuestions img {
+    width: 100px;
+    height: 40px;
+}
+
 .pagination {
     margin: 20px 0;
 }
