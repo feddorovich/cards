@@ -21,7 +21,10 @@ export const AddNewPackModal: FC<AddNewPackPropsType> = ({ children }) => {
   const params = Object.fromEntries(searchParams)
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const handleClose = () => {
+    setOpen(false)
+    formik.setErrors({ name: "" })
+  }
   const [deckCover, setDeckCover] = useState("")
 
   const AddPackUploadButtonHandler = (deckCover: string) => {

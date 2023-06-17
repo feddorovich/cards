@@ -23,7 +23,12 @@ export const EditPackModal: FC<EditPackPropsType> = ({ children, _id }) => {
   const params = Object.fromEntries(searchParams)
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const handleClose = () => {
+    setOpen(false)
+    formik.setErrors({ name: "" })
+    formik.setFieldValue("name", packName)
+    setDeckCover(oldDeckCover)
+  }
   const packName = useAppSelector((state) =>
     state.packs.cardPacks.cardPacks ? state.packs.cardPacks.cardPacks.find((pack) => pack._id === _id)?.name : ""
   )
