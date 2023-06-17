@@ -113,8 +113,6 @@ export const FriendsPack: FC = () => {
 
   // Pagination
   const onChangePagination = (newPage: number, newCount: number) => {
-    // console.log("newPage", newPage)
-    // console.log("newCount", newCount)
     if (newPage === 1) {
       delete params.page
       setSearchParams({ ...params, pageCount: newCount.toString() })
@@ -167,7 +165,7 @@ export const FriendsPack: FC = () => {
       <div className={s.settings}>
         <div className={s.search}>
           <div>Search by questions</div>
-          <Search onChange={changeSearchParams} value={params.packName || ""} />
+          <Search onChange={changeSearchParams} value={params.cardQuestion || ""} />
         </div>
         <div className={s.filter}>
           <div>Reset</div>

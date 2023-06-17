@@ -214,7 +214,7 @@ export const MyPack: FC = () => {
           <div className={s.settings}>
             <div className={s.search}>
               <div>Search</div>
-              <Search onChange={changeSearchParams} value={params.packName || ""} />
+              <Search onChange={changeSearchParams} value={params.cardQuestion || ""} />
             </div>
             <div className={s.filter}>
               <div>Reset</div>
