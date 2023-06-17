@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FC } from "react"
-import s from "./AddPackUploadButton.module.css"
+import s from "./PackUploadButton.module.css"
 import { appActions } from "app/app.slice"
 import { useAppDispatch, useAppSelector } from "common/hooks"
 import { selectIsLoading } from "app/app.selector"
@@ -9,7 +9,7 @@ type AddPackUploadButtonPropsType = {
   onChange: (ava: string) => void
 }
 
-export const AddPackUploadButton: FC<AddPackUploadButtonPropsType> = (props) => {
+export const PackUploadButton: FC<AddPackUploadButtonPropsType> = (props) => {
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector(selectIsLoading)
 

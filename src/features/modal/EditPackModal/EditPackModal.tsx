@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks"
 import { useSearchParams } from "react-router-dom"
 import { selectIsLoading } from "app/app.selector"
 import { cardsThunks } from "features/cards/cards.slice"
+import { PackUploadButton } from "features/modal/PackUploadButton/PackUploadButton"
 
 type EditPackPropsType = {
   children: ReactNode
@@ -26,6 +27,14 @@ export const EditPackModal: FC<EditPackPropsType> = ({ children, _id }) => {
   const packName = useAppSelector((state) =>
     state.packs.cardPacks.cardPacks ? state.packs.cardPacks.cardPacks.find((pack) => pack._id === _id)?.name : ""
   )
+  const oldDeckCover = useAppSelector((state) =>
+    state.packs.cardPacks.cardPacks ? state.packs.cardPacks.cardPacks.find((pack) => pack._id === _id)?.deckCover : ""
+  )
+  const [deckCover, setDeckCover] = useState(oldDeckCover)
+
+  const AddPackUploadButtonHandler = (deckCover: string) => {
+    setDeckCover(deckCover)
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -41,7 +50,7 @@ export const EditPackModal: FC<EditPackPropsType> = ({ children, _id }) => {
       return errors
     },
     onSubmit: async (values) => {
-      await dispatch(packsThunks.editPack({ _id, name: values.name }))
+      await dispatch(packsThunks.editPack({ _id, name: values.name, deckCover }))
       await dispatch(packsThunks.getPacks(params))
       await dispatch(cardsThunks.getCards({ cardsPack_id: _id, ...params }))
       handleClose()
@@ -61,6 +70,7 @@ export const EditPackModal: FC<EditPackPropsType> = ({ children, _id }) => {
         <div className={s.newPackWrapper}>
           <form onSubmit={formik.handleSubmit} className={s.form}>
             <div className={s.packField}>
+              <div>{deckCover && <img src={deckCover} style={{ width: "100px" }} alt="uploadImage" />}</div>
               <TextField
                 variant="standard"
                 label="Pack Name"
@@ -73,6 +83,9 @@ export const EditPackModal: FC<EditPackPropsType> = ({ children, _id }) => {
               {formik.touched.name && formik.errors.name ? (
                 <div className={s.packFieldError}>{formik.errors.name}</div>
               ) : null}
+            </div>
+            <div>
+              <PackUploadButton onChange={AddPackUploadButtonHandler} />
             </div>
             <div className={s.checkbox}>
               <FormControlLabel

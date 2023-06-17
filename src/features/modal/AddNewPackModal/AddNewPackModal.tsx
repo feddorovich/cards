@@ -8,7 +8,7 @@ import { packsThunks } from "features/packs/packs.slice"
 import { useAppDispatch, useAppSelector } from "common/hooks"
 import { useSearchParams } from "react-router-dom"
 import { selectIsLoading } from "app/app.selector"
-import { AddPackUploadButton } from "features/modal/AddNewPackModal/AddPackUploadButton/AddPackUploadButton"
+import { PackUploadButton } from "features/modal/PackUploadButton/PackUploadButton"
 
 type AddNewPackPropsType = {
   children: ReactNode
@@ -77,7 +77,7 @@ export const AddNewPackModal: FC<AddNewPackPropsType> = ({ children }) => {
               ) : null}
             </div>
             <div>
-              <AddPackUploadButton onChange={AddPackUploadButtonHandler} />
+              <PackUploadButton onChange={AddPackUploadButtonHandler} />
             </div>
             <div className={s.checkbox}>
               <FormControlLabel

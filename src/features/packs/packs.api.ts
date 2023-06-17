@@ -62,4 +62,5 @@ export type ArgAddPackType = {
 export type ArgEditPackType = {
   _id: string
   name: string
+  deckCover?: string
 }
