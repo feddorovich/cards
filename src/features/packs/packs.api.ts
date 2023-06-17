@@ -57,6 +57,7 @@ export type CardPacksType = {
 export type ArgAddPackType = {
   name: string
   private: boolean
+  deckCover?: string
 }
 export type ArgEditPackType = {
   _id: string

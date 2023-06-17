@@ -8,6 +8,7 @@ import { packsThunks } from "features/packs/packs.slice"
 import { useAppDispatch, useAppSelector } from "common/hooks"
 import { useSearchParams } from "react-router-dom"
 import { selectIsLoading } from "app/app.selector"
+import { AddPackUploadButton } from "features/modal/AddNewPackModal/AddPackUploadButton/AddPackUploadButton"
 
 type AddNewPackPropsType = {
   children: ReactNode
@@ -21,6 +22,11 @@ export const AddNewPackModal: FC<AddNewPackPropsType> = ({ children }) => {
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+  const [deckCover, setDeckCover] = useState("")
+
+  const AddPackUploadButtonHandler = (deckCover: string) => {
+    setDeckCover(deckCover)
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -36,8 +42,9 @@ export const AddNewPackModal: FC<AddNewPackPropsType> = ({ children }) => {
       return errors
     },
     onSubmit: async (values) => {
-      await dispatch(packsThunks.addPack(values))
+      await dispatch(packsThunks.addPack({ name: values.name, private: values.private, deckCover }))
       await dispatch(packsThunks.getPacks(params))
+      await setDeckCover("")
       handleClose()
       formik.resetForm()
     },
@@ -55,6 +62,7 @@ export const AddNewPackModal: FC<AddNewPackPropsType> = ({ children }) => {
         <div className={s.newPackWrapper}>
           <form onSubmit={formik.handleSubmit} className={s.form}>
             <div className={s.packField}>
+              <div>{deckCover && <img src={deckCover} style={{ width: "100px" }} alt="uploadImage" />}</div>
               <TextField
                 variant="standard"
                 label="Pack Name"
@@ -67,6 +75,9 @@ export const AddNewPackModal: FC<AddNewPackPropsType> = ({ children }) => {
               {formik.touched.name && formik.errors.name ? (
                 <div className={s.packFieldError}>{formik.errors.name}</div>
               ) : null}
+            </div>
+            <div>
+              <AddPackUploadButton onChange={AddPackUploadButtonHandler} />
             </div>
             <div className={s.checkbox}>
               <FormControlLabel
