@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks"
 import { useSearchParams } from "react-router-dom"
 import { selectIsLoading } from "app/app.selector"
 import { cardsThunks } from "features/cards/cards.slice"
+import { CardUploadButton } from "features/modal/CardUploadButton/CardUploadButton"
 
 type AddNewPackPropsType = {
   children: ReactNode
@@ -21,7 +22,13 @@ export const AddNewCardModal: FC<AddNewPackPropsType> = ({ children, cardsPack_i
   const params = Object.fromEntries(searchParams)
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const handleClose = () => {
+    setOpen(false)
+    formik.setErrors({
+      question: "",
+      answer: "",
+    })
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -54,6 +61,16 @@ export const AddNewCardModal: FC<AddNewPackPropsType> = ({ children, cardsPack_i
     setFormat(event.target.value as string)
   }
 
+  // Picture question & answer
+  const [pictureQuestion, setPictureQuestion] = useState("")
+  const questionHandle = (picture: string) => {
+    setPictureQuestion(picture)
+  }
+  const [pictureAnswer, setPictureAnswer] = useState("")
+  const answerHandle = (picture: string) => {
+    setPictureAnswer(picture)
+  }
+
   return (
     <div>
       <BasicModal
@@ -65,7 +82,7 @@ export const AddNewCardModal: FC<AddNewPackPropsType> = ({ children, cardsPack_i
       >
         <div className={s.wrapper}>
           <div className={s.selectText}>
-            <p>Choose a question format</p>
+            <p>Choose format</p>
           </div>
           <Select value={format} onChange={handleFormatChange} size={"small"} sx={{ width: "100%" }}>
             <MenuItem value={"Text"}>Text</MenuItem>
@@ -123,7 +140,35 @@ export const AddNewCardModal: FC<AddNewPackPropsType> = ({ children, cardsPack_i
               </div>
             </form>
           ) : (
-            <div style={{ margin: "25px 0" }}>Picture</div>
+            <div>
+              <div className={s.pictures}>
+                {pictureQuestion && <img src={pictureQuestion} style={{ width: "100px" }} alt="pictureQuestion" />}{" "}
+              </div>
+              <CardUploadButton onChange={questionHandle} title={"Upload the question as an image"} />
+              <div className={s.pictures}>
+                {pictureAnswer && <img src={pictureAnswer} style={{ width: "100px" }} alt="answerQuestion" />}
+              </div>
+              <CardUploadButton onChange={answerHandle} title={"Upload the answer as an image"} />
+              <div className={s.buttons} style={{ padding: "30px 0 10px" }}>
+                <Button
+                  variant="contained"
+                  color={"inherit"}
+                  onClick={handleClose}
+                  sx={{ borderRadius: 6, backgroundColor: "white", width: 120 }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type={"submit"}
+                  variant="contained"
+                  color={"primary"}
+                  disabled={isLoading}
+                  sx={{ borderRadius: 6, width: 120 }}
+                >
+                  Save
+                </Button>
+              </div>
+            </div>
           )}
         </div>
       </BasicModal>

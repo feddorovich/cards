@@ -21,6 +21,12 @@
     font-size: 13px;
 }
 
+.pictures {}
+
+.pictures img {
+    margin: 12px 0 0;
+}
+
 .buttons {
     display: flex;
     justify-content: space-between;
