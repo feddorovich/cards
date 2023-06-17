@@ -13,7 +13,6 @@ export const Search = function (props: SearchPropsType) {
   const [searchParams, setSearchParams] = useSearchParams({})
   const params = Object.fromEntries(searchParams)
   let [title, setTitle] = useState(props.value)
-  console.log(params.packName)
 
   useEffect(() => {
     if (params.packName === undefined && params.cardQuestion === undefined) {

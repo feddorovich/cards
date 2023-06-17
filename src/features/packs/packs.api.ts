@@ -46,7 +46,7 @@ export type CardPacksType = {
   grade: number
   shots: number
   cardsCount: number
-  deckCover: string
+  deckCover?: string
   type: string
   rating: number
   more_id: string

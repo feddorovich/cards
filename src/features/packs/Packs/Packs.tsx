@@ -14,7 +14,6 @@ import Paper from "@mui/material/Paper"
 import IconButton from "@mui/material/IconButton"
 import ButtonGroup from "@mui/material/ButtonGroup"
 import Button from "@mui/material/Button"
-import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
 import SchoolIcon from "@mui/icons-material/School"
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
@@ -36,7 +35,7 @@ import { EditPackModal } from "features/modal/EditPackModal/EditPackModal"
 import { DeletePackModal } from "features/modal/DeletePackModal/DeletePackModal"
 import { formatDate } from "common/utils"
 import { SliderInput } from "features/packs/Packs/CustomSlider/SliderInput"
-import Typography from "@mui/material/Typography"
+import deckCover from "assets/image/deckCover.png"
 
 export const Packs: FC = () => {
   const dispatch = useAppDispatch()
@@ -353,8 +352,11 @@ export const Packs: FC = () => {
                       }}
                       className={s.tableRowDisabled}
                     >
-                      <TableCell component="th" scope="row" align="left" sx={{ padding: "8px 36px" }}>
-                        {row.name}
+                      <TableCell component="th" scope="row" align="left" sx={{ padding: "8px 24px" }}>
+                        <div className={s.packDeck}>
+                          <img src={row.deckCover ? row.deckCover : deckCover} alt="deckCover" />
+                          {row.name}
+                        </div>
                       </TableCell>
                       <TableCell align="left" sx={{ padding: "8px 16px" }}>
                         {row.cardsCount}
@@ -382,8 +384,11 @@ export const Packs: FC = () => {
                       }}
                       className={s.tableRowActive}
                     >
-                      <TableCell component="th" scope="row" align="left" sx={{ padding: "8px 36px" }}>
-                        {row.name}
+                      <TableCell component="th" scope="row" align="left" sx={{ padding: "8px 24px" }}>
+                        <div className={s.packDeck}>
+                          <img src={row.deckCover ? row.deckCover : deckCover} alt="deckCover" />
+                          {row.name}
+                        </div>
                       </TableCell>
                       <TableCell align="left" sx={{ padding: "8px 16px" }}>
                         {row.cardsCount}
