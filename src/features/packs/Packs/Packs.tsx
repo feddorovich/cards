@@ -290,14 +290,15 @@ export const Packs: FC = () => {
           </div>
         </div>
         <div className={s.filter}>
-          <div>Reset</div>
           <Button
-            variant={"contained"}
+            variant={"text"}
             color={"inherit"}
-            onClick={() => setSearchParams({})}
-            sx={{ padding: 0, minWidth: 0, height: "100%" }}
+            onClick={() => {
+              setSearchParams({})
+            }}
+            startIcon={<DeleteIcon />}
           >
-            <FilterAltOffIcon />
+            Clear Filter
           </Button>
         </div>
       </div>

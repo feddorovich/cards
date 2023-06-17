@@ -19,7 +19,7 @@
     gap: 15px;
 }
 
-.search, .show, .numbers, .filter {
+.search, .show, .numbers {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -28,6 +28,12 @@
     font-size: 16px;
     line-height: 17px;
     color: #000000;
+}
+
+.filter {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 .numbers {
