@@ -35,6 +35,7 @@ export const Search = function (props: SearchPropsType) {
           size={"small"}
           value={title}
           onChange={changeTitle}
+          placeholder={"English"}
           autoComplete="off"
           InputProps={{
             startAdornment: (

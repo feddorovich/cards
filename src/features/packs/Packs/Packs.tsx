@@ -260,6 +260,7 @@ export const Packs: FC = () => {
           <ButtonGroup>
             <Button
               variant={params.user_id === id ? "contained" : "outlined"}
+              sx={{ width: "50%", height: 40 }}
               onClick={switchMyCardHandler}
               disabled={isLoading}
             >
@@ -267,6 +268,7 @@ export const Packs: FC = () => {
             </Button>
             <Button
               variant={params.user_id !== id ? "contained" : "outlined"}
+              sx={{ width: "50%", height: 40 }}
               onClick={switchAllCardHandler}
               disabled={isLoading}
             >
@@ -292,6 +294,7 @@ export const Packs: FC = () => {
           <Button
             variant={"text"}
             color={"inherit"}
+            sx={{ width: "100%", height: 40 }}
             onClick={() => {
               setSearchParams({})
             }}
@@ -407,8 +410,9 @@ export const Packs: FC = () => {
                         }}
                       >
                         {row.user_id === id && (
-                          <div>
+                          <div className={s.actionButtons}>
                             <IconButton
+                              sx={{ padding: "1px 1px" }}
                               aria-label="learn"
                               onClick={() => {
                                 navigate(`/learn/${row._id}`)
@@ -418,12 +422,12 @@ export const Packs: FC = () => {
                                 <SchoolIcon />
                               </div>
                             </IconButton>
-                            <IconButton aria-label="edit" disabled={isLoading}>
+                            <IconButton aria-label="edit" sx={{ padding: "1px 1px" }} disabled={isLoading}>
                               <EditPackModal _id={row._id}>
                                 <EditIcon />
                               </EditPackModal>
                             </IconButton>
-                            <IconButton aria-label="delete" disabled={isLoading}>
+                            <IconButton aria-label="delete" sx={{ padding: "1px 1px" }} disabled={isLoading}>
                               <DeletePackModal _id={row._id}>
                                 <DeleteIcon />
                               </DeletePackModal>
@@ -434,6 +438,7 @@ export const Packs: FC = () => {
                           <div>
                             <IconButton
                               aria-label="learn"
+                              sx={{ padding: "1px 1px" }}
                               onClick={() => {
                                 navigate(`/learn/${row._id}`)
                               }}

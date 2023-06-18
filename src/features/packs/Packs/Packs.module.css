@@ -13,10 +13,10 @@
 }
 
 .settings {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 3fr 1.5fr 3fr 1.1fr;
     margin: 20px 0;
-    gap: 15px;
+    gap: 20px;
 }
 
 .search, .show, .numbers {
@@ -32,12 +32,9 @@
 
 .filter {
     display: flex;
-    flex-direction: column;
+    /*flex-direction: column;*/
     justify-content: flex-end;
-}
-
-.numbers {
-    width: 390px;
+    align-items: flex-end;
 }
 
 .slider {
@@ -89,4 +86,11 @@
 
 .tableRowDisabled {
     opacity: 0.5;
+}
+
+.actionButtons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
 }
