@@ -158,7 +158,7 @@ export const FriendsPack: FC = () => {
           type={"submit"}
           variant="contained"
           color={"primary"}
-          sx={{ borderRadius: 6, height: 36 }}
+          sx={{ borderRadius: 1, height: 36 }}
           onClick={() => {
             navigate(`/learn/${packId}`)
           }}

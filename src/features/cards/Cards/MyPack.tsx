@@ -188,6 +188,7 @@ export const MyPack: FC = () => {
               My Pack - {cardsSettings.packName}
               <div className={s.buttons}>
                 <IconButton
+                  sx={{ padding: "1px 1px" }}
                   aria-label="learn"
                   onClick={() => {
                     navigate(`/learn/${packId}`)
@@ -197,12 +198,12 @@ export const MyPack: FC = () => {
                     <SchoolIcon />
                   </div>
                 </IconButton>
-                <IconButton aria-label="edit" disabled={isLoading}>
+                <IconButton aria-label="edit" disabled={isLoading} sx={{ padding: "1px 1px" }}>
                   <EditPackModal _id={packId ?? ""}>
                     <EditIcon />
                   </EditPackModal>
                 </IconButton>
-                <IconButton aria-label="delete" disabled={isLoading}>
+                <IconButton aria-label="delete" disabled={isLoading} sx={{ padding: "1px 1px" }}>
                   <DeletePackModal _id={packId ?? ""}>
                     <DeleteIcon />
                   </DeletePackModal>
@@ -214,7 +215,7 @@ export const MyPack: FC = () => {
               type={"submit"}
               variant="contained"
               color={"primary"}
-              sx={{ borderRadius: 6, height: 36 }}
+              sx={{ borderRadius: 1, height: 36 }}
               disabled={isLoading}
             >
               <AddNewCardModal cardsPack_id={packId ?? ""}>Add new card</AddNewCardModal>
