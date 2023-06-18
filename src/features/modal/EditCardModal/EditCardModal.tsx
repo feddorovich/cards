@@ -23,7 +23,13 @@ export const EditCardModal: FC<AddNewPackPropsType> = ({ children, cardsPack_id,
   const params = Object.fromEntries(searchParams)
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const handleClose = () => {
+    setOpen(false)
+    formik.setFieldValue("question", oldQuestion)
+    formik.setFieldValue("answer", oldAnswer)
+    setPictureQuestion(oldPictureQuestion)
+    setPictureAnswer(oldPictureAnswer)
+  }
   const oldQuestion = useAppSelector((state) =>
     state.cards.cards ? state.cards.cards.cards.find((card) => card._id === cardId)?.question : ""
   )
