@@ -9,6 +9,7 @@ import { LinearProgress } from "@mui/material"
 import { useAppSelector } from "common/hooks"
 import { selectAvatar, selectIsLoggedIn, selectName } from "features/auth/auth.selector"
 import { selectIsLoading } from "app/app.selector"
+import AccountMenu from "features/header/PositionedMenu"
 
 export const Header = () => {
   const navigate = useNavigate()
@@ -26,11 +27,8 @@ export const Header = () => {
               CARDS
             </Typography>
             {isLoggedIn && (
-              <div className={s.button}>
-                <NavLink to="/profile">
-                  <Typography>{name}</Typography>
-                </NavLink>
-                <img src={avatar} alt="avatar" onClick={() => navigate("/profile")} />
+              <div className={s.headerMenu}>
+                <AccountMenu />
               </div>
             )}
           </Toolbar>

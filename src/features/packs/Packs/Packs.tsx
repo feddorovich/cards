@@ -245,7 +245,7 @@ export const Packs: FC = () => {
       <div className={s.header}>
         <div className={s.packsList}>Packs list</div>
         <AddNewPackModal>
-          <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 6 }} disabled={isLoading}>
+          <Button type={"submit"} variant="contained" color={"primary"} sx={{ borderRadius: 1 }} disabled={isLoading}>
             Add new pack
           </Button>
         </AddNewPackModal>

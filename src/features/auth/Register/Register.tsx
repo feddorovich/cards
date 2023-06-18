@@ -68,9 +68,9 @@ export const Register: FC = () => {
     },
   })
 
-  if (isLoggedIn) {
-    return <Navigate to="/" />
-  }
+  // if (isLoggedIn) {
+  //   return <Navigate to="/" />
+  // }
 
   return (
     <div className={s.wrapper}>
