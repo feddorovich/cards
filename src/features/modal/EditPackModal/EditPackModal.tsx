@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from "react"
+import React, { FC, ReactNode, useEffect, useState } from "react"
 import { BasicModal } from "features/modal/BasicModal"
 import s from "features/modal/EditPackModal/EditPack.module.css"
 import { useFormik } from "formik"
@@ -22,7 +22,11 @@ export const EditPackModal: FC<EditPackPropsType> = ({ children, _id }) => {
   const [searchParams, setSearchParams] = useSearchParams({})
   const params = Object.fromEntries(searchParams)
   const [open, setOpen] = useState(false)
-  const handleOpen = () => setOpen(true)
+  const handleOpen = () => {
+    setOpen(true)
+    formik.setFieldValue("name", packName)
+    setDeckCover(oldDeckCover)
+  }
   const handleClose = () => {
     setOpen(false)
     formik.setErrors({ name: "" })
@@ -32,6 +36,7 @@ export const EditPackModal: FC<EditPackPropsType> = ({ children, _id }) => {
   const packName = useAppSelector((state) =>
     state.packs.cardPacks.cardPacks ? state.packs.cardPacks.cardPacks.find((pack) => pack._id === _id)?.name : ""
   )
+  console.log(packName)
   const oldDeckCover = useAppSelector((state) =>
     state.packs.cardPacks.cardPacks ? state.packs.cardPacks.cardPacks.find((pack) => pack._id === _id)?.deckCover : ""
   )
