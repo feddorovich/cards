@@ -5,6 +5,7 @@ import s from "features/profile/editableSpan/EditableSpan.module.css"
 import EditIcon from "@mui/icons-material/Edit"
 import Button from "@mui/material/Button"
 import { useAppSelector } from "common/hooks"
+import Typography from "@mui/material/Typography"
 
 type EditableSpanPropsType = {
   value: string
@@ -32,13 +33,22 @@ export const EditableSpan = function (props: EditableSpanPropsType) {
   return (
     <div>
       {editMode ? (
-        <div className={s.input}>
-          <TextField variant={"standard"} value={title} onChange={changeTitle} autoFocus onBlur={activateViewMode} />
-          <Button variant="outlined">Save</Button>
+        <div>
+          <div className={s.input}>
+            <TextField variant={"standard"} value={title} onChange={changeTitle} size={"small"} autoFocus />
+          </div>
+          <div className={s.buttons}>
+            <Button onClick={activateViewMode} variant="outlined">
+              Save
+            </Button>
+            <Button onClick={() => setEditMode(false)} variant="outlined" color={"warning"}>
+              Close
+            </Button>
+          </div>
         </div>
       ) : (
         <div className={s.name}>
-          <span className={s.nameText}>{props.value}</span>
+          <Typography className={s.nameText}>{props.value}</Typography>
           <IconButton
             edge="start"
             color="inherit"

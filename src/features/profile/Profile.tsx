@@ -56,7 +56,9 @@ export const Profile: FC = () => {
         <Grid container justifyContent={"center"}>
           <Grid item>
             <Paper className={s.paper}>
-              <div className={s.header}>Personal Information</div>
+              <div className={s.header}>
+                <Typography>Personal Information</Typography>
+              </div>
               <div className={s.img}>
                 <InputTypeFile />
               </div>
