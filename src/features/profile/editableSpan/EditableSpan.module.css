@@ -22,6 +22,7 @@
 .name {
     display: flex;
     align-items: center;
+    margin: 10px 0 0;
 }
 
 .name button {
@@ -42,8 +43,4 @@
     text-align: center;
     color: #000000;
     margin: 20px 0 0;
-}
-
-.nameBtn {
-    top: 10px;
 }

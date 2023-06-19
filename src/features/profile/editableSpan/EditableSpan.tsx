@@ -49,14 +49,7 @@ export const EditableSpan = function (props: EditableSpanPropsType) {
       ) : (
         <div className={s.name}>
           <Typography className={s.nameText}>{props.value}</Typography>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={activateEditMode}
-            className={s.nameBtn}
-            disabled={isLoading}
-          >
+          <IconButton edge="start" color="inherit" aria-label="menu" onClick={activateEditMode} disabled={isLoading}>
             <EditIcon />
           </IconButton>
         </div>
