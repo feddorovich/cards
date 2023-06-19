@@ -11,8 +11,18 @@
 
 .name {
     display: flex;
-    gap: 20px;
+    align-items: center;
 }
+
+.name button {
+    padding: 5px;
+    margin: 5px ;
+}
+
+.name svg {
+    height: 20px;
+    width: 20px;
+ }
 
 .nameText {
     font-style: normal;
