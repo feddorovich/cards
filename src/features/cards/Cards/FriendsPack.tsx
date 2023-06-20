@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react"
 import s from "./FriendsPack.module.css"
 import { useAppDispatch, useAppSelector } from "common/hooks"
-import { NavLink, useNavigate, useParams, useSearchParams } from "react-router-dom"
+import { Navigate, NavLink, useNavigate, useParams, useSearchParams } from "react-router-dom"
 import TableSortLabel from "@mui/material/TableSortLabel"
 import TableRow from "@mui/material/TableRow"
 import TableHead from "@mui/material/TableHead"
@@ -129,6 +129,10 @@ export const FriendsPack: FC = () => {
         setSearchParams({ ...params, page: newPage.toString(), pageCount: newCount.toString() })
       }
     }
+  }
+
+  if (!isLoggedIn) {
+    return <Navigate to="/login" />
   }
 
   if (cardsSettings.packName === undefined) {

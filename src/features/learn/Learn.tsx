@@ -77,16 +77,16 @@ export const Learn: FC = () => {
     return cards[res.id + 1]
   }
 
+  if (!isLoggedIn) {
+    return <Navigate to="/login" />
+  }
+
   if (card?.question === undefined || pack?.name === undefined) {
     return (
       <div style={{ position: "fixed", top: "30%", textAlign: "center", width: "100%" }}>
         <CircularProgress />
       </div>
     )
-  }
-
-  if (!isLoggedIn) {
-    return <Navigate to="/login" />
   }
 
   const nextOnclickHandler = async () => {
