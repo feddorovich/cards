@@ -1,4 +1,4 @@
-import { createBrowserRouter, createHashRouter } from "react-router-dom"
+import { createHashRouter } from "react-router-dom"
 import { Layout } from "features/layout/Layout"
 import App from "app/App"
 import { Login } from "features/auth/Login/Login"
@@ -12,6 +12,7 @@ import { FriendsPack } from "features/cards/Cards/FriendsPack"
 import { MyPack } from "features/cards/Cards/MyPack"
 import { Learn } from "features/learn/Learn"
 import { Users } from "features/users/Users"
+import Error404 from "common/components/Error404/Error404"
 
 export const router = createHashRouter([
   {
@@ -100,6 +101,14 @@ export const router = createHashRouter([
     element: (
       <Layout>
         <Users />
+      </Layout>
+    ),
+  },
+  {
+    path: "*",
+    element: (
+      <Layout>
+        <Error404 />
       </Layout>
     ),
   },
